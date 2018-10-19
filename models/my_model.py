@@ -1,5 +1,5 @@
 from models.model import Model
-from keras.models import Sequential
+from tensorflow.keras.models import Sequential
 
 
 class MyModel(Model):

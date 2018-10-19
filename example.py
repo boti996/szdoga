@@ -1,6 +1,6 @@
-from keras.callbacks import BaseLogger
-from keras.losses import categorical_crossentropy
-from keras.optimizers import Adam
+from tensorflow.keras.callbacks import BaseLogger
+from tensorflow.keras.losses import categorical_crossentropy
+from tensorflow.keras.optimizers import Adam
 
 from data.load_training_data import DataLoader
 from models.load_model import ModelLoader
@@ -31,4 +31,3 @@ def main():
 
 
 main()
-e
