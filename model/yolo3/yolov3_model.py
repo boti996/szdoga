@@ -1,10 +1,10 @@
 from keras import Model
 from keras.layers import Lambda
-from tensorflow.python.keras import Input
+from keras import Input
 
 from model.networkmodel import NetworkModel
 
-import tensorflow.keras.backend as keras
+import keras.backend as keras
 
 from model.yolo3.model import yolo_body, yolo_loss
 
@@ -18,7 +18,6 @@ class YoloV3Model(NetworkModel):
         self.weights = weights
         self.freeze_body = freeze_body
 
-
     def get_model(self):
         keras.clear_session()  # new model session
 
@@ -30,7 +29,7 @@ class YoloV3Model(NetworkModel):
         print('Create YOLOv3 model with {} anchors and {} classes.'.format(n_anchors, self.n_classes))
 
         if self.weights:
-            Model.load_weights(model_body, self.weights, by_name=True, skip_mismatch=True)
+            model_body.load_weights(self.weights, by_name=True, skip_mismatch=True)
 
             print('Load weights {}.'.format(self.weights))
 
@@ -52,3 +51,5 @@ class YoloV3Model(NetworkModel):
         model = Model([model_body.input, *y_true], model_loss)
 
         return model
+
+

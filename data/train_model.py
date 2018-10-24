@@ -9,6 +9,7 @@ class ModelType(Enum):
 
 
 def main():
+    """load model, then train it with training data"""
     # read command line arguments
     type, input_shape, anchors, class_names, weights_path, freeze_body = _read_args()
 
@@ -17,11 +18,10 @@ def main():
         model_loader = YoloV3Model(input_shape, anchors, len(class_names), weights_path, freeze_body)
     assert model_loader is not None
 
+    # load model
     model = model_loader.get_model()
     print('Model loaded.')
-
     # model.summary()
-
 
 
 
@@ -46,7 +46,6 @@ def _read_args():
     freeze_body = int(args.freeze_body[0])
 
     return type, input_shape, anchors, class_names, weights_path, freeze_body
-
 
 
 def _get_classes(classes_path):
