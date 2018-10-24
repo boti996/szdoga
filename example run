@@ -1,0 +1,7 @@
+320, 416, 608 input shapes were used in white paper (n*32 x n*32)
+
+608x608:
+python train_model.py -t yolo_v3 -s 608 608 -a /home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt -c /home/boti/Workspace/PyCharmWorkspace/training_data/voc_classes.txt -w /home/boti/Workspace/PyCharmWorkspace/weights/darknet53.h5 -f 2
+
+416x416:
+python train_model.py -t yolo_v3 -s 608 608 -a /home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt -c /home/boti/Workspace/PyCharmWorkspace/training_data/voc_classes.txt -w /home/boti/Workspace/PyCharmWorkspace/weights/darknet53.h5 -f 2

@@ -11,7 +11,7 @@ from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.models import Model
 from tensorflow.keras.regularizers import l2
 
-from models.yolo3.utils import compose
+from model.yolo3.utils import compose
 
 
 # convolution with initialization
@@ -97,40 +97,6 @@ def yolo_body(inputs, num_anchors, num_classes):
     return Model(inputs, [y1, y2, y3])
 
 
-# TODO: not used currently
-def tiny_yolo_body(inputs, num_anchors, num_classes):
-    """Create Tiny YOLO_v3 model CNN body in keras."""
-    x1 = compose(
-        DarknetConv2D_BN_Leaky(16, (3, 3)),
-        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
-        DarknetConv2D_BN_Leaky(32, (3, 3)),
-        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
-        DarknetConv2D_BN_Leaky(64, (3, 3)),
-        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
-        DarknetConv2D_BN_Leaky(128, (3, 3)),
-        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
-        DarknetConv2D_BN_Leaky(256, (3, 3)))(inputs)
-    x2 = compose(
-        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
-        DarknetConv2D_BN_Leaky(512, (3, 3)),
-        MaxPooling2D(pool_size=(2, 2), strides=(1, 1), padding='same'),
-        DarknetConv2D_BN_Leaky(1024, (3, 3)),
-        DarknetConv2D_BN_Leaky(256, (1, 1)))(x1)
-    y1 = compose(
-        DarknetConv2D_BN_Leaky(512, (3, 3)),
-        DarknetConv2D(num_anchors * (num_classes + 5), (1, 1)))(x2)
-
-    x2 = compose(
-        DarknetConv2D_BN_Leaky(128, (1, 1)),
-        UpSampling2D(2))(x2)
-    y2 = compose(
-        Concatenate(),
-        DarknetConv2D_BN_Leaky(256, (3, 3)),
-        DarknetConv2D(num_anchors * (num_classes + 5), (1, 1)))([x2, x1])
-
-    return Model(inputs, [y1, y2])
-
-
 # output layer conversion into usable data
 def yolo_head(feats, anchors, num_classes, input_shape, calc_loss=False):
     """Convert final layer features to bounding box parameters."""
@@ -151,9 +117,10 @@ def yolo_head(feats, anchors, num_classes, input_shape, calc_loss=False):
 
     # Adjust predictions to each spatial grid point and anchor size.
     box_xy = (keras.sigmoid(feats[..., :2]) + grid) / keras.cast(grid_shape[::-1], keras.dtype(feats))  # xy + grid_xy
-    box_wh = keras.exp(feats[..., 2:4]) * anchors_tensor / keras.cast(input_shape[::-1], keras.dtype(feats))    # wh * anchor_wh
-    box_confidence = keras.sigmoid(feats[..., 4:5]) # confidence
-    box_class_probs = keras.sigmoid(feats[..., 5:]) # classes
+    box_wh = keras.exp(feats[..., 2:4]) * anchors_tensor / keras.cast(input_shape[::-1],
+                                                                      keras.dtype(feats))  # wh * anchor_wh
+    box_confidence = keras.sigmoid(feats[..., 4:5])  # confidence
+    box_class_probs = keras.sigmoid(feats[..., 5:])  # classes
 
     if calc_loss:
         return grid, feats, box_xy, box_wh
@@ -199,6 +166,7 @@ def yolo_boxes_and_scores(feats, anchors, num_classes, input_shape, image_shape)
     return boxes, box_scores
 
 
+# filter the bbboxes by score
 def yolo_eval(yolo_outputs,
               anchors,
               num_classes,
@@ -244,6 +212,7 @@ def yolo_eval(yolo_outputs,
     return boxes_, scores_, classes_
 
 
+# ground truhth bboxes transformation to training format
 def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     """Preprocess true boxes to training input format
 
@@ -317,6 +286,7 @@ def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
     return y_true
 
 
+# calculate IoU of boxes
 def box_iou(b1, b2):
     """Return iou tensor
 
@@ -358,6 +328,7 @@ def box_iou(b1, b2):
     return iou
 
 
+# calculate loss: IoU + class + confidence
 def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
     """Return yolo_loss tensor
 

@@ -3,7 +3,7 @@ from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.optimizers import Adam
 
 from data.load_training_data import DataLoader
-from models.load_model import ModelLoader
+from model.load_model import ModelLoader
 
 
 def main():
