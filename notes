@@ -1,0 +1,433 @@
+
+*******************************************************
+Example params:
+*******************************************************
+320, 416, 608 input shapes were used in white paper (n*32 x n*32)
+
+608x608:
+python train_model.py -t yolo_v3 -s 608 608 -a /home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt -c /home/boti/Workspace/PyCharmWorkspace/training_data/voc_classes.txt -w /home/boti/Workspace/PyCharmWorkspace/weights/darknet53.h5 -f 2
+
+416x416:
+python train_model.py -t yolo_v3 -s 608 608 -a /home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt -c /home/boti/Workspace/PyCharmWorkspace/training_data/voc_classes.txt -w /home/boti/Workspace/PyCharmWorkspace/weights/darknet53.h5 -f 2
+
+
+*******************************************************
+DATASETS:
+*******************************************************
+BDD100K:
+*folder structure:
+bdd100k/images/100k/train|val/image_files
+bdd100k/labels/100l/train_labels.json|val_labels.json
+*image size:
+ 1280 x 720, 16:9
+*format:
+[
+	//IMAGES
+    {
+        "name": "b1c66a42-6f7d68ca.jpg",
+        "attributes": {
+            "weather": "overcast",
+            "scene": "city street",
+            "timeofday": "daytime"
+        },
+        "timestamp": 10000,
+        "labels": [
+			//BOUNDING-BOXES
+            {
+                "category": "traffic sign",
+                "attributes": {
+                    "occluded": false,
+                    "truncated": false,
+                    "trafficLightColor": "none"
+                },
+                "manualShape": true,
+                "manualAttributes": true,
+                "box2d": {
+                    "x1": 1000.698742,
+                    "y1": 281.992415,
+                    "x2": 1040.626872,
+                    "y2": 326.91156
+                },
+                "id": 0
+            },
+			//...
+			//POLYGONS
+            {
+                "category": "drivable area",
+                "attributes": {
+                    "areaType": "direct"
+                },
+                "manualShape": true,
+                "manualAttributes": true,
+                "poly2d": [
+                    {
+                        "vertices": [
+                            [
+                                241.143645,
+                                697.923453
+                            ],
+                            [
+                                541.525255,
+                                380.564983
+                            ],
+                            [
+                                583.948892,
+                                378.069475
+                            ],
+                            [
+                                960.034755,
+                                676.955796
+                            ],
+                            [
+                                715.911316,
+                                664.974278
+                            ],
+                            [
+                                491.257843,
+                                664.974278
+                            ],
+                            [
+                                241.143645,
+                                697.923453
+                            ]
+                        ],
+                        "types": "LLLLCCC",
+                        "closed": true
+                    }
+                ],
+                "id": 34
+            },
+			//...
+        ]
+    },
+	//...
+]
+
+CityPersons:
+*folder structure:
+city_persons/images|labels/train|val/city_name/image_files
+*image size:
+ 2048 x 1024, 2:1
+*format:
+for each image:
+{
+    "imgHeight": 1024,
+    "imgWidth": 2048,
+    "objects": [
+        {
+            "instanceId": 24000,
+            "bbox": [
+                892,
+                445,
+                21,
+                53
+            ],
+            "bboxVis": [
+                892,
+                445,
+                21,
+                53
+            ],
+            "label": "sitting person"
+        },
+        //...
+    ]
+}
+
+CityScapes:
+*folder structure:
+city_scapes/images|labels/train|val/city_name/image_files
+*image size:
+ 2048 x 1024, 2:1
+*format:
+for each image:
+{
+    "imgHeight": 1024,
+    "imgWidth": 2048,
+    "objects": [
+        //POLYGONS
+        {
+            "label": "sky",
+            "polygon": [
+                [
+                    704,
+                    191
+                ],
+                //...
+            ]
+        },
+        //...
+}
+
+WildDash:
+*folder structure:
+wd/images/image_files
+wd/labels/
+*image size:
+ 1920 x 1080, 16:9
+*format:
+{
+    "frame": "au0000_100000",
+    "imgHeight": 1080,
+    "imgWidth": 1920,
+    "objects": [
+		//POLYGONS
+        {
+            "label": "sky",
+            "polygon": [
+				//XYs
+                [
+                    140,
+                    0
+                ],
+				//...
+            ]
+        },
+		//...
+	]
+}
+
+KITTI:
+*folder structure:
+kitti/images|labels/image_files|label_files
+*image size:
+ 1245 x 375, 83:25 ~= 10:3
+*format:
+for each image:
+//class .. .. .. x1 y1 x2 y2 ....
+Car 0.80 0 -2.09 1013.39 182.46 1241.00 374.00 1.57 1.65 3.35 4.43 1.65 5.20 -1.42
+Pedestrian 0.00 2 1.41 859.54 159.80 879.68 221.40 1.96 0.72 1.09 8.33 1.55 23.51 1.75
+
+
+*******************************************************
+TERVEZET:
+*******************************************************
+-> egységes labeling
+Kell:
+* közös formátumra hozás
+
+Közös classok:
+* class szűrés
+* szótárak a classokhoz
+* TODO: cityscapes-ből kiszűrni a gyalogosokat!!!!
+
+Közös formátum:
+//1 JSON PER 1 FOLDER
+[
+	//1 REGISTRY PER 1 IMAGE
+	{
+		"name": "image_index.jpg",
+		"labels": [
+			//1 REGISTRY PER 1 OBJECT (BOUNDING-BOX FORMAT)
+			{
+				"category": "category_name",
+				// X1, Y1, X2, Y2 (TOP LEFT, BOTTOM RIGHT CORNERS)
+				"box": {
+					"x1": <x1 value>,
+					"y1": <y1 value>,
+					"x2": <y2 value>,
+					"y2": <x2 value>
+				}
+			}, ...
+		]
+	}, ...
+]
+
+* egy mappához egy json
+* numpy struktúra
+
+-> átméretezés
+Kell:
+* átméretezés
+* levágás, ha kell
+* labelek igazítása az új képarányhoz
+
+-> mappastruktúra
+
+.
+    bdd
+        <labels.json>
+        <image files>
+        <batches>
+    city
+    kitti
+    wd
+    w_train
+    w_pedestrian
+    w_truck
+
+Kell:
+*classok szerinti osztályozás
+*struktúra létrehozása, másolgatás
+
+-> beolvasás
+Kell:
+* arányosan válogasson
+* shuffle
+* batchek beolvasásának megoldása (fix, bináris batchek mennének a legjobbak)
+
+
+Közös furmátum:
+
+BDD:
+[
+	//IMAGES
+    {
+        "name": "b1c66a42-6f7d68ca.jpg",
+        //"attributes": {
+            //"weather": "overcast",
+            //"scene": "city street",
+            //"timeofday": "daytime"
+        //},
+        //"timestamp": 10000,
+        "labels": [
+			//BOUNDING-BOXES
+            {
+                "category": "traffic sign",
+                //"attributes": {
+                //    "occluded": false,
+                //    "truncated": false,
+                //    "trafficLightColor": "none"
+                //},
+                //"manualShape": true,
+                //"manualAttributes": true,
+                "box2d": {
+                    "x1": 1000.698742,
+                    "y1": 281.992415,
+                    "x2": 1040.626872,
+                    "y2": 326.91156
+                },
+                //"id": 0
+            },
+			//...
+        ]
+    },
+	//...
+]
+
+CityPerson:
++ egy fájlba
+{
+    //"imgHeight": 1024,
+    //"imgWidth": 2048,
+    "objects": [
+        {
+            //"instanceId": 24000,
+            //"bbox": [
+            //    892,
+            //    445,
+            //    21,
+            //    53
+            //],
+            "bboxVis": [
+                892,
+                445,
+                21,
+                53
+            ],
+            "label": "sitting person"
+		}
+		//...
+    ]
+}
+
+CityScapes:
++ egy fájlba
++ poly --> bbox
+{
+    //"imgHeight": 1024,
+    //"imgWidth": 2048,
+    "objects": [
+        //POLYGONS
+        {
+            "label": "sky",
+            "polygon": [
+                [
+                    704,
+                    191
+                ],
+                //...
+            ]
+        },
+        //...
+}
+
+WildDash:
++ poly --> bbox
++ egy fájlba
+{
+    "frame": "au0000_100000",
+    //"imgHeight": 1080,
+    //"imgWidth": 1920,
+    "objects": [
+		//POLYGONS
+        {
+            "label": "sky",
+            "polygon": [
+				//XYs
+                [
+                    140,
+                    0
+                ],
+				//...
+            ]
+        },
+		//...
+	]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

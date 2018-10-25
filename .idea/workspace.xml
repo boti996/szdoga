@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fdeb0d3-b70e-49b1-be74-b83886d19785" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/data/load_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/yolov3_load_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/notes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/szakdoga.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/szakdoga.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/load_training_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/train_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/train_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/yolo3/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/yolo3/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/yolov3_load_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/yolov3_load_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example run" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" afterDir="false" />
     </list>
     <ignored path="venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -99,34 +97,53 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="9" />
-          <entry key="py" value="1091" />
+          <entry key="example run" value="622" />
+          <entry key="notes" value="804" />
+          <entry key="py" value="4250" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="9" />
-          <entry key="Python" value="1091" />
+          <entry key="PLAIN_TEXT" value="1435" />
+          <entry key="Python" value="4250" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="12" />
+          <entry key="example run" value="1" />
+          <entry key="py" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="12" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Python" value="19" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
+            <state relative-caret-position="342">
+              <caret line="164" column="104" selection-start-line="164" selection-start-column="104" selection-end-line="164" selection-end-column="104" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+                <marker date="1540485484383" expanded="true" signature="1482:1754" ph="..." />
+                <marker date="1540485484383" expanded="true" signature="1859:7577" ph="..." />
+                <marker date="1540485484383" expanded="true" signature="5344:6815" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/notes">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -149,6 +166,9 @@
       <find>score</find>
       <find>flip</find>
       <find>tensorflow.</find>
+      <find>közös</find>
+      <find>find</find>
+      <find>_common</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -166,7 +186,6 @@
         <option value="$PROJECT_DIR$/models/networkmodel.py" />
         <option value="$PROJECT_DIR$/models/yolo3/yolov3_model.py" />
         <option value="$PROJECT_DIR$/models/load_model.py" />
-        <option value="$PROJECT_DIR$/example run" />
         <option value="$PROJECT_DIR$/model/yolo3/model.py" />
         <option value="$PROJECT_DIR$/model/yolo3/yolov3_model.py" />
         <option value="$PROJECT_DIR$/model/yolo3/utils.py" />
@@ -175,14 +194,18 @@
         <option value="$PROJECT_DIR$/model/networkmodel.py" />
         <option value="$PROJECT_DIR$/data/yolov3_load_data.py" />
         <option value="$PROJECT_DIR$/data/load_data.py" />
+        <option value="$PROJECT_DIR$/data/yolov3_load_dataset.py" />
+        <option value="$PROJECT_DIR$/example run" />
+        <option value="$PROJECT_DIR$/notes" />
         <option value="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="1" />
-    <option name="width" value="960" />
-    <option name="height" value="1199" />
+    <option name="x" value="150" />
+    <option name="y" value="-14" />
+    <option name="width" value="950" />
+    <option name="height" value="879" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -206,44 +229,38 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="szdoga" type="462c0819:PsiDirectoryNode" />
+              <item name="szakdoga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="szakdoga" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="szdoga" type="462c0819:PsiDirectoryNode" />
+              <item name="szakdoga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="szakdoga" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="szdoga" type="462c0819:PsiDirectoryNode" />
+              <item name="szakdoga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="szakdoga" type="462c0819:PsiDirectoryNode" />
               <item name="helper" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="szdoga" type="462c0819:PsiDirectoryNode" />
+              <item name="szakdoga" type="b2602c69:ProjectViewProjectNode" />
+              <item name="szakdoga" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
-              <item name="szdoga" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-              <item name="yolo3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../yolo3-keras" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -308,22 +325,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="1" width="1920" height="1199" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2361111" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26238146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.16542056" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.16542056" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32990655" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32939914" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49894625" weight="0.32939914" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.30793992" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50105375" side_tool="true" weight="0.32939914" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -342,40 +359,12 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/keras/backend/__init__.py" />
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/python/keras/layers/convolutional.py" />
-    <entry file="file://$PROJECT_DIR$/models/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/yolo3/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/my_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/load_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="17" lean-forward="true" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.7/dist-packages/enum/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="346" selection-start-line="346" selection-end-line="346" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/models/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/models/yolo3/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/models/my_model.py" />
+    <entry file="file://$PROJECT_DIR$/models/load_model.py" />
+    <entry file="file:///usr/lib/python2.7/dist-packages/enum/__init__.py" />
     <entry file="file://$PROJECT_DIR$/example.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -383,37 +372,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/example run">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/base_layer.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/framework/tensor_shape.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="847" selection-start-line="847" selection-end-line="847" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/network.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="1160" selection-start-line="1160" selection-end-line="1160" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/base_layer.py" />
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/framework/tensor_shape.py" />
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/network.py" />
     <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1365">
           <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
-          <folding>
-            <element signature="e#39#66#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -421,10 +386,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-            <marker date="1540416978010" expanded="true" signature="331:512" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -432,9 +393,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-559">
           <caret line="42" column="18" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
-          <folding>
-            <element signature="e#40#68#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -445,31 +403,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/load_training_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/load_dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1540422944620" expanded="true" signature="187:206" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/data/load_training_data.py" />
     <entry file="file://$PROJECT_DIR$/data/yolov3_load_dataset.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
-          <folding>
-            <marker date="1540423047001" expanded="true" signature="202:207" ph="..." />
-          </folding>
+        <state relative-caret-position="306">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>
@@ -479,15 +417,51 @@
           <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1540417631960" expanded="true" signature="130:157" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/load_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/json/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="353" selection-start-line="353" selection-end-line="353" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/json/encoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="179" selection-start-line="179" selection-end-line="179" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="3" lean-forward="true" selection-start-column="3" selection-end-column="3" />
+        <state relative-caret-position="342">
+          <caret line="164" column="104" selection-start-line="164" selection-start-column="104" selection-end-line="164" selection-end-column="104" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1540485484383" expanded="true" signature="1482:1754" ph="..." />
+            <marker date="1540485484383" expanded="true" signature="1859:7577" ph="..." />
+            <marker date="1540485484383" expanded="true" signature="5344:6815" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
