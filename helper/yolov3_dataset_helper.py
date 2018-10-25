@@ -222,19 +222,46 @@ def cs_to_common(path, labels_folder=True):
     encode_image_array(images, os.path.join(labels_path, 'cs.json'))
 
 
+def kitti_to_comon(path):
+    labels_path = os.path.join(path, "labels")
+
+    images = []
+    # IMAGES
+    for filename in glob.iglob(labels_path + '\**\*.txt', recursive=True):
+        with open(filename, "r") as f:
+
+            labels = []
+            # LABELS
+            for line in f:
+                label = line.split(' ')
+                box = CommonBox((label[4], label[5]), (label[6], label[7]))
+
+                label = CommonLabel(label[0], box)
+                labels.append(label)
+
+        base = os.path.basename(filename)
+        index = base.find('.txt')
+        image = CommonImage(os.path.splitext(base)[0][:index] + '.png', labels)
+        images.append(image)
+
+    # print(images[0])
+    encode_image_array(images, os.path.join(labels_path, 'kitti.json'))
+
 
 if __name__ == '__main__':
     # bdd100k_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\bdd')
 
     # wd_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\wd')
 
-    cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons')
-    cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons\\labels\\train', labels_folder=False)
-    cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons\\labels\\val', labels_folder=False)
+    # cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons')
+    # cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons\\labels\\train', labels_folder=False)
+    # cp_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\citypersons\\labels\\val', labels_folder=False)
 
     # cs_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\cityscapes')
     # cs_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\cityscapes\\labels\\train', labels_folder=False)
     # cs_to_common('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\cityscapes\\labels\\val', labels_folder=False)
+
+    kitti_to_comon('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\kitti')
 
 
 
