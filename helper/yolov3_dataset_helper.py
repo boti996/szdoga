@@ -334,28 +334,30 @@ def rider_reformat(path):
         encode_image_array(images, filename, '_rider')
 
 
-def keep_only_images_w_categories(path, categories):
+def keep_only_images_w_categories(path):
     """Remove images where there were no trains/trams annotated"""
-    cats = set([])
-    for category in categories:
-        print(category)
-        cats = cats.union(get_category_set(category))
-
     for filename in glob.iglob(path + '\**\*.json', recursive=True):
 
-        images = decode_image_array(filename)
+        categories = [['person', 'person_group'], ['two_wheeler'], ['on_rails'], ['car'], ['truck']]
+        for cat in categories:
+            cats = set([])
+            for category in cat:
+                print(category)
+                cats = cats.union(get_category_set(category))
 
-        images_w_cats = []
-        for image in images:
-            for label in image.labels:
-                if label.category in cats:
-                    images_w_cats.append(image)
-                    continue
+            images = decode_image_array(filename)
 
-        postfix = ''
-        for category in categories:
-            postfix += '_' + category
-        encode_image_array(images_w_cats, filename, postfix)
+            images_w_cats = []
+            for image in images:
+                for label in image.labels:
+                    if label.category in cats:
+                        images_w_cats.append(image)
+                        continue
+
+            postfix = ''
+            for category in cat:
+                postfix += '_' + category
+            encode_image_array(images_w_cats, filename, postfix)
 
 
 category_sets = [
@@ -373,7 +375,7 @@ def get_category_sets_dict():
     cat_keys = ['person', 'person_group', 'two_wheeler', 'on_rails', 'car', 'truck']
 
     for i in range(0, len(category_sets)):
-        cat_dict.update({category_sets[i]: cat_keys[i]})
+        cat_dict.update({frozenset(category_sets[i]): cat_keys[i]})
     return cat_dict
 
 
@@ -443,7 +445,7 @@ def common_category_names(path):
             for j in range(0, len(image.labels)):
                 label = image.labels[j]
 
-                common_category = cat_dict.get(get_category_set(label.category))
+                common_category = cat_dict.get(frozenset(get_category_set(label.category)))
                 label.category = common_category
 
         encode_image_array(images, filename, '_common')
@@ -485,12 +487,9 @@ if __name__ == '__main__':
     # cityscapes_citypersons_union('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\cityscapes_v2')
 
 
-
-    cats = [['person', 'person_group'], ['two_wheeler'], ['on_rails'], ['car'], ['truck']]
-    for cat in cats:
-        keep_only_images_w_categories('C:\\Users\\ext-dobaib\\Desktop\\Datasets', cat)
-
     # common_category_names('C:\\Users\\ext-dobaib\\Desktop\\Datasets')
+
+    keep_only_images_w_categories('C:\\Users\\ext-dobaib\\Desktop\\Datasets')
 
 
 # path: should be the bdd100k root folder

@@ -95,14 +95,14 @@
           <entry key="dummy" value="9" />
           <entry key="example run" value="622" />
           <entry key="notes" value="804" />
-          <entry key="py" value="8593" />
-          <entry key="txt" value="68" />
+          <entry key="py" value="8654" />
+          <entry key="txt" value="96" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="1503" />
-          <entry key="Python" value="8593" />
+          <entry key="PLAIN_TEXT" value="1531" />
+          <entry key="Python" value="8654" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -124,18 +124,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="492" column="71" lean-forward="true" selection-start-line="492" selection-start-column="71" selection-end-line="492" selection-end-column="71" />
+            <state relative-caret-position="286">
+              <caret line="350" column="32" lean-forward="true" selection-start-line="350" selection-start-column="32" selection-end-line="350" selection-end-column="32" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1540575431567" expanded="true" signature="149:155" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="1352:2214" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="1698:2214" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="8112:8175" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="8202:8350" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="8919:9139" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="11288:11515" ph="..." />
-                <marker date="1540575431567" expanded="true" signature="13746:13747" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="149:155" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="1352:2214" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="1698:2214" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="8112:8175" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="8202:8350" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="8919:9139" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="11470:11708" ph="..." />
+                <marker date="1540576378376" expanded="true" signature="13950:13951" ph="..." />
               </folding>
             </state>
           </provider>
@@ -365,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540486614710</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dataset preprocessing: json files fully reformatted">
+      <created>1540575482344</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1540575482344</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -400,7 +407,8 @@
     <MESSAGE value="yolo v3 integration: load data for model added" />
     <MESSAGE value="dataset preprocessing: label jsons to common format" />
     <MESSAGE value="dataset preprocessing: label jsons to common format --&gt; ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="dataset preprocessing: label jsons to common format --&gt; ok" />
+    <MESSAGE value="dataset preprocessing: json files fully reformatted" />
+    <option name="LAST_COMMIT_MESSAGE" value="dataset preprocessing: json files fully reformatted" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/keras/backend/__init__.py" />
@@ -494,18 +502,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="492" column="71" lean-forward="true" selection-start-line="492" selection-start-column="71" selection-end-line="492" selection-end-column="71" />
+        <state relative-caret-position="286">
+          <caret line="350" column="32" lean-forward="true" selection-start-line="350" selection-start-column="32" selection-end-line="350" selection-end-column="32" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1540575431567" expanded="true" signature="149:155" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="1352:2214" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="1698:2214" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="8112:8175" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="8202:8350" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="8919:9139" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="11288:11515" ph="..." />
-            <marker date="1540575431567" expanded="true" signature="13746:13747" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="149:155" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="1352:2214" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="1698:2214" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="8112:8175" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="8202:8350" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="8919:9139" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="11470:11708" ph="..." />
+            <marker date="1540576378376" expanded="true" signature="13950:13951" ph="..." />
           </folding>
         </state>
       </provider>
