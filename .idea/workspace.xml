@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fdeb0d3-b70e-49b1-be74-b83886d19785" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/notes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/szakdoga.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/szakdoga.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/yolov3_load_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/yolov3_load_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example run" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" afterDir="false" />
     </list>
     <ignored path="venv/" />
@@ -88,10 +83,11 @@
     <session id="-1713059188">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -99,13 +95,14 @@
           <entry key="dummy" value="9" />
           <entry key="example run" value="622" />
           <entry key="notes" value="804" />
-          <entry key="py" value="4250" />
+          <entry key="py" value="8593" />
+          <entry key="txt" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="1435" />
-          <entry key="Python" value="4250" />
+          <entry key="PLAIN_TEXT" value="1503" />
+          <entry key="Python" value="8593" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -127,13 +124,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="164" column="104" selection-start-line="164" selection-start-column="104" selection-end-line="164" selection-end-column="104" />
+            <state relative-caret-position="442">
+              <caret line="492" column="71" lean-forward="true" selection-start-line="492" selection-start-column="71" selection-end-line="492" selection-end-column="71" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1540485484383" expanded="true" signature="1482:1754" ph="..." />
-                <marker date="1540485484383" expanded="true" signature="1859:7577" ph="..." />
-                <marker date="1540485484383" expanded="true" signature="5344:6815" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="149:155" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="1352:2214" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="1698:2214" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="8112:8175" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="8202:8350" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="8919:9139" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="11288:11515" ph="..." />
+                <marker date="1540575431567" expanded="true" signature="13746:13747" ph="..." />
               </folding>
             </state>
           </provider>
@@ -142,8 +144,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/notes">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
+            <state relative-caret-position="278">
+              <caret line="224" column="18" lean-forward="true" selection-start-line="224" selection-start-column="18" selection-end-line="224" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -166,9 +168,11 @@
       <find>score</find>
       <find>flip</find>
       <find>tensorflow.</find>
-      <find>közös</find>
       <find>find</find>
       <find>_common</find>
+      <find>közös</find>
+      <find>index</find>
+      <find>update</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -202,8 +206,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="150" />
-    <option name="y" value="-14" />
+    <option name="x" value="241" />
+    <option name="y" value="-9" />
     <option name="width" value="950" />
     <option name="height" value="879" />
   </component>
@@ -229,7 +233,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -256,6 +259,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -274,7 +278,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.yolov3_dataset_helper">
     <configuration name="train_model" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="szakdoga" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -296,8 +300,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="yolov3_dataset_helper" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="szakdoga" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/helper" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.train_model" />
+      <item itemvalue="Python.yolov3_dataset_helper" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.yolov3_dataset_helper" />
         <item itemvalue="Python.train_model" />
       </list>
     </recent_temporary>
@@ -321,26 +351,40 @@
       <option name="project" value="LOCAL" />
       <updated>1540414199511</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="dataset preprocessing: label jsons to common format">
+      <created>1540485625536</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1540485625536</updated>
+    </task>
+    <task id="LOCAL-00003" summary="dataset preprocessing: label jsons to common format --&gt; ok">
+      <created>1540486614710</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1540486614710</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26238146" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.062170707" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.16542056" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32939914" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30150214" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49894625" weight="0.32939914" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.30793992" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50105375" side_tool="true" weight="0.32939914" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49894625" weight="0.30793992" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50105375" side_tool="true" weight="0.30793992" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -354,7 +398,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="yolo v3 integration: load data for model added" />
-    <option name="LAST_COMMIT_MESSAGE" value="yolo v3 integration: load data for model added" />
+    <MESSAGE value="dataset preprocessing: label jsons to common format" />
+    <MESSAGE value="dataset preprocessing: label jsons to common format --&gt; ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="dataset preprocessing: label jsons to common format --&gt; ok" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/keras/backend/__init__.py" />
@@ -415,9 +461,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="16" lean-forward="true" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -425,9 +468,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -447,20 +487,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/notes">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="152" column="24" lean-forward="true" selection-start-line="152" selection-start-column="24" selection-end-line="152" selection-end-column="24" />
+        <state relative-caret-position="278">
+          <caret line="224" column="18" lean-forward="true" selection-start-line="224" selection-start-column="18" selection-end-line="224" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="164" column="104" selection-start-line="164" selection-start-column="104" selection-end-line="164" selection-end-column="104" />
+        <state relative-caret-position="442">
+          <caret line="492" column="71" lean-forward="true" selection-start-line="492" selection-start-column="71" selection-end-line="492" selection-end-column="71" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1540485484383" expanded="true" signature="1482:1754" ph="..." />
-            <marker date="1540485484383" expanded="true" signature="1859:7577" ph="..." />
-            <marker date="1540485484383" expanded="true" signature="5344:6815" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="149:155" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="1352:2214" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="1698:2214" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="8112:8175" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="8202:8350" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="8919:9139" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="11288:11515" ph="..." />
+            <marker date="1540575431567" expanded="true" signature="13746:13747" ph="..." />
           </folding>
         </state>
       </provider>
