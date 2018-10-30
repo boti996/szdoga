@@ -3,8 +3,7 @@ import os
 import json
 import sys
 from math import sqrt
-
-import jsonpickle
+import cv2
 
 
 # Helper classes for serialization
@@ -40,7 +39,6 @@ class CommonLabel(object):
         return {'category': self.category, 'box': self.box.encode_json()}
 
 
-
 class CommonBox(object):
 
     def __init__(self, p1, p2):
@@ -74,7 +72,6 @@ def decode_image_array(filename):
         labels = []
         # LABELS
         for j_label in j_image['labels']:
-
             # LABEL
             j_box = j_label['box']
             box = CommonBox((j_box['x1'], j_box['y1']), (j_box['x2'], j_box['y2']))
@@ -106,8 +103,8 @@ def bdd100k_to_common(path):
                 for j_label in j_image['labels']:
                     try:
                         j_box = j_label['box2d']
-                    except KeyError as e:
-                        continue;
+                    except KeyError:
+                        continue
 
                     box = CommonBox((j_box['x1'], j_box['y1']), (j_box['x2'], j_box['y2']))
 
@@ -118,7 +115,7 @@ def bdd100k_to_common(path):
                 images.append(image)
 
             # print(images[0])
-            encode_image_array(images, filename, postfix)
+            encode_image_array(images, filename, '_common')
 
 
 def wd_to_common(path):
@@ -180,7 +177,6 @@ def cp_to_common(path, labels_folder=True):
             labels = []
             # LABELS
             for j_label in j_image['objects']:
-
                 j_box = j_label['bbox']
                 box = CommonBox((j_box[0], j_box[1]), (int(j_box[0]) + int(j_box[2]), int(j_box[1]) + int(j_box[3])))
 
@@ -288,7 +284,7 @@ def _find_nearest_cycle(image, rider, paired_cycles):
         label = image.labels[i]
 
         cycle = {'motorcycle', 'bicycle', 'motor', 'bike'}
-        if not(label.category in cycle):
+        if not (label.category in cycle):
             continue
 
         curr_dist = _calc_dist(rider.box, label.box)
@@ -309,13 +305,13 @@ def rider_reformat(path):
     """Combine riders' bboxes with the nearest motorcycle/bicycle"""
     for filename in glob.iglob(path + '\**\*.json', recursive=True):
         images = decode_image_array(filename)
-        for i in range (0, len(images)):
+        for i in range(0, len(images)):
             image = images[i]
 
-            to_delete =[]
+            to_delete = []
             for j in range(0, len(image.labels)):
                 label = image.labels[j]
-                if not(label.category == 'rider'):
+                if not (label.category == 'rider'):
                     continue
 
                 rider = label
@@ -336,7 +332,7 @@ def rider_reformat(path):
 
 def keep_only_images_w_categories(path):
     """Remove images where there were no trains/trams annotated"""
-    for filename in glob.iglob(path + '\**\*.json', recursive=True):
+    for filename in glob.iglob(path + '/**/*.json', recursive=True):
 
         categories = [['person', 'person_group'], ['two_wheeler'], ['on_rails'], ['car'], ['truck']]
         for cat in categories:
@@ -352,7 +348,7 @@ def keep_only_images_w_categories(path):
                 for label in image.labels:
                     if label.category in cats:
                         images_w_cats.append(image)
-                        continue
+                        break
 
             postfix = ''
             for category in cat:
@@ -361,13 +357,13 @@ def keep_only_images_w_categories(path):
 
 
 category_sets = [
-        {'person', 'person (other)', 'pedestrian', 'sitting person', 'Pedestrian', 'Person_sitting'},
-        {'person_group', 'person group'},
-        {'two_wheeler', 'rider', 'motor', 'bike', 'motorcycle', 'bicycle', 'Cyclist'},
-        {'on_rails', 'train', 'on rails', 'Tram'},
-        {'car', 'Car'},
-        {'truck', 'bus', 'Truck', 'caravan', 'trailer', 'Van'}
-    ]
+    {'person', 'person (other)', 'pedestrian', 'sitting person', 'Pedestrian', 'Person_sitting'},
+    {'person_group', 'person group'},
+    {'two_wheeler', 'rider', 'motor', 'bike', 'motorcycle', 'bicycle', 'Cyclist'},
+    {'on_rails', 'train', 'on rails', 'Tram'},
+    {'car', 'Car'},
+    {'truck', 'bus', 'Truck', 'caravan', 'trailer', 'Van'}
+]
 
 
 def get_category_sets_dict():
@@ -403,7 +399,7 @@ def keep_only_needed_categories(path, categories):
             labels_to_delete = []
             for j in range(0, len(image.labels)):
                 label = image.labels[j]
-                if not(label.category in cats):
+                if not (label.category in cats):
                     labels_to_delete.append(j)
 
             labels_to_delete.sort(reverse=True)
@@ -414,7 +410,6 @@ def keep_only_needed_categories(path, categories):
 
 
 def cityscapes_citypersons_union(path):
-
     subfolders = ['both', 'train', 'val']
 
     for subfolder in subfolders:
@@ -449,6 +444,65 @@ def common_category_names(path):
                 label.category = common_category
 
         encode_image_array(images, filename, '_common')
+
+
+def crop_dataset(path, x_offset, width, height, only_json=False):
+
+    images_path = os.path.join(path, "images")
+
+    if not only_json:
+        for filename in glob.iglob(images_path + '/**/*.png', recursive=True):
+            print(filename)
+            img = cv2.imread(filename)
+            crop_img = img[0:height, x_offset:x_offset + width]
+            splitted = os.path.splitext(filename)
+            cv2.imwrite(splitted[0] + '_cropped' + splitted[1], crop_img)
+
+    for filename in glob.iglob(path + '/**/*.json', recursive=True):
+        print(filename)
+        images = decode_image_array(filename)
+
+        for i in range(0, len(images)):
+            image = images[i]
+            print(image.name)
+
+            to_delete = []
+            for j in range(0, len(image.labels)):
+                box = image.labels[j].box
+
+                if (float(box.x1) < x_offset and float(box.x2) < x_offset) or (float(box.x1) > x_offset + width and float(box.x2) > x_offset + width):
+                    to_delete.append(j)
+                    continue
+
+                box.x1 = max(x_offset, float(box.x1))
+                box.x2 = max(x_offset, float(box.x2))
+
+                box.x1 = min(x_offset + width, float(box.x1))
+                box.x2 = min(x_offset + width, float(box.x2))
+
+                box.y1 = min(height, float(box.y1))
+                box.y2 = min(height, float(box.y2))
+
+            to_delete.sort(reverse=True)
+            for idx in to_delete:
+                del image.labels[idx]
+
+
+
+        encode_image_array(images, filename)
+
+
+def resize_images(path, out_path, size):
+    _resize_images(path, out_path, size, 'jpg')
+    _resize_images(path, out_path, size, 'png')
+
+
+def _resize_images(path, out_path, size, extension):
+    for filename in glob.iglob(path + '/**/*.' + extension, recursive=True):
+        img = cv2.imread(filename)
+        resized_img = cv2.resize(img, size)
+        base = os.path.basename(filename)
+        cv2.imwrite(os.path.join(out_path, base), resized_img)
 
 
 if __name__ == '__main__':
@@ -486,11 +540,17 @@ if __name__ == '__main__':
 
     # cityscapes_citypersons_union('C:\\Users\\ext-dobaib\\Desktop\\Datasets\\cityscapes_v2')
 
-
     # common_category_names('C:\\Users\\ext-dobaib\\Desktop\\Datasets')
 
-    keep_only_images_w_categories('C:\\Users\\ext-dobaib\\Desktop\\Datasets')
+    # keep_only_images_w_categories('/home/boti/Workspace/data')
 
+    # crop_dataset('/media/boti/Adatok/Datasets-pc/cityscapes', x_offset=120, width=1808, height=1017)
+
+    # crop_dataset('/media/boti/Adatok/Datasets-pc/kitti', x_offset=294, width=656, height=369, only_json=True)
+
+    # resize_images('/media/boti/Adatok/Datasets-pc', '/media/boti/Adatok/Datasets-pc/resized', (608, 608))
+
+    # TODO: premade augmentation vs real-time augmentation (önlab projektből)
 
 # path: should be the bdd100k root folder
 # labels: bdd100k/labels
