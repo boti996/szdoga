@@ -1,7 +1,7 @@
 import glob
 from cv2 import cv2
 from data.load_dataset import DataLoader
-from helper.yolov3_dataset_helper import decode_image_array
+from data.serialization import decode_annot_array
 import random
 from os.path import join
 
@@ -36,14 +36,17 @@ class YoloV3DataLoader(DataLoader):
 
     def load_folder(self, path, size_new):
         images = []
+        print(path)
         for filename in glob.iglob(path + '/**/*.json', recursive=True):
-            images_new = decode_image_array(filename)
+            images_new = decode_annot_array(filename)
+            print(len(images_new))
 
-            # resize bounding boxes
-            img = glob.iglob(path + '/**/' + images_new[0].name, recursive=True)
-            height, width, channels = img.shape
+            # # resize bounding boxes
+            # print(path + ' ' + images_new[0].name)
+            # img = next(glob.iglob(path + '/**/' + images_new[0].name, recursive=True))
+            # height, width, _ = img.shape
 
-            images_new = self.resize_bboxes(images_new, (height, width), size_new)
+            # i# mages_new = self.resize_bboxes(images_new, (height, width), size_new)
 
             images.extend(images_new)
         return images
@@ -77,7 +80,7 @@ class YoloV3DataLoader(DataLoader):
 
         random.shuffle(validation)
 
-        return {'val': validation, 'train': datasets}
+        return {'val': [validation], 'train': datasets}
 
 
     # TODO: implementation

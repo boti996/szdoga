@@ -1,3 +1,5 @@
+from enum import Enum
+
 from keras import Model
 from keras.layers import Lambda
 from keras import Input

@@ -4,85 +4,7 @@ import json
 import sys
 from math import sqrt
 import cv2
-
-
-# Helper classes for serialization
-class CommonImage(object):
-
-    def __init__(self, name, labels):
-        self.name = name
-        self.labels = labels
-
-    def __str__(self):
-        stri = 'name: ' + self.name + ' labels: \n'
-        for label in self.labels:
-            stri += '\t' + str(label) + '\n'
-        return stri
-
-    def encode_json(self):
-        labels_json = []
-        for label in self.labels:
-            labels_json.append(label.encode_json())
-        return {'name': self.name, 'labels': labels_json}
-
-
-class CommonLabel(object):
-
-    def __init__(self, category, box):
-        self.category = category
-        self.box = box
-
-    def __str__(self):
-        return 'category: ' + str(self.category) + ' box: ' + str(self.box)
-
-    def encode_json(self):
-        return {'category': self.category, 'box': self.box.encode_json()}
-
-
-class CommonBox(object):
-
-    def __init__(self, p1, p2):
-        self.x1, self.y1 = p1
-        self.x2, self.y2 = p2
-
-    def __str__(self):
-        return 'p1: ' + str(self.x1) + ', ' + str(self.y1) + ' p2: ' + str(self.x2) + ', ' + str(self.y2)
-
-    def encode_json(self):
-        return {'x1': self.x1, 'y1': self.y1, 'x2': self.x2, 'y2': self.y2}
-
-
-def encode_image_array(images, filename, postfix=''):
-    images_json = []
-    for image in images:
-        images_json.append(image.encode_json())
-    index = filename.find('.json')
-    with open(filename[:index] + postfix + '.json', 'w') as outfile:
-        json.dump(images_json, outfile, indent=4, separators=(',', ': '))
-
-
-def decode_image_array(filename):
-    with open(filename) as json_file:
-        j_images = json.load(json_file)
-
-    images = []
-    # IMAGES
-    for j_image in j_images:
-
-        labels = []
-        # LABELS
-        for j_label in j_image['labels']:
-            # LABEL
-            j_box = j_label['box']
-            box = CommonBox((j_box['x1'], j_box['y1']), (j_box['x2'], j_box['y2']))
-
-            label = CommonLabel(j_label['category'], box)
-            labels.append(label)
-
-        image = CommonImage(j_image['name'], labels)
-        images.append(image)
-
-    return images
+from data.serialization import CommonImage, CommonLabel, CommonBox, encode_annot_array, decode_annot_array
 
 
 def bdd100k_to_common(path):
@@ -115,7 +37,7 @@ def bdd100k_to_common(path):
                 images.append(image)
 
             # print(images[0])
-            encode_image_array(images, filename, '_common')
+            encode_annot_array(images, filename, '_common')
 
 
 def wd_to_common(path):
@@ -158,7 +80,7 @@ def wd_to_common(path):
         images.append(image)
 
     # print(images[0])
-    encode_image_array(images, os.path.join(labels_path, 'wd_common.json'))
+    encode_annot_array(images, os.path.join(labels_path, 'wd_common.json'))
 
 
 def cp_to_common(path, labels_folder=True):
@@ -189,7 +111,7 @@ def cp_to_common(path, labels_folder=True):
         images.append(image)
 
     # print(images[0])
-    encode_image_array(images, os.path.join(labels_path, 'cp_common.json'))
+    encode_annot_array(images, os.path.join(labels_path, 'cp_common.json'))
 
 
 def cs_to_common(path, labels_folder=True):
@@ -235,7 +157,7 @@ def cs_to_common(path, labels_folder=True):
         images.append(image)
 
     # print(images[0])
-    encode_image_array(images, os.path.join(labels_path, 'cs_common.json'))
+    encode_annot_array(images, os.path.join(labels_path, 'cs_common.json'))
 
 
 def kitti_to_comon(path):
@@ -261,7 +183,7 @@ def kitti_to_comon(path):
         images.append(image)
 
     # print(images[0])
-    encode_image_array(images, os.path.join(labels_path, 'kitti_common.json'))
+    encode_annot_array(images, os.path.join(labels_path, 'kitti_common.json'))
 
 
 def _calc_center(box):
@@ -304,7 +226,7 @@ def _get_common_box(box1, box2):
 def rider_reformat(path):
     """Combine riders' bboxes with the nearest motorcycle/bicycle"""
     for filename in glob.iglob(path + '\**\*.json', recursive=True):
-        images = decode_image_array(filename)
+        images = decode_annot_array(filename)
         for i in range(0, len(images)):
             image = images[i]
 
@@ -327,7 +249,7 @@ def rider_reformat(path):
             for idx in to_delete:
                 del image.labels[idx]
 
-        encode_image_array(images, filename, '_rider')
+        encode_annot_array(images, filename, '_rider')
 
 
 def keep_only_images_w_categories(path):
@@ -341,7 +263,7 @@ def keep_only_images_w_categories(path):
                 print(category)
                 cats = cats.union(get_category_set(category))
 
-            images = decode_image_array(filename)
+            images = decode_annot_array(filename)
 
             images_w_cats = []
             for image in images:
@@ -353,7 +275,7 @@ def keep_only_images_w_categories(path):
             postfix = ''
             for category in cat:
                 postfix += '_' + category
-            encode_image_array(images_w_cats, filename, postfix)
+            encode_annot_array(images_w_cats, filename, postfix)
 
 
 category_sets = [
@@ -391,7 +313,7 @@ def keep_only_needed_categories(path, categories):
 
     for filename in glob.iglob(path + '\**\*.json', recursive=True):
 
-        images = decode_image_array(filename)
+        images = decode_annot_array(filename)
 
         for i in range(0, len(images)):
             image = images[i]
@@ -406,7 +328,7 @@ def keep_only_needed_categories(path, categories):
             for idx in labels_to_delete:
                 del image.labels[idx]
 
-        encode_image_array(images, filename, '_needed')
+        encode_annot_array(images, filename, '_needed')
 
 
 def cityscapes_citypersons_union(path):
@@ -417,7 +339,7 @@ def cityscapes_citypersons_union(path):
 
         images_both = []
         for filename in glob.iglob(sub_path + '\**\*.json', recursive=True):
-            images_both.append(decode_image_array(filename))
+            images_both.append(decode_annot_array(filename))
 
         images_first = {}
         for image in images_both[0]:
@@ -426,14 +348,14 @@ def cityscapes_citypersons_union(path):
         for i in range(0, len(images_both[1])):
             images_both[1][i].labels.extend(images_first.get(images_both[1][i].name).labels)
 
-        encode_image_array(images_both[1], os.path.join(sub_path, 'cs_2.json'))
+        encode_annot_array(images_both[1], os.path.join(sub_path, 'cs_2.json'))
 
 
 def common_category_names(path):
     cat_dict = get_category_sets_dict()
 
     for filename in glob.iglob(path + '\**\*.json', recursive=True):
-        images = decode_image_array(filename)
+        images = decode_annot_array(filename)
         for i in range(0, len(images)):
             image = images[i]
 
@@ -443,7 +365,7 @@ def common_category_names(path):
                 common_category = cat_dict.get(frozenset(get_category_set(label.category)))
                 label.category = common_category
 
-        encode_image_array(images, filename, '_common')
+        encode_annot_array(images, filename, '_common')
 
 
 def crop_dataset(path, x_offset, width, height, only_json=False):
@@ -460,7 +382,7 @@ def crop_dataset(path, x_offset, width, height, only_json=False):
 
     for filename in glob.iglob(path + '/**/*.json', recursive=True):
         print(filename)
-        images = decode_image_array(filename)
+        images = decode_annot_array(filename)
 
         for i in range(0, len(images)):
             image = images[i]
@@ -489,7 +411,7 @@ def crop_dataset(path, x_offset, width, height, only_json=False):
 
 
 
-        encode_image_array(images, filename)
+        encode_annot_array(images, filename)
 
 
 def resize_images(path, out_path, size):
@@ -549,8 +471,7 @@ if __name__ == '__main__':
     # crop_dataset('/media/boti/Adatok/Datasets-pc/kitti', x_offset=294, width=656, height=369, only_json=True)
 
     # resize_images('/media/boti/Adatok/Datasets-pc', '/media/boti/Adatok/Datasets-pc/resized', (608, 608))
-
-    # TODO: premade augmentation vs real-time augmentation (önlab projektből)
+    pass
 
 # path: should be the bdd100k root folder
 # labels: bdd100k/labels

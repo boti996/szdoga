@@ -1,11 +1,11 @@
 """Miscellaneous utility functions."""
-
+import glob
 from functools import reduce
 
 from PIL import Image
 import numpy as np
 from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
-
+import os.path
 
 def compose(*funcs):
     """Compose arbitrarily many functions, evaluated left to right.
@@ -37,14 +37,23 @@ def rand(a=0., b=1.):
     return np.random.rand() * (b - a) + a
 
 
-def get_random_data(annotation_line, input_shape, random=True, max_boxes=20, jitter=.3, hue=.1, sat=1.5, val=1.5,
+def get_random_data(path, annotation, input_shape, random=True, max_boxes=20, jitter=.3, hue=.1, sat=1.5, val=1.5,
                     proc_img=True):
     """random pre-processing for real-time data augmentation"""
-    line = annotation_line.split()
-    image = Image.open(line[0])
+    image = None
+    for filename in glob.iglob(path + '/**/' + annotation.name, recursive=True):
+        image = Image.open(filename)
+        break
+    assert image is not None
+
     iw, ih = image.size
     h, w = input_shape
-    box = np.array([np.array(list(map(int, box.split(',')))) for box in line[1:]])
+
+    #TODO: nem itt kéne lennie
+    yolov3_classes = {'person': 0, 'person_group': 1, 'two_wheeler': 2, 'on_rails': 3, 'car': 4, 'truck': 5}
+
+    box = np.array([np.array(list(map(int, [label.box.x1, label.box.y1, label.box.x2, label.box.y2,
+                                            yolov3_classes.get(label.category)]))) for label in annotation.labels])
 
     if not random:
         # resize image

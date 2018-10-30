@@ -1,8 +1,9 @@
 import random
 
-import numpy as np
-import cv2
-import os.path
+import numpy
+
+from model.yolo3.utils import get_random_data
+
 
 def get_n(batch_size):
     if batch_size % 8 > 0:
@@ -12,57 +13,37 @@ def get_n(batch_size):
     return batch_size // 8 + remainder
 
 
-def get_next_i(i, dataset):
-    length = len(dataset)
-    return i + 1 if i < length - 1 else 0
-
-
-def n_randoms_from_dataset(path, n, dataset):
-    indexes = []
+def n_randoms_from_dataset(path, n, dataset,input_shape):
+    image_data = []
+    box_data = []
     length = len(dataset)
     for i in range(0, n):
         idx = random.randint(0, length - 1)
-        indexes.append(dataset[idx])
-
-    images = []
-    for i in indexes:
-        img = cv2.imread(os.path.join(path, dataset[i])) / 255
-        images.append(img)
-
-    # resize bboxes
-    height, width, _ = images[0].shape
+        image, box = get_random_data(path, dataset[idx], input_shape, random=True)
+        image_data.append(image)
+        box_data.append(box)
+    return image_data, box_data
 
 
-
-
-
-
-
-
-def yolov3_generator(path, datasets, batch_size):
-
-    on_rails, two_wheeler, person, truck, bdd, others = datasets
-
-    n = get_n(batch_size)
+def yolov3_generator(path, datasets, batch_size, input_shape):
 
     # TODO: összeg jó legyen nem 8-cal osztható batch_size-ra is
-    n_on_rails =    n * 1
-    n_two_wheeler = n * 1
-    n_person =      n * 1
-    n_others =      n * 2
-    n_bdd =         n * 3
+    n = get_n(batch_size)
+    # on_rails, two_wheeler, person, truck, bdd, others
+    ns = [n * 1, n * 1, n * 1, n * 1, n * 1, n * 3]
 
-    while True:
-        batch = []
-        for i in range(0, n_on_rails):
+    # validation dataset detected
+    if len(datasets) == 1:
+        ns = [batch_size]
 
+    image_batch = []
+    box_batch = []
+    print(numpy.array(datasets).shape)
+    for i in range(0, len(datasets)):
+        n_image_batch, n_box_batch = n_randoms_from_dataset(path, ns[i], datasets[i], input_shape)
+        image_batch.extend(n_image_batch)
+        box_batch.extend(n_box_batch)
 
-        for i in range(0, n_two_wheeler):
-        for i in range(0, n_person):
-        for i in range(0, n_others):
-        for i in range(0, n_bdd):
-
-
-
+    return image_batch, box_batch
 
 

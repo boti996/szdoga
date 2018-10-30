@@ -1,14 +1,14 @@
-from enum import Enum
 import argparse
+from enum import Enum
+
 import numpy as np
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.optimizers import Adam
-from keras_preprocessing.image import ImageDataGenerator
 
+from data.data_generator import yolov3_generator
 from data.yolov3_load_dataset import YoloV3DataLoader
 from model.yolo3.model import preprocess_true_boxes
 from model.yolo3.yolov3_model import YoloV3Model
-from model.yolo3.utils import get_random_data
 
 
 class ModelType(Enum):
@@ -39,7 +39,7 @@ def main():
     validation = dataset_loaded['val']
     print('Dataset loaded.')
 
-    # TODO: correct bounding-boxes after resize!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # TODO: classes file
 
     # train model
     log_dir = 'logs'
@@ -66,10 +66,10 @@ def main():
         num_val = len(validation)
 
         model.fit_generator(
-            data_generator_wrapper(datasets, batch_size, input_shape, anchors, len(class_names)),
+            data_generator_wrapper(datasets, batch_size, input_shape, anchors, len(class_names), dataset_path),
             steps_per_epoch=max(1, num_train // batch_size),
             validation_data=data_generator_wrapper(validation, batch_size, input_shape, anchors,
-                                                   len(class_names)),
+                                                   len(class_names), dataset_path),
             validation_steps=max(1, num_val // batch_size),
             epochs=50,
             initial_epoch=0,
@@ -88,10 +88,10 @@ def main():
             batch_size = 32  # note that more GPU memory is required after unfreezing the body
             print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
             model.fit_generator(
-                data_generator_wrapper(lines[:num_train], batch_size, input_shape, anchors, num_classes),
+                data_generator_wrapper(datasets, batch_size, input_shape, anchors, len(class_names), dataset_path),
                 steps_per_epoch=max(1, num_train // batch_size),
-                validation_data=data_generator_wrapper(lines[num_train:], batch_size, input_shape, anchors,
-                                                       num_classes),
+                validation_data=data_generator_wrapper(validation, batch_size, input_shape, anchors,
+                                                       len(class_names), dataset_path),
                 validation_steps=max(1, num_val // batch_size),
                 epochs=100,
                 initial_epoch=50,
@@ -113,7 +113,7 @@ def _read_args():
 
     args = parser.parse_args()
 
-    type = ModelType(args.type[0])
+    model_type = ModelType(args.type[0])
     input_shape = (int(args.shape[0]), int(args.shape[1]))
     anchors = _get_anchors(args.anchors_path[0])
     class_names = _get_classes(args.classes_path[0])
@@ -121,7 +121,7 @@ def _read_args():
     freeze_body = int(args.freeze_body[0])
     dataset_path = args.dataset_path[0]
 
-    return type, input_shape, anchors, class_names, weights_path, freeze_body, dataset_path
+    return model_type, input_shape, anchors, class_names, weights_path, freeze_body, dataset_path
 
 
 def _get_classes(classes_path):
@@ -140,31 +140,24 @@ def _get_anchors(anchors_path):
     return np.array(anchors).reshape(-1, 2)
 
 
-def data_generator(annotation_lines, batch_size, input_shape, anchors, num_classes):
+# TODO: PIL vs cv2 image format
+def data_generator(dataset, batch_size, input_shape, anchors, num_classes, dataset_path):
     """data generator for fit_generator"""
-    n = len(annotation_lines)
-    i = 0
     while True:
-        image_data = []
-        box_data = []
-        for b in range(batch_size):
-            if i == 0:
-                np.random.shuffle(annotation_lines)
-            image, box = get_random_data(annotation_lines[i], input_shape, random=True)
-            image_data.append(image)
-            box_data.append(box)
-            i = (i + 1) % n
+        image_data, box_data = yolov3_generator(dataset_path, dataset, batch_size, input_shape)
+
         image_data = np.array(image_data)
         box_data = np.array(box_data)
         y_true = preprocess_true_boxes(box_data, input_shape, anchors, num_classes)
         yield [image_data, *y_true], np.zeros(batch_size)
 
 
-def data_generator_wrapper(annotation_lines, batch_size, input_shape, anchors, num_classes):
-    n = len(annotation_lines)
+
+def data_generator_wrapper(dataset, batch_size, input_shape, anchors, num_classes, dataset_path):
+    n = len(dataset)
     if n == 0 or batch_size <= 0:
         return None
-    return data_generator(annotation_lines, batch_size, input_shape, anchors, num_classes)
+    return data_generator(dataset, batch_size, input_shape, anchors, num_classes, dataset_path)
 
 
 if __name__ == "__main__":
