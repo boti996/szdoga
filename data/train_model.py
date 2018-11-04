@@ -42,7 +42,7 @@ def main():
     # TODO: classes file
 
     # train model
-    log_dir = 'logs'
+    log_dir = '../logs'
     logging = TensorBoard(log_dir=log_dir)
 
     checkpoint = ModelCheckpoint(log_dir + 'ep{epoch:03d}-loss{loss:.3f}-val_loss{val_loss:.3f}.h5',
@@ -58,7 +58,7 @@ def main():
             'yolo_loss': lambda y_true, y_pred: y_pred})
 
         # TODO: set batch size param
-        batch_size = 32
+        batch_size = 8
 
         num_train = 0
         for dataset in datasets:
@@ -67,7 +67,7 @@ def main():
 
         model.fit_generator(
             data_generator_wrapper(datasets, batch_size, input_shape, anchors, len(class_names), dataset_path),
-            steps_per_epoch=max(1, num_train // batch_size),
+            steps_per_epoch=max(1, num_train // batch_size // 50),
             validation_data=data_generator_wrapper(validation, batch_size, input_shape, anchors,
                                                    len(class_names), dataset_path),
             validation_steps=max(1, num_val // batch_size),
@@ -89,7 +89,7 @@ def main():
             print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
             model.fit_generator(
                 data_generator_wrapper(datasets, batch_size, input_shape, anchors, len(class_names), dataset_path),
-                steps_per_epoch=max(1, num_train // batch_size),
+                steps_per_epoch=max(1, num_train // batch_size // 50),
                 validation_data=data_generator_wrapper(validation, batch_size, input_shape, anchors,
                                                        len(class_names), dataset_path),
                 validation_steps=max(1, num_val // batch_size),

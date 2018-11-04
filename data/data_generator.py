@@ -1,6 +1,6 @@
 import random
-
 import numpy
+
 
 from model.yolo3.utils import get_random_data
 
@@ -38,7 +38,7 @@ def yolov3_generator(path, datasets, batch_size, input_shape):
 
     image_batch = []
     box_batch = []
-    print(numpy.array(datasets).shape)
+    # print(numpy.array(datasets).shape)
     for i in range(0, len(datasets)):
         n_image_batch, n_box_batch = n_randoms_from_dataset(path, ns[i], datasets[i], input_shape)
         image_batch.extend(n_image_batch)
