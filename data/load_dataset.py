@@ -5,7 +5,7 @@ import cv2
 class DataLoader(ABC):
 
     @abstractmethod
-    def load_dataset(self, path):
+    def load_dataset(self, path, input_shape):
         pass
 
     @abstractmethod

@@ -409,7 +409,23 @@ def crop_dataset(path, x_offset, width, height, only_json=False):
             for idx in to_delete:
                 del image.labels[idx]
 
+        encode_annot_array(images, filename)
 
+
+def crop_bbox_correction(path, x_offset):
+    for filename in glob.iglob(path + '/**/*.json', recursive=True):
+        print(filename)
+        images = decode_annot_array(filename)
+
+        for i in range(0, len(images)):
+            image = images[i]
+            print(image.name)
+
+            for j in range(0, len(image.labels)):
+                box = image.labels[j].box
+
+                box.x1 -= x_offset
+                box.x2 -= x_offset
 
         encode_annot_array(images, filename)
 
@@ -471,6 +487,9 @@ if __name__ == '__main__':
     # crop_dataset('/media/boti/Adatok/Datasets-pc/kitti', x_offset=294, width=656, height=369, only_json=True)
 
     # resize_images('/media/boti/Adatok/Datasets-pc', '/media/boti/Adatok/Datasets-pc/resized', (608, 608))
+
+    # crop_bbox_correction('/media/boti/Adatok/Datasets-pc/cityscapes', x_offset=120)
+    # crop_bbox_correction('/media/boti/Adatok/Datasets-pc/kitti', x_offset=294)
     pass
 
 # path: should be the bdd100k root folder

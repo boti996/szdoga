@@ -57,9 +57,9 @@ class YoloV3DataLoader(DataLoader):
 
 
     # TODO: implementation
-    def load_dataset(self, path):
+    def load_dataset(self, path, input_shape):
 
-        size = (608, 608)
+        size = input_shape
 
         on_rails = self.load_folder(join(path, '_on_rails'), size)
         two_wheeler = self.load_folder(join(path, '_two_wheeler'), size)
