@@ -1,5 +1,5 @@
 """YOLO_v3 Model Defined in Keras."""
-
+import cv2
 from functools import wraps
 
 import numpy as np
@@ -18,7 +18,7 @@ from model.yolo3.utils import compose
 def DarknetConv2D(*args, **kwargs):
     """Wrapper to set Darknet parameters for Convolution2D."""
     darknet_conv_kwargs = {'kernel_regularizer': l2(5e-4),
-                           'padding': 'valid' if kwargs.get('strides') == (2, 2) else 'same'}
+                           'padding': 'valid' if kwargs.get('strides') == (2, 2) else 'same'}   # left and top padding
     darknet_conv_kwargs.update(kwargs)
     return Conv2D(*args, **darknet_conv_kwargs)
 
@@ -35,8 +35,7 @@ def DarknetConv2D_BN_Leaky(*args, **kwargs):
 
 def resblock_body(x, num_filters, num_blocks):
     """A series of resblocks starting with a downsampling Convolution2D"""
-    # Darknet uses left and top padding instead of 'same' mode
-    x = ZeroPadding2D(((1, 0), (1, 0)))(x)
+    x = ZeroPadding2D(((1, 0), (1, 0)))(x)  # left and top padding
     x = DarknetConv2D_BN_Leaky(num_filters, (3, 3), strides=(2, 2))(x)
     for i in range(num_blocks):
         y = compose(
@@ -49,11 +48,16 @@ def resblock_body(x, num_filters, num_blocks):
 def darknet_body(x):
     """Darknent body having 52 Convolution2D layers"""
     x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
+
     x = resblock_body(x, 64, 1)
     x = resblock_body(x, 128, 2)
     x = resblock_body(x, 256, 8)
+    # last_layers_3 comes here
     x = resblock_body(x, 512, 8)
+    # last_layers_2 comes here
     x = resblock_body(x, 1024, 4)
+    # last_layers_1 comes here
+
     return x
 
 
@@ -65,35 +69,77 @@ def make_last_layers(x, num_filters, out_filters):
         DarknetConv2D_BN_Leaky(num_filters, (1, 1)),
         DarknetConv2D_BN_Leaky(num_filters * 2, (3, 3)),
         DarknetConv2D_BN_Leaky(num_filters, (1, 1)))(x)
+
     y = compose(
         DarknetConv2D_BN_Leaky(num_filters * 2, (3, 3)),
         DarknetConv2D(out_filters, (1, 1)))(x)
+
     return x, y
 
 
 def yolo_body(inputs, num_anchors, num_classes):
     """Create YOLO_V3 model CNN body in Keras."""
     darknet = Model(inputs, darknet_body(inputs))
+    # Output scale 1
     x, y1 = make_last_layers(darknet.output, 512, num_anchors * (num_classes + 5))
-
+    # Upsampling
     x = compose(
         DarknetConv2D_BN_Leaky(256, (1, 1)),
         UpSampling2D(2))(x)
+    # Concatenation with darknet layers
     x = Concatenate()([x, darknet.layers[152].output])
+    # Output scale 2
     x, y2 = make_last_layers(x, 256, num_anchors * (num_classes + 5))
-
+    # Upsampling
     x = compose(
         DarknetConv2D_BN_Leaky(128, (1, 1)),
         UpSampling2D(2))(x)
+    # Concatenation with darknet layers
     x = Concatenate()([x, darknet.layers[92].output])
+    # Output scale 3
     x, y3 = make_last_layers(x, 128, num_anchors * (num_classes + 5))
 
     return Model(inputs, [y1, y2, y3])
 
 
+def tiny_yolo_body(inputs, num_anchors, num_classes):
+    """Create Tiny YOLO_v3 model CNN body in keras."""
+    x1 = compose(
+        DarknetConv2D_BN_Leaky(16, (3, 3)),
+        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
+        DarknetConv2D_BN_Leaky(32, (3, 3)),
+        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
+        DarknetConv2D_BN_Leaky(64, (3, 3)),
+        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
+        DarknetConv2D_BN_Leaky(128, (3, 3)),
+        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
+        DarknetConv2D_BN_Leaky(256, (3, 3)))(inputs)
+    x2 = compose(
+        MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'),
+        DarknetConv2D_BN_Leaky(512, (3, 3)),
+        MaxPooling2D(pool_size=(2, 2), strides=(1, 1), padding='same'),
+        DarknetConv2D_BN_Leaky(1024, (3, 3)),
+        DarknetConv2D_BN_Leaky(256, (1, 1)))(x1)
+    y1 = compose(
+        DarknetConv2D_BN_Leaky(512, (3, 3)),
+        DarknetConv2D(num_anchors * (num_classes + 5), (1, 1)))(x2)
+
+    x2 = compose(
+        DarknetConv2D_BN_Leaky(128, (1, 1)),
+        UpSampling2D(2))(x2)
+    y2 = compose(
+        Concatenate(),
+        DarknetConv2D_BN_Leaky(256, (3, 3)),
+        DarknetConv2D(num_anchors * (num_classes + 5), (1, 1)))([x2, x1])
+
+    return Model(inputs, [y1, y2])
+
+
 def yolo_head(feats, anchors, num_classes, input_shape, calc_loss=False):
     """Convert final layer features to bounding box parameters."""
     num_anchors = len(anchors)
+    print('anchors: ')
+    print(anchors)
     # Reshape to batch, height, width, num_anchors, box_params.
     anchors_tensor = K.reshape(K.constant(anchors), [1, 1, 1, num_anchors, 2])
 
@@ -342,6 +388,17 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
     m = K.shape(yolo_outputs[0])[0]  # batch size, tensor
     mf = K.cast(m, K.dtype(yolo_outputs[0]))
 
+    # TODO otthon: y_pred vs gt vizsgálat + kirajzolás
+    boxes_, scores_, classes_ = yolo_eval(y_true, anchors, num_classes, (608, 608), 20, 0.6, 0.5)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    image_cv = np.zeros((608, 608, 3), np.uint8)
+    for box in boxes_:
+        cv2.rectangle(image_cv, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 3)
+        cv2.putText(image_cv, str(box[4]), (int(box[0]), int(box[1])), font, 12, (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.imshow('gt', image_cv)
+    cv2.waitKey(0)
+
     for l in range(num_layers):
         object_mask = y_true[l][..., 4:5]
         true_class_probs = y_true[l][..., 5:]
@@ -372,12 +429,15 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
         ignore_mask = K.expand_dims(ignore_mask, -1)
 
         # K.binary_crossentropy is helpful to avoid exp overflow.
-        xy_loss = object_mask * box_loss_scale * K.binary_crossentropy(raw_true_xy, raw_pred[..., 0:2],
-                                                                       from_logits=True)
-        wh_loss = object_mask * box_loss_scale * 0.5 * K.square(raw_true_wh - raw_pred[..., 2:4])
+        # TODO otthon átnézni még 1x
+        xy_loss = object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
+
+        wh_loss = object_mask * box_loss_scale * 0.5 * K.square(np.sqrt(raw_true_wh) - np.sqrt(raw_pred[..., 2:4]))
+
         confidence_loss = object_mask * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True) + (
                 (1 - object_mask) * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True)
                 * ignore_mask)
+
         class_loss = object_mask * K.binary_crossentropy(true_class_probs, raw_pred[..., 5:], from_logits=True)
 
         xy_loss = K.sum(xy_loss) / mf
