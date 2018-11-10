@@ -430,12 +430,13 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
 
         # K.binary_crossentropy is helpful to avoid exp overflow.
         # TODO otthon átnézni még 1x
-        xy_loss = object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
+        lambda_coord, lambda_noobj = 5, 0.5
+        xy_loss = lambda_coord * object_mask * box_loss_scale * 0.5 * K.square(raw_true_xy - raw_pred[..., 0:2])
 
-        wh_loss = object_mask * box_loss_scale * 0.5 * K.square(np.sqrt(raw_true_wh) - np.sqrt(raw_pred[..., 2:4]))
+        wh_loss = lambda_coord * object_mask * box_loss_scale * 0.5 * K.square(np.sqrt(raw_true_wh) - np.sqrt(raw_pred[..., 2:4]))
 
         confidence_loss = object_mask * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True) + (
-                (1 - object_mask) * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True)
+                lambda_noobj * (1 - object_mask) * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True)
                 * ignore_mask)
 
         class_loss = object_mask * K.binary_crossentropy(true_class_probs, raw_pred[..., 5:], from_logits=True)
