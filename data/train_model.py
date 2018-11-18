@@ -131,7 +131,7 @@ def main():
     for dataset in validation:
         num_val += len(dataset)
 
-    fine_tuning_only = False
+    fine_tuning_only = True
     if not fine_tuning_only:
 
         # mini-batch size
@@ -164,8 +164,10 @@ def main():
     # Unfreeze and continue training, to fine-tune.
     model.load_weights(weights_dir + 'trained_weights_stage_1.h5')
 
-    for i in range(len(model.layers)):
-        model.layers[i].trainable = True
+    freeze2 = True
+    if not freeze2:
+        for i in range(len(model.layers)):
+            model.layers[i].trainable = True
 
     model.compile(optimizer=Adam(lr=0.0001), loss={'yolo_loss': lambda y_true, y_pred: y_pred})
 

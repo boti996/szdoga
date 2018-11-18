@@ -57,7 +57,7 @@ class YoloV3DataLoader(DataLoader):
 
 
     # TODO: implementation
-    def load_dataset(self, path, input_shape):
+    def load_dataset(self, path, input_shape, random_seed=None):
 
         size = input_shape
 
@@ -74,6 +74,9 @@ class YoloV3DataLoader(DataLoader):
 
         # training datasets
         datasets = [on_rails, two_wheeler, person, truck, bdd, others]
+
+        if random_seed is not None:
+            random.seed(random_seed)
 
         for i in range(0, len(datasets)):
             random.shuffle(datasets[i])

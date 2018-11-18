@@ -48,7 +48,7 @@ class YoloV3Model(NetworkModel):
                                n_anchors // 3, self.n_classes + 5)) for l in range(3)]
 
         model_loss = Lambda(yolo_loss, output_shape=(1,), name='yolo_loss', arguments={
-            'anchors': self.anchors, 'num_classes': self.n_classes, 'ignore_thresh': 0.5})([*model_body.output, *y_true])
+            'anchors': self.anchors, 'num_classes': self.n_classes, 'ignore_thresh': 0.5, 'print_loss': True})([*model_body.output, *y_true])
 
         model = Model([model_body.input, *y_true], model_loss)
 

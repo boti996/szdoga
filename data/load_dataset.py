@@ -16,7 +16,6 @@ class DataLoader(ABC):
     def create_dataset_batch(self, n_batch_size):
         pass
 
-    # TODO: tesztelni a referencia <-> érték sz átadás miatt
     def resize(self, dataset, annotation, size):
         height, width = size
         for i in range (0, len(dataset)):

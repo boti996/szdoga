@@ -1,5 +1,5 @@
 import random
-import numpy
+import numpy as np
 from cv2 import cv2
 
 from model.yolo3.utils import get_random_data
@@ -50,6 +50,8 @@ def yolov3_generator(images_path, datasets, batch_size, input_shape):
         image_batch.extend(n_image_batch)
         box_batch.extend(n_box_batch)
 
-    return image_batch, box_batch
+    random.shuffle(image_batch)
+    random.shuffle(box_batch)
+    return image_batch[:batch_size], box_batch[:batch_size]
 
 

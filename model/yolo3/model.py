@@ -5,7 +5,9 @@ from functools import wraps
 import numpy as np
 import tensorflow as tf
 from keras import backend as K
-from keras.layers import Conv2D, Add, ZeroPadding2D, UpSampling2D, Concatenate, MaxPooling2D
+from keras.activations import linear
+from keras.layers import Conv2D, Add, ZeroPadding2D, UpSampling2D, Concatenate, MaxPooling2D, SeparableConv2D, ReLU, \
+    Activation, DepthwiseConv2D
 from keras.layers import LeakyReLU
 from keras.layers import BatchNormalization
 from keras.models import Model
@@ -23,6 +25,16 @@ def DarknetConv2D(*args, **kwargs):
     return Conv2D(*args, **darknet_conv_kwargs)
 
 
+@wraps(SeparableConv2D)
+def MobilenetSeparableConv2D(*args, **kwargs):
+    """Wrapper to set Darknet parameters for SeparableConvolution2D."""
+    darknet_conv_kwargs = {'kernel_regularizer': l2(5e-4),
+                           'padding': 'valid' if kwargs.get('strides') == (2, 2) else 'same'}
+    darknet_conv_kwargs.update(kwargs)
+    return SeparableConv2D(*args, **darknet_conv_kwargs)
+
+
+
 def DarknetConv2D_BN_Leaky(*args, **kwargs):
     """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
     no_bias_kwargs = {'use_bias': False}
@@ -33,27 +45,139 @@ def DarknetConv2D_BN_Leaky(*args, **kwargs):
         LeakyReLU(alpha=0.1))
 
 
-def resblock_body(x, num_filters, num_blocks):
+def MobilenetConv2D_BN_ReLU6(*args, **kwargs):
+    """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
+    no_bias_kwargs = {'use_bias': False}
+    no_bias_kwargs.update(kwargs)
+    return compose(
+        DarknetConv2D(*args, **no_bias_kwargs),
+        BatchNormalization(),
+        ReLU(max_value=6))
+
+
+def MobilenetConv2D_BN_Linear(*args, **kwargs):
+    """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
+    no_bias_kwargs = {'use_bias': False}
+    no_bias_kwargs.update(kwargs)
+    return compose(
+        DarknetConv2D(*args, **no_bias_kwargs),
+        BatchNormalization())
+
+
+def MobilenetSeparableConv2D_BN_ReLU6(*args, **kwargs):
+    """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
+    no_bias_kwargs = {'use_bias': False}
+    no_bias_kwargs.update(kwargs)
+    return compose(
+        MobilenetSeparableConv2D(*args, **no_bias_kwargs),
+        BatchNormalization(),
+        ReLU(max_value=6))
+
+
+cutting_layer_out, cutting_layer_in = None, None
+
+def resblock_body(x, num_filters, num_blocks, pruning=-1):
     """A series of resblocks starting with a downsampling Convolution2D"""
     # Darknet uses left and top padding instead of 'same' mode
     x = ZeroPadding2D(((1, 0), (1, 0)))(x)
     x = DarknetConv2D_BN_Leaky(num_filters, (3, 3), strides=(2, 2))(x)
+
+    to_delete = None
     for i in range(num_blocks):
+
+        if i == pruning:
+            print(pruning)
+            global cutting_layer_out
+            cutting_layer_out = x
+
         y = compose(
             DarknetConv2D_BN_Leaky(num_filters // 2, (1, 1)),
             DarknetConv2D_BN_Leaky(num_filters, (3, 3)))(x)
         x = Add()([x, y])
+
+        if i == pruning + 1:
+            global cutting_layer_in
+            cutting_layer_in = y
+
     return x
 
 
-def darknet_body(x):
+# TODO: fos
+def inverted_resblock_body(x, num_filters, num_blocks, pruning=-1):
+    x = ZeroPadding2D(((1, 0), (1, 0)))(x)
+    for i in range(0, num_blocks):
+        stride = (1, 1)
+        if i == 0:
+            stride = (2, 2)
+        if i == pruning:
+            if i == 0:
+                x = MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1), stride=stride)(x)
+            continue
+
+        y = compose(MobilenetConv2D_BN_ReLU6(num_filters // 2, (1, 1)),
+                    MobilenetSeparableConv2D_BN_ReLU6(num_filters // 2 * 6, (3, 3), stride=stride),
+                    MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1)))(x)
+        x = Add()([x, y])
+
+    return x
+
+
+out1, out2 = None, None
+
+
+def darknet_body(x, pruning_mtx):
     """Darknent body having 52 Convolution2D layers"""
     x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
-    x = resblock_body(x, 64, 1)
-    x = resblock_body(x, 128, 2)
-    x = resblock_body(x, 256, 8)
-    x = resblock_body(x, 512, 8)
-    x = resblock_body(x, 1024, 4)
+    x = resblock_body(x, 64, 1, pruning_mtx[0])
+    x = resblock_body(x, 128, 2, pruning_mtx[1])
+
+    global cutting_layer_in
+    if pruning_mtx[0] == 0:
+        cutting_layer_in = x
+
+    x = resblock_body(x, 256, 8, pruning_mtx[2])
+    global out1
+    out1 = x
+
+    if pruning_mtx[1] == 1:
+        cutting_layer_in = x
+
+    x = resblock_body(x, 512, 8, pruning_mtx[3])
+    global out2
+    out2 = x
+
+    if pruning_mtx[2] == 7:
+        cutting_layer_in = x
+
+    x = resblock_body(x, 1024, 4, pruning_mtx[4])
+
+    if pruning_mtx[3] == 7:
+        cutting_layer_in = x
+    if pruning_mtx[4] == 3:
+        cutting_layer_in = cutting_layer_out
+
+    return x
+
+
+def mod_darknet_body(x, pruning_mtx):
+    x = MobilenetConv2D_BN_ReLU6(32, (3, 3))(x)
+    x = inverted_resblock_body(x, 64, 1, pruning_mtx[0])
+    x = inverted_resblock_body(x, 128, 2, pruning_mtx[1])
+
+    global cutting_layer_in
+    if pruning_mtx[0] == 0:
+        cutting_layer_in = x
+    x = inverted_resblock_body(x, 256, 8, pruning_mtx[2])
+    if pruning_mtx[1] == 1:
+        cutting_layer_in = x
+    x = inverted_resblock_body(x, 512, 8, pruning_mtx[3])
+    if pruning_mtx[2] == 7:
+        cutting_layer_in = x
+    x = inverted_resblock_body(x, 1024, 4, pruning_mtx[4])
+    if pruning_mtx[3] == 7:
+        cutting_layer_in = x
+    if pruning_mtx[4] == 3:
+        cutting_layer_in = cutting_layer_out
     return x
 
 
@@ -71,22 +195,29 @@ def make_last_layers(x, num_filters, out_filters):
     return x, y
 
 
-def yolo_body(inputs, num_anchors, num_classes):
+def yolo_body(inputs, num_anchors, num_classes, mod=False, pruning_mtx=(-1, -1, -1, -1, -1)):
     """Create YOLO_V3 model CNN body in Keras."""
-    darknet = Model(inputs, darknet_body(inputs))
+    darknet = Model(inputs, mod_darknet_body(inputs, pruning_mtx)) if mod \
+        else Model(inputs, darknet_body(inputs, pruning_mtx))
+
     x, y1 = make_last_layers(darknet.output, 512, num_anchors * (num_classes + 5))
 
     x = compose(
         DarknetConv2D_BN_Leaky(256, (1, 1)),
         UpSampling2D(2))(x)
-    x = Concatenate()([x, darknet.layers[152].output])
+    # x = Concatenate()([x, darknet.layers[152].output])
+    x = Concatenate()([x, out2])
     x, y2 = make_last_layers(x, 256, num_anchors * (num_classes + 5))
 
     x = compose(
         DarknetConv2D_BN_Leaky(128, (1, 1)),
         UpSampling2D(2))(x)
-    x = Concatenate()([x, darknet.layers[92].output])
+    # x = Concatenate()([x, darknet.layers[92].output])
+    x = Concatenate()([x, out1])
     x, y3 = make_last_layers(x, 128, num_anchors * (num_classes + 5))
+
+    # model_1st_part = Model(input=inputs, output=cutting_layer_out)
+    # model_2nd_part = Model(input=model_1st_part.output, output=cutting_layer_in)
 
     return Model(inputs, [y1, y2, y3])
 
@@ -164,7 +295,8 @@ def yolo_eval(yolo_outputs,
               score_threshold=.6,
               iou_threshold=.5):
     """Evaluate YOLO model on given input and return filtered boxes."""
-    num_layers = len(yolo_outputs)
+    print(K.shape(yolo_outputs))
+    num_layers = 3
     anchor_mask = [[6, 7, 8], [3, 4, 5], [0, 1, 2]] if num_layers == 3 else [[3, 4, 5], [1, 2, 3]]  # default setting
     input_shape = K.shape(yolo_outputs[0])[1:3] * 32
     boxes = []
@@ -371,11 +503,16 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
         ignore_mask = ignore_mask.stack()
         ignore_mask = K.expand_dims(ignore_mask, -1)
 
+
+        obj_scale = 5
+        xywh_scale = 0.5
         # K.binary_crossentropy is helpful to avoid exp overflow.
-        xy_loss = object_mask * box_loss_scale * K.binary_crossentropy(raw_true_xy, raw_pred[..., 0:2],
-                                                                       from_logits=True)
-        wh_loss = object_mask * box_loss_scale * 0.5 * K.square(raw_true_wh - raw_pred[..., 2:4])
-        confidence_loss = object_mask * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True) + (
+        # xy_loss = object_mask * box_loss_scale * K.binary_crossentropy(raw_true_xy, raw_pred[..., 0:2],
+        #                                                               from_logits=True)
+        xy_loss = xywh_scale * object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
+        wh_loss = xywh_scale * object_mask * box_loss_scale * 0.5 * K.square(raw_true_wh - raw_pred[..., 2:4])
+
+        confidence_loss = obj_scale * object_mask * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True) + (
                 (1 - object_mask) * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True)
                 * ignore_mask)
         class_loss = object_mask * K.binary_crossentropy(true_class_probs, raw_pred[..., 5:], from_logits=True)

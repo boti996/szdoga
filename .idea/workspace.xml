@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1fdeb0d3-b70e-49b1-be74-b83886d19785" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/script/gpu-monitor2.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/boti.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/boti.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/evaluate_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/model/yolo3/yolo_eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/data_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/load_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/load_dataset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/train_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/train_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/yolov3_load_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/yolov3_load_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/yolo3/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/yolo3/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes" beforeDir="false" afterPath="$PROJECT_DIR$/notes" afterDir="false" />
     </list>
     <ignored path="venv/" />
     <ignored path="script/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb" />
@@ -55,42 +56,45 @@
     <session id="1380653666">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.5" value="4" />
           <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="7" />
+          <entry key="dummy" value="24" />
           <entry key="example run" value="101" />
-          <entry key="py" value="11647" />
+          <entry key="notes" value="443" />
+          <entry key="py" value="18618" />
           <entry key="sh" value="3" />
-          <entry key="txt" value="120" />
+          <entry key="txt" value="123" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Bash" value="3" />
-          <entry key="PLAIN_TEXT" value="228" />
-          <entry key="Python" value="11647" />
+          <entry key="PLAIN_TEXT" value="691" />
+          <entry key="Python" value="18618" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="example run" value="2" />
-          <entry key="notes" value="2" />
-          <entry key="py" value="103" />
-          <entry key="sh" value="3" />
+          <entry key="notes" value="3" />
+          <entry key="py" value="219" />
+          <entry key="sh" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Bash" value="3" />
-          <entry key="PLAIN_TEXT" value="4" />
-          <entry key="Python" value="103" />
+          <entry key="Bash" value="4" />
+          <entry key="PLAIN_TEXT" value="5" />
+          <entry key="Python" value="219" />
         </counts>
       </usages-collector>
     </session>
@@ -138,13 +142,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/train_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="929">
-              <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+            <state relative-caret-position="772">
+              <caret line="164" column="66" selection-start-line="164" selection-start-column="66" selection-end-line="164" selection-end-column="66" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="440">
+              <caret line="131" column="48" lean-forward="true" selection-start-line="131" selection-start-column="48" selection-end-line="131" selection-end-column="48" />
+              <folding>
+                <element signature="e#39#66#0" expanded="true" />
+                <marker date="1542575028755" expanded="true" signature="3472:4098" ph="..." />
+                <marker date="1542575028755" expanded="true" signature="4131:4136" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/yolo3/yolov3_model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+                <marker date="1541690884974" expanded="true" signature="231:233" ph="..." />
               </folding>
             </state>
           </provider>
@@ -161,36 +192,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tensorflow.</find>
-      <find>find</find>
-      <find>_common</find>
-      <find>közös</find>
-      <find>index</find>
-      <find>update</find>
-      <find>2:1</find>
-      <find>sort</find>
-      <find>os.</find>
-      <find>base</find>
-      <find>os.path</find>
-      <find>datase</find>
-      <find>tiny</find>
-      <find>&lt;=</find>
-      <find>608</find>
-      <find>on_rails,</find>
-      <find>common</find>
-      <find>glob.iglob</find>
-      <find>on_rails</find>
+      <find>comp</find>
+      <find>output</find>
+      <find>.show</find>
+      <find>Found</find>
+      <find>sess</find>
+      <find>get_io</find>
+      <find>recta</find>
+      <find>dra</find>
+      <find>draw</find>
+      <find>w, h</find>
+      <find>rectan</find>
+      <find>shuff</find>
+      <find>start</find>
+      <find>timer</find>
+      <find>print</find>
       <find>print(</find>
-      <find>Image</find>
-      <find>np.</find>
-      <find>lambda</find>
-      <find>/ 255</find>
-      <find>nan</find>
-      <find>yolo_loss</find>
-      <find>def yolo_</find>
-      <find>numbers</find>
-      <find>len</find>
-      <find>prepr</find>
+      <find>show</find>
+      <find>yolo_body</find>
+      <find>activat</find>
+      <find>False,</find>
+      <find>False, False, False</find>
+      <find>152</find>
+      <find>out3.</find>
+      <find>by_na</find>
+      <find>.run</find>
+      <find>by_n</find>
+      <find>glob</find>
+      <find>model(</find>
+      <find>freeze_</find>
+      <find>input</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -213,26 +244,30 @@
         <option value="$PROJECT_DIR$/data/yolov3_load_data.py" />
         <option value="$PROJECT_DIR$/data/load_data.py" />
         <option value="$PROJECT_DIR$/example run" />
-        <option value="$PROJECT_DIR$/notes" />
         <option value="$PROJECT_DIR$/data/serialization.py" />
-        <option value="$PROJECT_DIR$/model/yolo3/yolov3_model.py" />
         <option value="$PROJECT_DIR$/script/gpu-monitor.sh" />
         <option value="$PROJECT_DIR$/script/nvidia-install.sh" />
         <option value="$PROJECT_DIR$/script/gpu-monitor2.sh" />
-        <option value="$PROJECT_DIR$/data/yolov3_load_dataset.py" />
-        <option value="$PROJECT_DIR$/data/load_dataset.py" />
         <option value="$PROJECT_DIR$/helper/yolov3_dataset_helper.py" />
         <option value="$PROJECT_DIR$/model/yolo3/utils.py" />
-        <option value="$PROJECT_DIR$/model/yolo3/model.py" />
+        <option value="$PROJECT_DIR$/data/SaveEvaluationCallback.py" />
+        <option value="$PROJECT_DIR$/data/save_evaluation_callback.py" />
         <option value="$PROJECT_DIR$/data/data_generator.py" />
+        <option value="$PROJECT_DIR$/data/load_dataset.py" />
+        <option value="$PROJECT_DIR$/data/validate_model.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/yolov3_model.py" />
+        <option value="$PROJECT_DIR$/data/yolov3_load_dataset.py" />
+        <option value="$PROJECT_DIR$/notes" />
         <option value="$PROJECT_DIR$/data/train_model.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/model.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/yolo_eval.py" />
+        <option value="$PROJECT_DIR$/data/evaluate_model.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="1" />
-    <option name="width" value="960" />
-    <option name="height" value="1199" />
+    <option name="width" value="1920" />
+    <option name="height" value="1200" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -256,7 +291,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -293,17 +327,23 @@
             <path>
               <item name="szdoga" type="b2602c69:ProjectViewProjectNode" />
               <item name="szdoga" type="462c0819:PsiDirectoryNode" />
-              <item name="trained_weights" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../yolo3-keras" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/model/yolo3" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -317,7 +357,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train_model +1 kor">
+  <component name="RunManager" selected="Python.validate_model">
     <configuration name="gpu-monitor.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
       <module name="szakdoga" />
       <option name="INTERPRETER_OPTIONS" value="bash" />
@@ -326,6 +366,27 @@
       <option name="PARENT_ENVS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/gpu-monitor.sh" />
       <option name="PARAMETERS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_model + fine_tuning freeze1-gyel" type="PythonConfigurationType" factoryName="Python">
+      <module name="szakdoga" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/train_model.py" />
+      <option name="PARAMETERS" value="-t yolo_v3 -s 608 608 -a $PROJECT_DIR$/../training_data/yolo_anchors.txt -c $PROJECT_DIR$/../training_data/yolov3_classes.txt -w $PROJECT_DIR$/trained_weights/trained_weights_stage_1.h5 -f 1 -d /media/boti/Adatok/Datasets-pc" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <configuration name="train_model +1 kor" type="PythonConfigurationType" factoryName="Python">
@@ -341,7 +402,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/train_model.py" />
-      <option name="PARAMETERS" value="-t yolo_v3 -s 608 608 -a $PROJECT_DIR$/../training_data/yolo_anchors.txt -c $PROJECT_DIR$/../training_data/yolov3_classes.txt -w $PROJECT_DIR$/trained_weights/trained_weights_stage_11541637730.6331744.h5 -f 2 -d /media/boti/Adatok/Datasets-pc" />
+      <option name="PARAMETERS" value="-t yolo_v3 -s 608 608 -a $PROJECT_DIR$/../training_data/yolo_anchors.txt -c $PROJECT_DIR$/../training_data/yolov3_classes.txt -w $PROJECT_DIR$/../weights/yolov3.h5 -f 2 -d /media/boti/Adatok/Datasets-pc" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -362,7 +423,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/train_model.py" />
-      <option name="PARAMETERS" value="-t yolo_v3 -s 608 608 -a $PROJECT_DIR$/../training_data/yolo_anchors.txt -c $PROJECT_DIR$/../training_data/yolov3_classes.txt -w $PROJECT_DIR$/../weights/darknet53.h5 -f 2 -d /media/boti/Adatok/Datasets-pc" />
+      <option name="PARAMETERS" value="-t yolo_v3 -s 608 608 -a $PROJECT_DIR$/../training_data/yolo_anchors.txt -c $PROJECT_DIR$/../training_data/yolov3_classes.txt -w $PROJECT_DIR$/../weights/yolov3.h5 -f 2 -d /media/boti/Adatok/Datasets-pc" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="validate_model" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="szakdoga" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/evaluate_model.py" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -393,12 +475,15 @@
     </configuration>
     <list>
       <item itemvalue="Python.train_model +1 kor" />
+      <item itemvalue="Python.train_model + fine_tuning freeze1-gyel" />
       <item itemvalue="Bash.gpu-monitor.sh" />
       <item itemvalue="Python.train_model" />
       <item itemvalue="Python.yolov3_dataset_helper" />
+      <item itemvalue="Python.validate_model" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.validate_model" />
         <item itemvalue="Python.train_model" />
         <item itemvalue="Python.yolov3_dataset_helper" />
         <item itemvalue="Bash.gpu-monitor.sh" />
@@ -406,7 +491,7 @@
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration>C:\Users\ext-dobaib\AppData\Roaming\Subversion</configuration>
+    <configuration>$USER_HOME$/.subversion</configuration>
     <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -459,7 +544,14 @@
       <option name="project" value="LOCAL" />
       <updated>1541345092242</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ready to train v2">
+      <created>1541686413515</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1541686413515</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -473,22 +565,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7528517" visible="true" weight="0.24946581" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7528517" visible="true" weight="0.2553419" />
       <window_info id="Structure" order="1" sideWeight="0.50062114" side_tool="true" weight="0.24679486" />
       <window_info id="Favorites" order="2" sideWeight="0.24714829" side_tool="true" weight="0.24679486" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286648" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893162" weight="0.3706816" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49839744" visible="true" weight="0.12791784" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39962652" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32959852" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49894625" weight="0.3286648" />
-      <window_info anchor="bottom" x="7" y="434" width="535" height="370" id="Terminal" order="8" sideWeight="0.49894625" type="FLOATING" weight="0.18580766" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106835" side_tool="true" weight="0.3006536" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="bottom" x="36" y="852" width="479" height="305" id="Terminal" order="8" sideWeight="0.49894625" type="FLOATING" weight="0.18580766" />
+      <window_info anchor="bottom" id="Messages" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5016026" side_tool="true" weight="0.5004669" />
+      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32959852" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -506,12 +599,10 @@
     <MESSAGE value="dataset preprocessing: json files fully reformatted" />
     <MESSAGE value="dataset preprocessing: training mod1" />
     <MESSAGE value="ready to train" />
-    <option name="LAST_COMMIT_MESSAGE" value="ready to train" />
+    <MESSAGE value="ready to train v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="ready to train v2" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/keras/backend/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/tensorflow/python/keras/layers/convolutional.py" />
-    <entry file="file://$PROJECT_DIR$/models/__init__.py" />
     <entry file="file://$PROJECT_DIR$/models/yolo3/__init__.py" />
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/__init__.py" />
     <entry file="file://$PROJECT_DIR$/models/my_model.py" />
@@ -524,9 +615,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/base_layer.py" />
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/framework/tensor_shape.py" />
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/network.py" />
     <entry file="file://$PROJECT_DIR$/model/networkmodel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -541,16 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="1741" column="8" selection-start-line="1741" selection-start-column="8" selection-end-line="1741" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/gpu-monitor.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -575,13 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/training.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="801" selection-start-line="801" selection-end-line="801" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/matplotlib/colors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -590,13 +662,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/serialization.py.py" />
-    <entry file="file://$PROJECT_DIR$/data/serialization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="24" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/script/gpu-monitor2.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -604,82 +669,265 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/load_dataset.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/framework/tensor_util.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="44" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+        <state relative-caret-position="207">
+          <caret line="441" selection-start-line="441" selection-end-line="441" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/yolov3_load_dataset.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/layers/convolutional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
+        <state relative-caret-position="162">
+          <caret line="1898" column="6" selection-start-line="1898" selection-start-column="6" selection-end-line="1898" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/callbacks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="987" column="8" selection-start-line="987" selection-start-column="8" selection-end-line="987" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/gpu-monitor.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="12" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/load_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/save_evaluation_callback.py" />
+    <entry file="file://$PROJECT_DIR$/data/serialization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/helper/yolov3_dataset_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="398" column="34" selection-start-line="398" selection-start-column="34" selection-end-line="398" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/yolo3/yolov3_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="38" lean-forward="true" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+        <state relative-caret-position="161">
+          <caret line="438" column="39" selection-start-line="438" selection-start-column="39" selection-end-line="438" selection-end-column="39" />
           <folding>
-            <element signature="e#0#21#0" expanded="true" />
-            <marker date="1540869429136" expanded="true" signature="231:233" ph="..." />
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1541388610163" expanded="true" signature="13485:13938" ph="..." />
+            <marker date="1541388610163" expanded="true" signature="14391:14393" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/h5py/_hl/files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="189" column="8" selection-start-line="189" selection-start-column="8" selection-end-line="189" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/input_layer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="113" column="4" selection-start-line="113" selection-start-column="4" selection-end-line="113" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/utils/io_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="301" selection-start-line="301" selection-end-line="301" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/PIL/ImageFont.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="146" selection-start-line="146" selection-end-line="146" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/PIL/Image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="2491" selection-start-line="2491" selection-end-line="2491" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/data_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="109" lean-forward="true" selection-start-line="26" selection-start-column="109" selection-end-line="26" selection-end-column="109" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <marker date="1541940762551" expanded="true" signature="246:891" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/yolov3_load_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1542334456649" expanded="true" signature="294:301" ph="..." />
+            <marker date="1542334456649" expanded="true" signature="1561:1610" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/layers/merge.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/framework/ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="1767" selection-start-line="1767" selection-end-line="1767" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/base_layer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="251" selection-start-line="251" selection-end-line="251" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/backend/tensorflow_backend.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="401" selection-start-line="401" selection-end-line="401" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/ops/variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="119" selection-start-line="119" selection-end-line="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/ops/variable_scope.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="2440" selection-start-line="2440" selection-end-line="2440" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/client/session.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="1307" selection-start-line="1307" selection-end-line="1307" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/tensorflow/python/util/tf_should_use.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="88" selection-start-line="88" selection-end-line="88" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/yolo3/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="42" column="4" selection-start-line="42" selection-start-column="4" selection-end-line="42" selection-end-column="4" />
+        <state relative-caret-position="161">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#39#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/network.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1261">
-          <caret line="251" column="45" selection-start-line="251" selection-start-column="45" selection-end-line="251" selection-end-column="45" />
+        <state relative-caret-position="169">
+          <caret line="187" selection-start-line="187" selection-end-line="187" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="542" selection-start-line="542" selection-end-line="542" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/saving.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="1139" selection-start-line="1139" selection-end-line="1139" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/keras/engine/training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1044">
+          <caret line="155" column="44" selection-start-line="155" selection-start-column="39" selection-end-line="155" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/evaluate_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="165" column="68" lean-forward="true" selection-start-line="165" selection-start-column="68" selection-end-line="165" selection-end-column="68" />
           <folding>
-            <element signature="e#39#66#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1542575121932" expanded="true" signature="346:1464" ph="..." />
+            <marker date="1542575121932" expanded="true" signature="2274:3043" ph="..." />
+            <marker date="1542575121932" expanded="true" signature="3176:3177" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_generator.py">
+    <entry file="file://$PROJECT_DIR$/model/yolo3/yolo_eval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
+        <state relative-caret-position="290">
+          <caret line="78" column="32" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <marker date="1541525222333" expanded="true" signature="240:885" ph="..." />
+            <element signature="e#101#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data/train_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="929">
-          <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+        <state relative-caret-position="772">
+          <caret line="164" column="66" selection-start-line="164" selection-start-column="66" selection-end-line="164" selection-end-column="66" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/yolo3/yolov3_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <marker date="1541690884974" expanded="true" signature="231:233" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="131" column="48" lean-forward="true" selection-start-line="131" selection-start-column="48" selection-end-line="131" selection-end-column="48" />
+          <folding>
+            <element signature="e#39#66#0" expanded="true" />
+            <marker date="1542575028755" expanded="true" signature="3472:4098" ph="..." />
+            <marker date="1542575028755" expanded="true" signature="4131:4136" ph="..." />
           </folding>
         </state>
       </provider>
