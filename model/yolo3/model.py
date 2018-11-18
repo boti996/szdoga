@@ -45,7 +45,7 @@ def DarknetConv2D_BN_Leaky(*args, **kwargs):
         LeakyReLU(alpha=0.1))
 
 
-def MobilenetConv2D_BN_ReLU6(*args, **kwargs):
+def MobilenetConv2D_BN_ReLU(*args, **kwargs):
     """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
     no_bias_kwargs = {'use_bias': False}
     no_bias_kwargs.update(kwargs)
@@ -64,7 +64,7 @@ def MobilenetConv2D_BN_Linear(*args, **kwargs):
         BatchNormalization())
 
 
-def MobilenetSeparableConv2D_BN_ReLU6(*args, **kwargs):
+def MobilenetSeparableConv2D_BN_ReLU(*args, **kwargs):
     """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
     no_bias_kwargs = {'use_bias': False}
     no_bias_kwargs.update(kwargs)
@@ -75,6 +75,7 @@ def MobilenetSeparableConv2D_BN_ReLU6(*args, **kwargs):
 
 
 cutting_layer_out, cutting_layer_in = None, None
+
 
 def resblock_body(x, num_filters, num_blocks, pruning=-1):
     """A series of resblocks starting with a downsampling Convolution2D"""
@@ -105,17 +106,15 @@ def resblock_body(x, num_filters, num_blocks, pruning=-1):
 # TODO: fos
 def inverted_resblock_body(x, num_filters, num_blocks, pruning=-1):
     x = ZeroPadding2D(((1, 0), (1, 0)))(x)
-    for i in range(0, num_blocks):
-        stride = (1, 1)
-        if i == 0:
-            stride = (2, 2)
-        if i == pruning:
-            if i == 0:
-                x = MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1), stride=stride)(x)
-            continue
+    x = MobilenetSeparableConv2D_BN_ReLU(num_filters // 2, (3, 3), strides=(2, 2))(x)
 
-        y = compose(MobilenetConv2D_BN_ReLU6(num_filters // 2, (1, 1)),
-                    MobilenetSeparableConv2D_BN_ReLU6(num_filters // 2 * 6, (3, 3), stride=stride),
+    for i in range(0, num_blocks):
+
+        # if i == pruning:
+        #     continue
+
+        y = compose(MobilenetConv2D_BN_ReLU(num_filters // 2, (1, 1)),
+                    MobilenetSeparableConv2D_BN_ReLU(num_filters // 2 * 6, (3, 3), strides=(1, 1)),
                     MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1)))(x)
         x = Add()([x, y])
 
@@ -125,32 +124,47 @@ def inverted_resblock_body(x, num_filters, num_blocks, pruning=-1):
 out1, out2 = None, None
 
 
-def darknet_body(x, pruning_mtx):
+def darknet_body(x, pruning_mtx, mod_mask=(False, False, False, False, False)):
     """Darknent body having 52 Convolution2D layers"""
-    x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
-    x = resblock_body(x, 64, 1, pruning_mtx[0])
-    x = resblock_body(x, 128, 2, pruning_mtx[1])
+
+    blocks =[
+        resblock_body(x, 64, 1, pruning_mtx[0]),
+        resblock_body(x, 128, 2, pruning_mtx[1]),
+        resblock_body(x, 256, 8, pruning_mtx[2]),
+        resblock_body(x, 512, 8, pruning_mtx[3]),
+        resblock_body(x, 1024, 4, pruning_mtx[4])
+    ]
+
+    inverted_blocks = [
+        inverted_resblock_body(x, 64, 1, pruning_mtx[0]),
+        inverted_resblock_body(x, 128, 2, pruning_mtx[1]),
+        inverted_resblock_body(x, 256, 8, pruning_mtx[2]),
+        inverted_resblock_body(x, 512, 8, pruning_mtx[3]),
+        inverted_resblock_body(x, 1024, 4, pruning_mtx[4])
+    ]
+
+    for i in range(0, len(mod_mask)):
+        if mod_mask[i]:
+            blocks[i] = inverted_blocks[i]
 
     global cutting_layer_in
+
+    x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
+    x = blocks[0]   # resblock_body(x, 64, 1, pruning_mtx[0])
+    x = blocks[1]   # resblock_body(x, 128, 2, pruning_mtx[1])
     if pruning_mtx[0] == 0:
         cutting_layer_in = x
-
-    x = resblock_body(x, 256, 8, pruning_mtx[2])
+    x = blocks[2]   # resblock_body(x, 256, 8, pruning_mtx[2])
     global out1
     out1 = x
-
     if pruning_mtx[1] == 1:
         cutting_layer_in = x
-
-    x = resblock_body(x, 512, 8, pruning_mtx[3])
+    x = blocks[3]    # resblock_body(x, 512, 8, pruning_mtx[3])
     global out2
     out2 = x
-
     if pruning_mtx[2] == 7:
         cutting_layer_in = x
-
-    x = resblock_body(x, 1024, 4, pruning_mtx[4])
-
+    x = blocks[4]   # resblock_body(x, 1024, 4, pruning_mtx[4])
     if pruning_mtx[3] == 7:
         cutting_layer_in = x
     if pruning_mtx[4] == 3:
@@ -160,7 +174,7 @@ def darknet_body(x, pruning_mtx):
 
 
 def mod_darknet_body(x, pruning_mtx):
-    x = MobilenetConv2D_BN_ReLU6(32, (3, 3))(x)
+    x = MobilenetConv2D_BN_ReLU(32, (3, 3))(x)
     x = inverted_resblock_body(x, 64, 1, pruning_mtx[0])
     x = inverted_resblock_body(x, 128, 2, pruning_mtx[1])
 
@@ -195,10 +209,11 @@ def make_last_layers(x, num_filters, out_filters):
     return x, y
 
 
-def yolo_body(inputs, num_anchors, num_classes, mod=False, pruning_mtx=(-1, -1, -1, -1, -1)):
+def yolo_body(inputs, num_anchors, num_classes, mod=False, pruning_mtx=(-1, -1, -1, -1, -1),
+              mod_mask=(False, False, False, False, False)):
     """Create YOLO_V3 model CNN body in Keras."""
     darknet = Model(inputs, mod_darknet_body(inputs, pruning_mtx)) if mod \
-        else Model(inputs, darknet_body(inputs, pruning_mtx))
+        else Model(inputs, darknet_body(inputs, pruning_mtx, mod_mask))
 
     x, y1 = make_last_layers(darknet.output, 512, num_anchors * (num_classes + 5))
 

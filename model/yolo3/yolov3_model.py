@@ -20,7 +20,7 @@ class YoloV3Model(NetworkModel):
         self.weights = weights
         self.freeze_body = freeze_body
 
-    def get_model(self):
+    def get_model(self, mod_mask=(False, False, False, False, False)):
         print('n_classe: ' + str(self.n_classes))
 
         n_anchors = len(self.anchors)
@@ -29,7 +29,7 @@ class YoloV3Model(NetworkModel):
 
         # TODO otthon fix méret (pl 608 x 608)
         image_input = Input(shape=(None, None, 3))
-        model_body = yolo_body(image_input, n_anchors // 3, self.n_classes)
+        model_body = yolo_body(image_input, n_anchors // 3, self.n_classes, mod_mask=mod_mask)
 
         print('Create YOLOv3 model with {} anchors and {} classes.'.format(n_anchors, self.n_classes))
 
