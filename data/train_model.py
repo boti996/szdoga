@@ -96,7 +96,7 @@ def main():
     # load model
     model = model_loader.get_model()
     print('Model loaded.')
-    # model.summary()
+    model.summary()
 
     # load dataset
     dataset_loaded = dataset_loader.load_dataset(dataset_path, input_shape)

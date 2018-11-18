@@ -1,4 +1,5 @@
 """Miscellaneous utility functions."""
+import cv2
 import glob
 from functools import reduce
 
@@ -44,16 +45,29 @@ def get_random_data(images_path, annotation, input_shape, max_boxes=20, hue=.1, 
     """random pre-processing for real-time data augmentation"""
 
     # TODO: PIL vs cv2
-    image = None
+    image, image_cv = None, None
     # get the random image by name
     for filename in glob.iglob(images_path + '/**/' + annotation.name, recursive=True):
         image = Image.open(filename)
+        image_cv = cv2.imread(filename)
         break
     assert image is not None
 
     # annotation of the image
     boxes = np.array([np.array(list(map(int, [label.box.x1, label.box.y1, label.box.x2, label.box.y2,
                                               yolov3_classes.get(label.category)]))) for label in annotation.labels])
+
+    # TODO: otthon, megj.: talán nem kéne a np.array( [ np.array ] )
+    print('n_boxes: ' + str(len(boxes)))
+    print(boxes)
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    for box in boxes:
+        cv2.rectangle(image_cv, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 3)
+        cv2.putText(image_cv, str(box[4]), (int(box[0]), int(box[1])), font, 12, (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.imshow('gt', image_cv)
+    cv2.waitKey(0)
 
     # original size
     iw, ih = image.size

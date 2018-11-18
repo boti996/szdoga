@@ -21,10 +21,13 @@ class YoloV3Model(NetworkModel):
         self.freeze_body = freeze_body
 
     def get_model(self):
-        keras.clear_session()  # new model session
+        print('n_classe: ' + str(self.n_classes))
 
         n_anchors = len(self.anchors)
 
+        keras.clear_session()  # new model session
+
+        # TODO otthon fix méret (pl 608 x 608)
         image_input = Input(shape=(None, None, 3))
         model_body = yolo_body(image_input, n_anchors // 3, self.n_classes)
 
@@ -41,6 +44,12 @@ class YoloV3Model(NetworkModel):
 
                 for i in range(num):
                     model_body.layers[i].trainable = False
+
+                print('Unfreezed layers: ')
+                for layer in model_body.layers:
+                    if layer.trainable:
+                        print(layer.name)
+                        print(layer.get_weights())
 
                 print('Freeze the first {} layers of total {} layers.'.format(num, len(model_body.layers)))
 
