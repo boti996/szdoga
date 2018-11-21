@@ -21,8 +21,9 @@ from keras.utils import multi_gpu_model
 
 class YOLO(object):
     _defaults = {
-        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
-        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
+        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_1.h5',
+        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
+        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
         "anchors_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt',
         "classes_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolov3_classes.txt',
         "score": 0.3,
@@ -38,9 +39,10 @@ class YOLO(object):
         else:
             return "Unrecognized attribute name '" + n + "'"
 
-    def __init__(self, pruning_mtx=(-1, -1, -1, -1, -1), **kwargs):
+    def __init__(self, mod_mask=(False, False, False, False, False), pruning_mtx=(-1, -1, -1, -1, -1), **kwargs):
         # TODO: delete this line
         self.pruning_mtx = pruning_mtx
+        self.mod_mask = mod_mask
 
         self.model_image_size = (608, 608)
         self.__dict__.update(self._defaults)  # set up default values
@@ -74,7 +76,7 @@ class YOLO(object):
 
         image_input = Input(shape=(None, None, 3))
         self.yolo_model = yolo_body(image_input, num_anchors // 3, num_classes, mod=False,
-                                    pruning_mtx=self.pruning_mtx)  # load_model(model_path, compile=False)
+                                    pruning_mtx=self.pruning_mtx, mod_mask=self.mod_mask)  # load_model(model_path, compile=False)
 
         self.yolo_model.summary()
 

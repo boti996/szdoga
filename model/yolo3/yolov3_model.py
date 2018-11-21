@@ -27,7 +27,6 @@ class YoloV3Model(NetworkModel):
 
         keras.clear_session()  # new model session
 
-        # TODO otthon fix méret (pl 608 x 608)
         image_input = Input(shape=(None, None, 3))
         model_body = yolo_body(image_input, n_anchors // 3, self.n_classes, mod_mask=mod_mask)
 

@@ -74,7 +74,7 @@ def main():
             validation_data=data.train_model.data_generator_wrapper(validation, batch_size, input_shape, anchors,
                                                         n_classes, dataset_path),
             validation_steps=max(1, min(50, num_val // batch_size)),
-            epochs=10,
+            epochs=3,
             initial_epoch=0,
             callbacks=[logging, checkpoint])
 

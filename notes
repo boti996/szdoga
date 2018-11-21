@@ -1,12 +1,26 @@
 Lépések:
 - Resblock eltávolítós kiértékelések
-- MobNetes mod megcsinálása tisztességesen
-- tudás desztilláció felülről kezdve
+    - MobNetes mod megcsinálása tisztességesen
+    - tudás desztilláció felülről kezdve
+- tudásdesztilláció a többi réteg lefagyasztásával!!!
 - tudás desztilláció alulról kezdve
 - OpenCV-re cserélni a PIL-t
 - Fine-tuning vizsgálata (freeze_body-val és nélküle)
 - Darknet variáns 1: sep conv2d tanítás
 - Darknet variáns 2: mobnet blokkos tanítás
+
+
+Utolsó 2 resblockos blokkot lecserélve:
+Total params: 44,684,227
+Trainable params: 44,592,195
+Non-trainable params: 92,032
+avg_duration: 0.17230662486383824
+
+Defaulttal:
+Total params: 61,603,267
+Trainable params: 61,550,659
+Non-trainable params: 52,608
+avg_duration: 0.18159049874721475
 
 
 

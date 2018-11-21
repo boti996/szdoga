@@ -99,11 +99,11 @@ def load_dataset(dataset_path, n_images, input_shape=(608, 608), model_type=Mode
 
 
 def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.value,
-             pruning_mtx=(-1, -1, -1, -1, -1)):
+             pruning_mtx=(-1, -1, -1, -1, -1), mod_mask=(False, False, False, False, False)):
     """Select n_images number of images from validation dataset and return evaluation statistics"""
     model = None
     if ModelType(model_type) == ModelType.YOLO_V3:
-        model = YOLO(pruning_mtx=pruning_mtx)
+        model = YOLO(pruning_mtx=pruning_mtx, mod_mask=mod_mask)
     assert model is not None
 
     st = timer()
@@ -163,7 +163,16 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
 if __name__ == "__main__":
 
     # LOAD DATASET
-    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 10)
+    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 1001)
+
+    '''
+    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',
+                                                                 '/media/boti/Adatok/Datasets-pc/evaluation',
+                                                                 mod_mask=tuple([False, False, False, True, True]))
+    print('mean_avg_precision: ' + str(mean_avg_precision))
+    print('mean_avg_recall: ' + str(mean_avg_recall))
+    print('avg_duration: ' + str(avg_duration))
+
 
     '''
     mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',
@@ -172,9 +181,9 @@ if __name__ == "__main__":
     print('mean_avg_recall: ' + str(mean_avg_recall))
     print('avg_duration: ' + str(avg_duration))
 
-
-
     '''
+
+
     iters = (1, 2, 8, 8, 4)
     pruning_def = [-1, -1, -1, -1, -1]
 
@@ -199,3 +208,4 @@ if __name__ == "__main__":
 
         print()
 
+    '''

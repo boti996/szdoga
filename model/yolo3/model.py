@@ -128,19 +128,19 @@ def darknet_body(x, pruning_mtx, mod_mask=(False, False, False, False, False)):
     """Darknent body having 52 Convolution2D layers"""
 
     blocks =[
-        resblock_body(x, 64, 1, pruning_mtx[0]),
-        resblock_body(x, 128, 2, pruning_mtx[1]),
-        resblock_body(x, 256, 8, pruning_mtx[2]),
-        resblock_body(x, 512, 8, pruning_mtx[3]),
-        resblock_body(x, 1024, 4, pruning_mtx[4])
+        resblock_body,
+        resblock_body,
+        resblock_body,
+        resblock_body,
+        resblock_body
     ]
 
     inverted_blocks = [
-        inverted_resblock_body(x, 64, 1, pruning_mtx[0]),
-        inverted_resblock_body(x, 128, 2, pruning_mtx[1]),
-        inverted_resblock_body(x, 256, 8, pruning_mtx[2]),
-        inverted_resblock_body(x, 512, 8, pruning_mtx[3]),
-        inverted_resblock_body(x, 1024, 4, pruning_mtx[4])
+        inverted_resblock_body,
+        inverted_resblock_body,
+        inverted_resblock_body,
+        inverted_resblock_body,
+        inverted_resblock_body
     ]
 
     for i in range(0, len(mod_mask)):
@@ -150,21 +150,21 @@ def darknet_body(x, pruning_mtx, mod_mask=(False, False, False, False, False)):
     global cutting_layer_in
 
     x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
-    x = blocks[0]   # resblock_body(x, 64, 1, pruning_mtx[0])
-    x = blocks[1]   # resblock_body(x, 128, 2, pruning_mtx[1])
+    x = blocks[0](x, 64, 1, pruning_mtx[0])   # resblock_body(x, 64, 1, pruning_mtx[0])
+    x = blocks[1](x, 128, 2, pruning_mtx[1])   # resblock_body(x, 128, 2, pruning_mtx[1])
     if pruning_mtx[0] == 0:
         cutting_layer_in = x
-    x = blocks[2]   # resblock_body(x, 256, 8, pruning_mtx[2])
+    x = blocks[2](x, 256, 8, pruning_mtx[2])   # resblock_body(x, 256, 8, pruning_mtx[2])
     global out1
     out1 = x
     if pruning_mtx[1] == 1:
         cutting_layer_in = x
-    x = blocks[3]    # resblock_body(x, 512, 8, pruning_mtx[3])
+    x = blocks[3](x, 512, 8, pruning_mtx[3])    # resblock_body(x, 512, 8, pruning_mtx[3])
     global out2
     out2 = x
     if pruning_mtx[2] == 7:
         cutting_layer_in = x
-    x = blocks[4]   # resblock_body(x, 1024, 4, pruning_mtx[4])
+    x = blocks[4](x, 1024, 4, pruning_mtx[4])   # resblock_body(x, 1024, 4, pruning_mtx[4])
     if pruning_mtx[3] == 7:
         cutting_layer_in = x
     if pruning_mtx[4] == 3:
