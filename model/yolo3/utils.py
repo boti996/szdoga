@@ -4,7 +4,6 @@ import glob
 from functools import reduce
 
 import numpy as np
-from PIL import Image
 from matplotlib.colors import rgb_to_hsv, hsv_to_rgb
 
 
@@ -22,15 +21,11 @@ def compose(*funcs):
 
 def letterbox_image(image, size):
     """Resize image"""
-
     # target size
-    h, w = size
-
+    w, h = size
     # resize image
-    image = image.resize((w, h), Image.BICUBIC)
-    new_image = Image.new('RGB', (w, h), (128, 128, 128))
-    new_image.paste(image)
-    return new_image
+    image = cv2.resize(image, (w, h), interpolation=cv2.INTER_CUBIC)
+    return image
 
 
 def rand(a=0., b=1.):
@@ -43,13 +38,10 @@ yolov3_classes = {'person': 0, 'person_group': 1, 'two_wheeler': 2, 'on_rails': 
 
 def get_random_data(images_path, annotation, input_shape, max_boxes=20, hue=.1, sat=1.5, val=1.5):
     """random pre-processing for real-time data augmentation"""
-
-    # TODO: PIL vs cv2
     image = None    # , image_cv = None, None
     # get the random image by name
     for filename in glob.iglob(images_path + '/**/' + annotation.name, recursive=True):
-        image = Image.open(filename)
-        # # image_cv = cv2.imread(filename)
+        image = cv2.imread(filename)
         break
     assert image is not None
 
@@ -69,23 +61,20 @@ def get_random_data(images_path, annotation, input_shape, max_boxes=20, hue=.1, 
     # cv2.waitKey(0)
 
     # original size
-    iw, ih = image.size
+    ih, iw, _ = image.shape
     # target size
-    h, w = input_shape
+    w, h = input_shape
     # scale for target size
     scale_x = w / iw
     scale_y = h / ih
 
     # resize image
-    image = image.resize((w, h), Image.BICUBIC)
-    new_image = Image.new('RGB', (w, h), (128, 128, 128))
-    new_image.paste(image)
-    image = new_image
+    image = cv2.resize(image, (w, h), interpolation=cv2.INTER_CUBIC)
 
     # flip image or not
     flip = rand() < .5
     if flip:
-        image = image.transpose(Image.FLIP_LEFT_RIGHT)
+        image = cv2.flip(image, 0)   # horizontal flip
 
     # distort image
     hue = rand(-hue, hue)

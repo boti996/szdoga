@@ -3,7 +3,7 @@ import os
 from timeit import default_timer as timer
 
 import numpy as np
-from PIL import Image
+from cv2 import cv2
 from numpy import random
 
 from data.train_model import ModelType
@@ -117,7 +117,7 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
         image = None
         # get the random image by name
         for filename in glob.iglob(dataset_path + '/**/' + data.name, recursive=True):
-            image = Image.open(filename)
+            image = cv2.imread(filename)
             break
         assert image is not None
 
@@ -144,9 +144,9 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
         avg_duration += duration
 
         # save every 100. images
-        if idx % 100 == 0:
-            # pred_image.show()
-            pred_image.save(os.path.join(out_path, data.name))
+        if idx % 10 == 0:
+            # cv2.imshow('evaluation', pred_image)
+            cv2.imwrite(os.path.join(out_path, data.name), pred_image)
 
         idx += 1
 

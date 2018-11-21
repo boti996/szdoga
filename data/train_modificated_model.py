@@ -11,7 +11,8 @@ from model.yolo3.yolov3_model import YoloV3Model
 def main():
     """Load model, then train it with training data"""
     # read command line arguments
-    model_type, input_shape, anchors, class_names, init_weights_path, freeze_body, dataset_path = data.train_model._read_args()
+    model_type, input_shape, anchors, class_names, init_weights_path, freeze_body, dataset_path = \
+        data.train_model._read_args()
     n_classes = len(class_names)
 
     # choose loaders according to the current network type

@@ -21,7 +21,7 @@ def _read_args():
     """Read command-line arguments"""
     parser = argparse.ArgumentParser(description='Parameters for creating and training a model.')
     parser.add_argument('-t', '--type', nargs=1, help='Type of trained model.', required=True)
-    parser.add_argument('-s', '--shape', nargs=2, help='Input shape (height width).', required=True)
+    parser.add_argument('-s', '--shape', nargs=2, help='Input shape (width height).', required=True)
     parser.add_argument('-a', '--anchors_path', nargs=1, help='File path of anchors.', required=True)
     parser.add_argument('-c', '--classes_path', nargs=1, help='File path of classes.', required=True)
     parser.add_argument('-w', '--weights_path', nargs=1,

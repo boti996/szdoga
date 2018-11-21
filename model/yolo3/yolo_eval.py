@@ -8,10 +8,10 @@ from timeit import default_timer as timer
 
 import numpy as np
 import tensorflow
+from cv2 import cv2
 from keras import backend as K
 from keras.models import load_model
 from keras.layers import Input
-from PIL import Image, ImageFont, ImageDraw
 
 from model.yolo3.model import yolo_eval, yolo_body
 from model.yolo3.utils import letterbox_image
@@ -113,10 +113,11 @@ class YOLO(object):
         if self.model_image_size != (None, None):
             assert self.model_image_size[0] % 32 == 0, 'Multiples of 32 required'
             assert self.model_image_size[1] % 32 == 0, 'Multiples of 32 required'
-            boxed_image = letterbox_image(image, tuple(reversed(self.model_image_size)))
+            boxed_image = letterbox_image(image, tuple(self.model_image_size))
         else:
-            new_image_size = (image.width - (image.width % 32),
-                              image.height - (image.height % 32))
+            h, w, _ = image.shape
+            new_image_size = (w - (w % 32),
+                              h - (h % 32))
             boxed_image = letterbox_image(image, new_image_size)
         image_data = np.array(boxed_image, dtype='float32')
         # print(image_data.shape)
@@ -129,7 +130,7 @@ class YOLO(object):
             [self.boxes, self.scores, self.classes],
             feed_dict={
                 self.yolo_model.input: image_data,
-                self.input_image_shape: [boxed_image.size[1], boxed_image.size[0]],
+                self.input_image_shape: [boxed_image.shape[1], boxed_image.shape[0]],
                 K.learning_phase(): 0
             })
 
@@ -140,18 +141,16 @@ class YOLO(object):
         # print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
 
         # TODO: relative path
-        font = ImageFont.truetype(font='/home/boti/Workspace/PyCharmWorkspace/szdoga/font/FiraMono-Medium.otf',
-                                  size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
-        thickness = (image.size[0] + image.size[1]) // 300
+        h, w, _ = image.shape
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        font_scale = 0.5
+        font_thickness = 0
+
+        thickness = 4
 
         for box in gt_boxes:
-            draw = ImageDraw.Draw(image)
-
-            for i in range(thickness):
-                draw.rectangle(
-                    [box.x1 + i, box.y1 + i, box.x2 - i, box.y2 - i],
-                    outline=(255, 255, 255))
-            del draw
+            # draw ground truth boxes
+            cv2.rectangle(image, (int(box.x1), int(box.y1)), (int(box.x2), int(box.y2)), (255, 255, 255), thickness)
 
         for i, c in reversed(list(enumerate(out_classes))):
             predicted_class = self.class_names[c]
@@ -159,27 +158,28 @@ class YOLO(object):
             score = out_scores[i]
 
             label = '{} {:.2f}'.format(predicted_class, score)
-            draw = ImageDraw.Draw(image)
-            label_size = draw.textsize(label, font)
+            label_size = np.asarray(cv2.getTextSize(label, font, font_scale, font_thickness)[0])
 
             top, left, bottom, right = box
 
+            h, w, _ = image.shape
+
             # rescale
-            scale_x = image.width / self.model_image_size[0]
-            scale_y = image.height / self.model_image_size[1]
+            scale_x = w / self.model_image_size[0]
+            scale_y = h / self.model_image_size[1]
             left, right = left * scale_x, right * scale_x
             top, bottom = top * scale_y, bottom * scale_y
 
             # should stay in image
-            left = image.width if left > image.width else left
-            right = image.width if right > image.width else right
-            top = image.height if top > image.height else top
-            bottom = image.height if bottom > image.height else bottom
+            left = w if left > w else left
+            right = w if right > w else right
+            top = h if top > h else top
+            bottom = h if bottom > h else bottom
 
             top = max(0, np.floor(top + 0.5).astype('int32'))
             left = max(0, np.floor(left + 0.5).astype('int32'))
-            bottom = min(image.size[1], np.floor(bottom + 0.5).astype('int32'))
-            right = min(image.size[0], np.floor(right + 0.5).astype('int32'))
+            bottom = min(h, np.floor(bottom + 0.5).astype('int32'))
+            right = min(w, np.floor(right + 0.5).astype('int32'))
             # print(label, (left, top), (right, bottom))
 
             # save changes
@@ -190,16 +190,10 @@ class YOLO(object):
             else:
                 text_origin = np.array([left, top + 1])
 
-            # My kingdom for a good redistributable image drawing library.
-            for i in range(thickness):
-                draw.rectangle(
-                    [left + i, top + i, right - i, bottom - i],
-                    outline=self.colors[c])
-            draw.rectangle(
-                [tuple(text_origin), tuple(text_origin + label_size)],
-                fill=self.colors[c])
-            draw.text(text_origin, label, fill=(0, 0, 0), font=font)
-            del draw
+            # draw detection boxes & class name texts
+            cv2.rectangle(image, (left, top), (right, bottom), self.colors[c], thickness)
+            cv2.rectangle(image, tuple(text_origin - [0, int(label_size[1] * 1.5)]), tuple(text_origin + label_size), self.colors[c], thickness=cv2.FILLED)
+            cv2.putText(image, label, tuple(text_origin), font, font_scale, (0, 0, 0), font_thickness, cv2.LINE_AA)
 
         return duration, image, out_boxes, out_scores, out_classes
 
@@ -208,7 +202,6 @@ class YOLO(object):
 
 
 def detect_video(yolo, video_path, output_path=""):
-    import cv2
     vid = cv2.VideoCapture(video_path)
     if not vid.isOpened():
         raise IOError("Couldn't open webcam or video")
@@ -226,7 +219,7 @@ def detect_video(yolo, video_path, output_path=""):
     prev_time = timer()
     while True:
         return_value, frame = vid.read()
-        image = Image.fromarray(frame)
+        image = frame
         image = yolo.detect_image(image)
         result = np.asarray(image)
         curr_time = timer()

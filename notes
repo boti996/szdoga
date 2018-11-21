@@ -4,11 +4,11 @@ Lépések:
     - tudás desztilláció felülről kezdve
 - tudásdesztilláció a többi réteg lefagyasztásával!!!
 - tudás desztilláció alulról kezdve
-- OpenCV-re cserélni a PIL-t
+    - OpenCV-re cserélni a PIL-t
 - Fine-tuning vizsgálata (freeze_body-val és nélküle)
 - Darknet variáns 1: sep conv2d tanítás
 - Darknet variáns 2: mobnet blokkos tanítás
-
+- Eredeti képarány megtartása
 
 Utolsó 2 resblockos blokkot lecserélve:
 Total params: 44,684,227
