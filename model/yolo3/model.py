@@ -555,7 +555,7 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
 
 
     # there are 3 layers in default, first one has the lowest resolution
-    for l in range(num_layers):
+    for l in range(0, num_layers):
         object_mask = y_true[l][..., 4:5]
         true_class_probs = y_true[l][..., 5:]
 
@@ -597,9 +597,11 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
         # It will be a float between 0 and 2
         output_weight = K.abs(K.map_fn(lambda x: x - l, output_weight))
 
+        output_weight = K.expand_dims(output_weight, -1)
+
         obj_scale = 5
         xywh_scale = 0.5
-        output_weight_scale = 1
+        output_weight_scale = 0.001
 
         xy_loss = xywh_scale * object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
 
