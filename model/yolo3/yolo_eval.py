@@ -21,11 +21,11 @@ from keras.utils import multi_gpu_model
 
 class YOLO(object):
     _defaults = {
-        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_1.h5',
+        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_1.h5',
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_0_0.h5',
-        #"model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
-        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
+        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
+        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
         "anchors_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt',
         "classes_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolov3_classes.txt',
         "score": 0.3,

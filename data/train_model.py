@@ -104,7 +104,7 @@ def main():
     validation = dataset_loaded['val']
     print('Dataset loaded.')
 
-    # loggingcx c                with tensorboard
+    # logging with tensorboard
     log_dir = '../logs'
     logging = TensorBoard(log_dir=log_dir)
 
