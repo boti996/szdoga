@@ -104,7 +104,7 @@ def main():
     validation = dataset_loaded['val']
     print('Dataset loaded.')
 
-    # logging with tensorboard
+    # loggingcx c                with tensorboard
     log_dir = '../logs'
     logging = TensorBoard(log_dir=log_dir)
 
@@ -157,6 +157,7 @@ def main():
         model.save_weights(weights_dir + 'trained_weights_stage_1.h5')
         model.save_weights(weights_dir + 'trained_weights_stage_1' + str(time.time()) + '.h5')
 
+    print('fine-tuning')
 
     # mini-batch size
     batch_size = 8  # note that more GPU memory is required after unfreezing the body
@@ -164,10 +165,10 @@ def main():
     # Unfreeze and continue training, to fine-tune.
     model.load_weights(weights_dir + 'trained_weights_stage_1.h5')
 
-    freeze2 = True
-    if not freeze2:
-        for i in range(len(model.layers)):
-            model.layers[i].trainable = True
+    # freeze2 = True
+    # if not freeze2:
+    #    for i in range(len(model.layers)):
+    #        model.layers[i].trainable = True
 
     model.compile(optimizer=Adam(lr=0.0001), loss={'yolo_loss': lambda y_true, y_pred: y_pred})
 

@@ -106,6 +106,8 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
         model = YOLO(pruning_mtx=pruning_mtx, mod_mask=mod_mask)
     assert model is not None
 
+    # TODO: init model.yolo_model.layers[0].
+
     st = timer()
 
     idx = 0
@@ -128,7 +130,6 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
             gt_classes.append(yolov3_classes[label.category])
 
         duration, pred_image, pred_boxes, pred_scores, pred_classes = model.detect_image(image, gt_boxes)
-
 
         for i in range(0, len(pred_boxes)):
             pred_boxes[i] = transform_box_format_pred(pred_boxes[i])
@@ -163,7 +164,7 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
 if __name__ == "__main__":
 
     # LOAD DATASET
-    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 1001)
+    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 101)
 
     '''
     mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',

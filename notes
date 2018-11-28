@@ -1,14 +1,29 @@
+TODO:
+1. Súlyozás a képletbe -> előlrről tanítani --> 1-es freeze-zel továbbtanítani --> kiértékelés
+2. Kinullázásos módszer pruningra
+3. model compile módszer pruningra
+4. indexeléses módszer pruningra
+5. Új hiba, súlyozni a 3 kimenet felhasználásával
+6. Blokkonkénti tanítás + lefagyasztás
+7. alulról tanítás
+8. MobileNetv2 betanítás szegmentálásra
+
 Lépések:
-- Resblock eltávolítós kiértékelések
-    - MobNetes mod megcsinálása tisztességesen
-    - tudás desztilláció felülről kezdve
-- tudásdesztilláció a többi réteg lefagyasztásával!!!
+    - Resblock eltávolítós kiértékelések
+        - MobNetes mod megcsinálása tisztességesen
+        - tudás desztilláció felülről kezdve
+    - tudásdesztilláció a többi réteg lefagyasztásával!!!
+    - tudásdesztilláció felülről blokkonként, nem blokk-blokkonként
 - tudás desztilláció alulról kezdve
-    - OpenCV-re cserélni a PIL-t
-- Fine-tuning vizsgálata (freeze_body-val és nélküle)
-- Darknet variáns 1: sep conv2d tanítás
+        - OpenCV-re cserélni a PIL-t
+    - loss szorzók törlése, ha nem jól tanul
+    - Fine-tuning vizsgálata (freeze_body-val és nélküle)
+- Darknet variáns 1: sep conv2d tanítás!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 - Darknet variáns 2: mobnet blokkos tanítás
 - Eredeti képarány megtartása
+- kódot rendbe rakni a végén  + kommentek
+
+
 
 Utolsó 2 resblockos blokkot lecserélve:
 Total params: 44,684,227

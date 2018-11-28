@@ -84,7 +84,7 @@ def resblock_body(x, num_filters, num_blocks, pruning=-1):
     x = DarknetConv2D_BN_Leaky(num_filters, (3, 3), strides=(2, 2))(x)
 
     to_delete = None
-    for i in range(num_blocks):
+    for i in range(0, num_blocks):
 
         if i == pruning:
             print(pruning)
@@ -121,12 +121,69 @@ def inverted_resblock_body(x, num_filters, num_blocks, pruning=-1):
     return x
 
 
+def mixed_resblock_body(x, num_filters, num_blocks, pruning=-1, n_inverted=0):
+    # multiplier (blocks of blocks)
+    n_multipl = 1
+
+    if n_multipl * n_inverted >= num_blocks:
+        x = ZeroPadding2D(((1, 0), (1, 0)))(x)
+        x = MobilenetSeparableConv2D_BN_ReLU(num_filters // 2, (3, 3), strides=(2, 2))(x)
+    else:
+        x = ZeroPadding2D(((1, 0), (1, 0)))(x)
+        x = DarknetConv2D_BN_Leaky(num_filters, (3, 3), strides=(2, 2))(x)
+
+    for i in range(0, num_blocks - n_multipl * n_inverted):
+        y = compose(
+            DarknetConv2D_BN_Leaky(num_filters // 2, (1, 1)),
+            DarknetConv2D_BN_Leaky(num_filters, (3, 3)))(x)
+        x = Add()([x, y])
+
+    # TODO: what to do with this layer?
+    if n_inverted > 0:
+        x = Conv2D(num_filters // 2, (1, 1))(x)
+
+    # todo freeze all except last iteration: only when (n_multipl * n_inverted == num_blocks)
+    for i in range(0, n_multipl * n_inverted):
+        y = compose(
+            MobilenetConv2D_BN_ReLU(num_filters // 2, (1, 1)),
+            MobilenetSeparableConv2D_BN_ReLU(num_filters // 2 * 6, (3, 3), strides=(1, 1)),
+            MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1)))(x)
+        x = Add()([x, y])
+
+    return x
+
 out1, out2 = None, None
 
 
-def darknet_body(x, pruning_mtx, mod_mask=(False, False, False, False, False)):
+def darknet_body(x, pruning_mtx, mod_mask=(0, 0, 0, 0, 0)):
     """Darknent body having 52 Convolution2D layers"""
 
+    global cutting_layer_in
+
+    x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
+    x = mixed_resblock_body(x, 64, 1, pruning_mtx[0], mod_mask[0])
+    x = mixed_resblock_body(x, 128, 2, pruning_mtx[1], mod_mask[1])
+    if pruning_mtx[0] == 0:
+        cutting_layer_in = x
+    x = mixed_resblock_body(x, 256, 8, pruning_mtx[2], mod_mask[2])
+    global out1
+    out1 = x
+    if pruning_mtx[1] == 1:
+        cutting_layer_in = x
+    x = mixed_resblock_body(x, 512, 8, pruning_mtx[3], mod_mask[3])
+    global out2
+    out2 = x
+    if pruning_mtx[2] == 7:
+        cutting_layer_in = x
+    x = mixed_resblock_body(x, 1024, 4, pruning_mtx[4], mod_mask[4])
+    if pruning_mtx[3] == 7:
+        cutting_layer_in = x
+    if pruning_mtx[4] == 3:
+        cutting_layer_in = cutting_layer_out
+
+    return x
+
+    '''
     blocks =[
         resblock_body,
         resblock_body,
@@ -144,33 +201,34 @@ def darknet_body(x, pruning_mtx, mod_mask=(False, False, False, False, False)):
     ]
 
     for i in range(0, len(mod_mask)):
-        if mod_mask[i]:
+        if mod_mask[i] > 0:
             blocks[i] = inverted_blocks[i]
 
     global cutting_layer_in
 
     x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
-    x = blocks[0](x, 64, 1, pruning_mtx[0])   # resblock_body(x, 64, 1, pruning_mtx[0])
-    x = blocks[1](x, 128, 2, pruning_mtx[1])   # resblock_body(x, 128, 2, pruning_mtx[1])
+    x = blocks[0](x, 64, 1, pruning_mtx[0], mod_mask[0])   # resblock_body(x, 64, 1, pruning_mtx[0])
+    x = blocks[1](x, 128, 2, pruning_mtx[1], mod_mask[1])   # resblock_body(x, 128, 2, pruning_mtx[1])
     if pruning_mtx[0] == 0:
         cutting_layer_in = x
-    x = blocks[2](x, 256, 8, pruning_mtx[2])   # resblock_body(x, 256, 8, pruning_mtx[2])
+    x = blocks[2](x, 256, 8, pruning_mtx[2], mod_mask[2])   # resblock_body(x, 256, 8, pruning_mtx[2])
     global out1
     out1 = x
     if pruning_mtx[1] == 1:
         cutting_layer_in = x
-    x = blocks[3](x, 512, 8, pruning_mtx[3])    # resblock_body(x, 512, 8, pruning_mtx[3])
+    x = blocks[3](x, 512, 8, pruning_mtx[3], mod_mask[3])    # resblock_body(x, 512, 8, pruning_mtx[3])
     global out2
     out2 = x
     if pruning_mtx[2] == 7:
         cutting_layer_in = x
-    x = blocks[4](x, 1024, 4, pruning_mtx[4])   # resblock_body(x, 1024, 4, pruning_mtx[4])
+    x = blocks[4](x, 1024, 4, pruning_mtx[4], mod_mask[4])   # resblock_body(x, 1024, 4, pruning_mtx[4])
     if pruning_mtx[3] == 7:
         cutting_layer_in = x
     if pruning_mtx[4] == 3:
         cutting_layer_in = cutting_layer_out
 
     return x
+    '''
 
 
 def mod_darknet_body(x, pruning_mtx):
@@ -489,12 +547,21 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
     m = K.shape(yolo_outputs[0])[0]  # batch size, tensor
     mf = K.cast(m, K.dtype(yolo_outputs[0]))
 
+    # Area of smallest and largest anchor boxes
+    area_0 = anchors[0][0] * anchors[0][1]
+    area_2 = anchors[6][0] * anchors[6][1]
+    output_weight_multipl = 2.0 / (np.log2(area_2) - np.log2(area_0))
+    area_0_log2 = np.log2(area_0)
+
+
+    # there are 3 layers in default, first one has the lowest resolution
     for l in range(num_layers):
         object_mask = y_true[l][..., 4:5]
         true_class_probs = y_true[l][..., 5:]
 
         grid, raw_pred, pred_xy, pred_wh = yolo_head(yolo_outputs[l],
                                                      anchors[anchor_mask[l]], num_classes, input_shape, calc_loss=True)
+
         pred_box = K.concatenate([pred_xy, pred_wh])
 
         # Darknet raw box to calculate loss.
@@ -518,26 +585,45 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
         ignore_mask = ignore_mask.stack()
         ignore_mask = K.expand_dims(ignore_mask, -1)
 
+        # Find the best output layer according to the size of an object
+        area_pred = raw_pred[..., 2] * raw_pred[..., 3]
+
+        area_pred = K.map_fn(lambda x: K.maximum(x, area_0), area_pred)
+        area_pred = K.map_fn(lambda x: K.minimum(x, area_2), area_pred)
+
+        output_weight = K.map_fn(lambda x: x - area_0_log2,
+                                 K.log(area_pred)) * output_weight_multipl
+
+        # It will be a float between 0 and 2
+        output_weight = K.abs(K.map_fn(lambda x: x - l, output_weight))
 
         obj_scale = 5
         xywh_scale = 0.5
-        # K.binary_crossentropy is helpful to avoid exp overflow.
-        # xy_loss = object_mask * box_loss_scale * K.binary_crossentropy(raw_true_xy, raw_pred[..., 0:2],
-        #                                                               from_logits=True)
+        output_weight_scale = 1
+
         xy_loss = xywh_scale * object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
+
         wh_loss = xywh_scale * object_mask * box_loss_scale * 0.5 * K.square(raw_true_wh - raw_pred[..., 2:4])
 
-        confidence_loss = obj_scale * object_mask * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True) + (
-                (1 - object_mask) * K.binary_crossentropy(object_mask, raw_pred[..., 4:5], from_logits=True)
-                * ignore_mask)
+        confidence_loss = obj_scale * object_mask * K.binary_crossentropy(
+            object_mask, raw_pred[..., 4:5], from_logits=True)
+
+        confidence_loss += (1 - object_mask) * K.binary_crossentropy(
+            object_mask, raw_pred[..., 4:5], from_logits=True) * ignore_mask
+
         class_loss = object_mask * K.binary_crossentropy(true_class_probs, raw_pred[..., 5:], from_logits=True)
+
+        output_loss = output_weight_scale * output_weight * ignore_mask
 
         xy_loss = K.sum(xy_loss) / mf
         wh_loss = K.sum(wh_loss) / mf
         confidence_loss = K.sum(confidence_loss) / mf
         class_loss = K.sum(class_loss) / mf
-        loss += xy_loss + wh_loss + confidence_loss + class_loss
+        output_loss = K.sum(output_loss) / mf
+
+        loss += xy_loss + wh_loss + confidence_loss + class_loss + output_loss
         if print_loss:
-            loss = tf.Print(loss, [loss, xy_loss, wh_loss, confidence_loss, class_loss, K.sum(ignore_mask)],
-                            message='loss: ')
+            loss = tf.Print(loss, [loss, xy_loss, wh_loss, confidence_loss, class_loss, output_loss,
+                                   K.sum(ignore_mask)], message='loss: ')
+
     return loss
