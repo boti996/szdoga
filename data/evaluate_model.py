@@ -1,5 +1,6 @@
 import glob
 import os
+from enum import Enum
 from timeit import default_timer as timer
 
 import numpy as np
@@ -10,7 +11,8 @@ from data.train_model import ModelType
 from data.yolov3_load_dataset import YoloV3DataLoader
 from model.yolo3.utils import yolov3_classes
 from model.yolo3.yolo_eval import YOLO
-
+import keras.backend as K
+import sys
 
 def transform_box_format_pred(box):
     """y1,x1,y2,x2 to x1, y1, w, h"""
@@ -99,14 +101,12 @@ def load_dataset(dataset_path, n_images, input_shape=(608, 608), model_type=Mode
 
 
 def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.value,
-             pruning_mtx=(-1, -1, -1, -1, -1), mod_mask=(False, False, False, False, False)):
+             pruning=None, mod_mask=(0, 0, 0, 0, 0), model_path=None):
     """Select n_images number of images from validation dataset and return evaluation statistics"""
     model = None
     if ModelType(model_type) == ModelType.YOLO_V3:
-        model = YOLO(pruning_mtx=pruning_mtx, mod_mask=mod_mask)
+        model = YOLO(mod_mask=mod_mask, pruning=pruning, model_path=model_path)
     assert model is not None
-
-    # TODO: init model.yolo_model.layers[0].
 
     st = timer()
 
@@ -161,52 +161,65 @@ def evaluate(val_dataset, dataset_path, out_path, model_type=ModelType.YOLO_V3.v
     return mean_avg_precision, mean_avg_recall, avg_duration
 
 
+def normal(dataset, model_path=None):
+    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(dataset, '/media/boti/Adatok/Datasets-pc/',
+                                                                 '/media/boti/Adatok/Datasets-pc/evaluation',
+                                                                 model_path=model_path)
+    print('mean_avg_precision: ' + str(mean_avg_precision))
+    print('mean_avg_recall: ' + str(mean_avg_recall))
+    print('avg_duration: ' + str(avg_duration))
+
+    K.clear_session()
+
+
+def with_modification(dataset, model_mask, model_path=None):
+    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(dataset, '/media/boti/Adatok/Datasets-pc/',
+                                                                 '/media/boti/Adatok/Datasets-pc/evaluation',
+                                                                 mod_mask=model_mask, model_path=model_path)
+    print('mean_avg_precision: ' + str(mean_avg_precision))
+    print('mean_avg_recall: ' + str(mean_avg_recall))
+    print('avg_duration: ' + str(avg_duration))
+
+    K.clear_session()
+
+
+def with_pruning(dataset, model_mask, pruning, model_path=None):
+    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(dataset, '/media/boti/Adatok/Datasets-pc/',
+                                                                 '/media/boti/Adatok/Datasets-pc/evaluation',
+                                                                 mod_mask=model_mask, pruning=pruning,
+                                                                 model_path=model_path)
+    print('mean_avg_precision: ' + str(mean_avg_precision))
+    print('mean_avg_recall: ' + str(mean_avg_recall))
+    print('avg_duration: ' + str(avg_duration))
+
+    K.clear_session()
+
+
+def pruning_one_layer(dataset, model_mask, model_path=None):
+    n_blocks = 1 + 2 + 8 + 8 + 4
+
+    for i in range(0, n_blocks + 1):
+        print(str(i) + '. block was pruned:')
+        with_pruning(dataset, model_mask, [i], model_path)
+
+    # n_blocks = (1, 2, 8, 8, 4)
+    # for i in range(0, len(n_blocks)):
+    #     for j in range(0, n_blocks[i]):
+
+    #         new_pruning = [0, 0, 0, 0, 0]
+    #         new_pruning[i] = j
+
+    #         with_pruning(dataset, model_mask, tuple(new_pruning), model_path)
+
+
 if __name__ == "__main__":
 
     # LOAD DATASET
-    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 101)
+    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 11)
 
-    '''
-    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',
-                                                                 '/media/boti/Adatok/Datasets-pc/evaluation',
-                                                                 mod_mask=tuple([False, False, False, True, True]))
-    print('mean_avg_precision: ' + str(mean_avg_precision))
-    print('mean_avg_recall: ' + str(mean_avg_recall))
-    print('avg_duration: ' + str(avg_duration))
+    sys.stdout = open('../logs/evaluation_log.txt', 'w')
+    # normal(val_dataset)
+    # with_modification(val_dataset, (0, 0, 0, 0, 1))
+    pruning_one_layer(val_dataset, (0, 0, 0, 0, 0))
 
-
-    '''
-    mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',
-                                                                 '/media/boti/Adatok/Datasets-pc/evaluation')
-    print('mean_avg_precision: ' + str(mean_avg_precision))
-    print('mean_avg_recall: ' + str(mean_avg_recall))
-    print('avg_duration: ' + str(avg_duration))
-
-    '''
-
-
-    iters = (1, 2, 8, 8, 4)
-    pruning_def = [-1, -1, -1, -1, -1]
-
-    prunings = [tuple(pruning_def)]
-    for n in range(0, len(iters)):
-        for j in range(0, iters[n]):
-
-            new_pruning = pruning_def.copy()
-            new_pruning[n] = j
-
-            prunings.append(tuple(new_pruning))
-
-    for pruning in prunings:
-        print(pruning)
-
-        mean_avg_precision, mean_avg_recall, avg_duration = evaluate(val_dataset, '/media/boti/Adatok/Datasets-pc/',
-                                                                     '/media/boti/Adatok/Datasets-pc/evaluation',
-                                                                     pruning_mtx=pruning)
-        print('mean_avg_precision: ' + str(mean_avg_precision))
-        print('mean_avg_recall: ' + str(mean_avg_recall))
-        print('avg_duration: ' + str(avg_duration))
-
-        print()
-
-    '''
+    # TODO call proper funcs

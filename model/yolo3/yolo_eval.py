@@ -4,6 +4,7 @@ Class definition of YOLO_v3 style detection model on image and video
 """
 import colorsys
 import os
+from enum import Enum
 from timeit import default_timer as timer
 
 import numpy as np
@@ -24,9 +25,9 @@ class YOLO(object):
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_1.h5',
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_0_0.h5',
-        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
+        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5',
         # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5',
-        "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final1543393383.7331114.h5',
+        # "model_path": '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final1543393383.7331114.h5',
         "anchors_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolo_anchors.txt',
         "classes_path": '/home/boti/Workspace/PyCharmWorkspace/training_data/yolov3_classes.txt',
         "score": 0.3,
@@ -35,25 +36,29 @@ class YOLO(object):
         "gpu_num": 1,
     }
 
+    def __init__(self, mod_mask=(0, 0, 0, 0, 0), pruning=None, model_path=None, **kwargs):
+        # TODO: delete this line
+        self.pruning = pruning
+        self.mod_mask = mod_mask
+
+        self.model_image_size = (608, 608)
+        self.__dict__.update(self._defaults)  # set up default values
+        self.__dict__.update(kwargs)  # and update with user overrides
+
+        if model_path is not None:
+            self.model_path = model_path
+
+        self.class_names = self._get_class()
+        self.anchors = self._get_anchors()
+        self.sess = K.get_session()
+        self.boxes, self.scores, self.classes = self.generate()
+
     @classmethod
     def get_defaults(cls, n):
         if n in cls._defaults:
             return cls._defaults[n]
         else:
             return "Unrecognized attribute name '" + n + "'"
-
-    def __init__(self, mod_mask=(False, False, False, False, False), pruning_mtx=(-1, -1, -1, -1, -1), **kwargs):
-        # TODO: delete this line
-        self.pruning_mtx = pruning_mtx
-        self.mod_mask = mod_mask
-
-        self.model_image_size = (608, 608)
-        self.__dict__.update(self._defaults)  # set up default values
-        self.__dict__.update(kwargs)  # and update with user overrides
-        self.class_names = self._get_class()
-        self.anchors = self._get_anchors()
-        self.sess = K.get_session()
-        self.boxes, self.scores, self.classes = self.generate()
 
     def _get_class(self):
         classes_path = os.path.expanduser(self.classes_path)
@@ -78,12 +83,53 @@ class YOLO(object):
         num_classes = len(self.class_names)
 
         image_input = Input(shape=(None, None, 3))
-        self.yolo_model = yolo_body(image_input, num_anchors // 3, num_classes, mod=False,
-                                    pruning_mtx=self.pruning_mtx, mod_mask=self.mod_mask)  # load_model(model_path, compile=False)
+        self.yolo_model = yolo_body(image_input, num_anchors // 3, num_classes,
+                                    pruning=self.pruning, mod_mask=self.mod_mask)
 
-        self.yolo_model.summary()
+        # TODO: zero init in yolo_body
+        # step backwards in layers and rename
+        class PruningState(Enum):
+            SEARCH_ADD = 0
+            SEARCH_CONV = 1
+            DONE = 2
 
-        self.yolo_model.load_weights(self.model_path, by_name=True, skip_mismatch=True)  # make sure model, anchors and classes match
+        n_layers = len(self.yolo_model.layers)
+        print('n_layers: ' + str(n_layers))
+        curr_state = PruningState.SEARCH_ADD
+
+        if self.pruning is not None and self.pruning > 0:
+
+            for to_prone in self.pruning:
+
+                for i in range(n_layers - 1, -1, -1):
+
+                    ''' rename last conv2d layer of the block to be pruned
+                        this way the zeros set by their initializer 
+                        will stay untouched after loading the weights '''
+                    if curr_state == PruningState.DONE:
+                        break
+                    if curr_state == PruningState.SEARCH_ADD:
+                        if to_prone <= 0:
+                            curr_state = PruningState.DONE
+                            continue
+                        elif self.yolo_model.layers[i].name.startswith('add_'):
+                            curr_state = PruningState.SEARCH_CONV
+                            # print(self.pruning)
+                            continue
+                    if curr_state == PruningState.SEARCH_CONV:
+                        if self.yolo_model.layers[i].name.startswith('conv2d_'):
+                            to_prone -= 1
+                            if to_prone == 0:
+                                self.yolo_model.layers[i].name = self.yolo_model.layers[i].name + '_pruned'
+                            # print(self.pruning)
+                            curr_state = PruningState.SEARCH_ADD
+                            continue
+
+        # self.yolo_model.summary()
+        # input("Press Enter to continue...")
+
+        self.yolo_model.load_weights(self.model_path, by_name=True,
+                                     skip_mismatch=True)  # make sure model, anchors and classes match
 
         assert self.yolo_model.layers[-1].output_shape[-1] == \
                num_anchors / len(self.yolo_model.output) * (num_classes + 5), \
@@ -195,7 +241,8 @@ class YOLO(object):
 
             # draw detection boxes & class name texts
             cv2.rectangle(image, (left, top), (right, bottom), self.colors[c], thickness)
-            cv2.rectangle(image, tuple(text_origin - [0, int(label_size[1] * 1.5)]), tuple(text_origin + label_size), self.colors[c], thickness=cv2.FILLED)
+            cv2.rectangle(image, tuple(text_origin - [0, int(label_size[1] * 1.5)]), tuple(text_origin + label_size),
+                          self.colors[c], thickness=cv2.FILLED)
             cv2.putText(image, label, tuple(text_origin), font, font_scale, (0, 0, 0), font_thickness, cv2.LINE_AA)
 
         return duration, image, out_boxes, out_scores, out_classes

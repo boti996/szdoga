@@ -131,7 +131,7 @@ def main():
     for dataset in validation:
         num_val += len(dataset)
 
-    fine_tuning_only = True
+    fine_tuning_only = False
     if not fine_tuning_only:
 
         # mini-batch size

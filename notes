@@ -990,6 +990,353 @@ WildDash:
 
 
 
+/home/boti/Workspace/PyCharmWorkspace/szdoga/venv/bin/python /home/boti/Workspace/PyCharmWorkspace/szdoga/data/evaluate_model.py
+Using TensorFlow backend.
+/media/boti/Adatok/Datasets-pc/_on_rails
+167
+349
+105
+/media/boti/Adatok/Datasets-pc/_two_wheeler
+1141
+9
+6386
+2120
+/media/boti/Adatok/Datasets-pc/_person
+2750
+11
+1796
+/media/boti/Adatok/Datasets-pc/_truck
+24726
+855
+36
+2820
+/media/boti/Adatok/Datasets-pc/_bdd-only
+69863
+/media/boti/Adatok/Datasets-pc/_others
+70
+3475
+7481
+/media/boti/Adatok/Datasets-pc/_validation
+10000
+0. block was pruned:
+2018-11-30 04:01:58.156642: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:964] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-11-30 04:01:58.156996: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1411] Found device 0 with properties:
+name: GeForce GTX 1050 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.4805
+pciBusID: 0000:02:00.0
+totalMemory: 3.94GiB freeMemory: 3.38GiB
+2018-11-30 04:01:58.157012: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:01:58.374012: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:01:58.374042: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:01:58.374049: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:01:58.374177: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+26.91582932900201
+mean_avg_precision: 0.7564255808549146
+mean_avg_recall: 0.3349300311909384
+avg_duration: 0.19249821034593492
+2018-11-30 04:02:35.927247: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:02:35.927283: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:02:35.927290: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:02:35.927296: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:02:35.927388: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+1. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.677276885995525
+mean_avg_precision: 0.772844949330098
+mean_avg_recall: 0.2960834250552295
+avg_duration: 0.18062985457432695
+2. block was pruned:
+2018-11-30 04:03:12.927358: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:03:12.927391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:03:12.927398: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:03:12.927404: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:03:12.927493: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.92450075999659
+mean_avg_precision: 0.7272639982162404
+mean_avg_recall: 0.34984716435599034
+avg_duration: 0.18363060062400488
+2018-11-30 04:03:50.785752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:03:50.785785: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:03:50.785792: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:03:50.785798: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:03:50.785890: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+3. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.70764289300132
+mean_avg_precision: 0.7363310109206408
+mean_avg_recall: 0.3281897790238957
+avg_duration: 0.18235260762385494
+2018-11-30 04:04:28.446618: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:04:28.446651: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:04:28.446658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:04:28.446664: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:04:28.446752: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+4. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.294748760999937
+mean_avg_precision: 0.7051403976855343
+mean_avg_recall: 0.30224110703199986
+avg_duration: 0.1799250794454313
+2018-11-30 04:05:04.782668: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:05:04.782699: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:05:04.782706: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:05:04.782711: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:05:04.782802: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+5. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.22404792100133
+mean_avg_precision: 0.7394255359601893
+mean_avg_recall: 0.29086613366178926
+avg_duration: 0.18009316892087077
+6. block was pruned:
+2018-11-30 04:05:40.793681: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:05:40.793713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:05:40.793720: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:05:40.793726: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:05:40.793816: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.51036879199819
+mean_avg_precision: 0.7192275109863929
+mean_avg_recall: 0.28877897912231154
+avg_duration: 0.18141409809841477
+2018-11-30 04:06:18.652442: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:06:18.652474: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:06:18.652481: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:06:18.652487: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:06:18.652574: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+7. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.83119809300115
+mean_avg_precision: 0.7456902536696699
+mean_avg_recall: 0.31657432719326556
+avg_duration: 0.18283077546559323
+2018-11-30 04:06:56.156103: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:06:56.156133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:06:56.156140: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:06:56.156145: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:06:56.156238: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+8. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.240242105996003
+mean_avg_precision: 0.7671036746531794
+mean_avg_recall: 0.3013137066116543
+avg_duration: 0.17966464830713466
+2018-11-30 04:07:32.602969: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:07:32.603001: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:07:32.603008: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:07:32.603014: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:07:32.603107: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+9. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.810268492998148
+mean_avg_precision: 0.753562986431668
+mean_avg_recall: 0.30813644730851514
+avg_duration: 0.18147066363325404
+10. block was pruned:
+2018-11-30 04:08:10.037267: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:08:10.037298: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:08:10.037306: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:08:10.037314: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:08:10.037420: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+26.305510891994345
+mean_avg_precision: 0.7487215865124088
+mean_avg_recall: 0.3021499568433692
+avg_duration: 0.18270536903943174
+11. block was pruned:
+2018-11-30 04:08:48.329863: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:08:48.329908: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:08:48.329923: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:08:48.329934: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:08:48.330061: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.659180144997663
+mean_avg_precision: 0.7016315897630628
+mean_avg_recall: 0.29590535746974084
+avg_duration: 0.1797899442376502
+2018-11-30 04:09:26.203318: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:09:26.203350: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:09:26.203357: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:09:26.203363: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:09:26.203452: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+12. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+26.006906185000844
+mean_avg_precision: 0.766082528199746
+mean_avg_recall: 0.27530141202906006
+avg_duration: 0.1838813073268779
+2018-11-30 04:10:04.754361: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:10:04.754393: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:10:04.754409: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:10:04.754415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:10:04.754514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+13. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.637196109993965
+mean_avg_precision: 0.7582869001185832
+mean_avg_recall: 0.25761464136492096
+avg_duration: 0.1825330667430391
+2018-11-30 04:10:42.955507: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:10:42.955540: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:10:42.955547: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:10:42.955553: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:10:42.955642: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+14. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.79530252100085
+mean_avg_precision: 0.7570913785999769
+mean_avg_recall: 0.2796001320598385
+avg_duration: 0.18367459337605396
+15. block was pruned:
+2018-11-30 04:11:21.143143: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:11:21.143178: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:11:21.143185: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:11:21.143191: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:11:21.143287: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.446361383001204
+mean_avg_precision: 0.7676549797836928
+mean_avg_recall: 0.28649403870986045
+avg_duration: 0.18103160476276023
+2018-11-30 04:11:58.310089: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:11:58.310122: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:11:58.310129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:11:58.310134: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:11:58.310216: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+16. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.496965778998856
+mean_avg_precision: 0.7433694945124765
+mean_avg_recall: 0.30485354120654706
+avg_duration: 0.18181990405978601
+2018-11-30 04:12:35.104760: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:12:35.104793: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:12:35.104801: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:12:35.104806: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:12:35.104896: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+17. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.21757849599817
+mean_avg_precision: 0.7431665994905253
+mean_avg_recall: 0.30880898099372217
+avg_duration: 0.17950139243598326
+18. block was pruned:
+2018-11-30 04:13:11.341266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:13:11.341298: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:13:11.341306: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:13:11.341311: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:13:11.341391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.20155737800087
+mean_avg_precision: 0.770149000194137
+mean_avg_recall: 0.2979368605820649
+avg_duration: 0.17931965353463875
+19. block was pruned:
+2018-11-30 04:13:47.434234: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:13:47.434266: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:13:47.434273: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:13:47.434279: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:13:47.438223: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.209478734002914
+mean_avg_precision: 0.7544339902469136
+mean_avg_recall: 0.3048396896562415
+avg_duration: 0.17934429364318966
+20. block was pruned:
+2018-11-30 04:14:24.117074: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:14:24.117116: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:14:24.117123: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:14:24.117129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:14:24.117233: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.563181008001266
+mean_avg_precision: 0.706490467489176
+mean_avg_recall: 0.3356783943639844
+avg_duration: 0.1797750744851085
+2018-11-30 04:15:00.620335: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:15:00.620366: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:15:00.620373: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:15:00.620378: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:15:00.620458: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+21. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.339914361997216
+mean_avg_precision: 0.8013316457696189
+mean_avg_recall: 0.21144721555877063
+avg_duration: 0.18032675636634013
+2018-11-30 04:15:38.674514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:15:38.674549: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:15:38.674566: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:15:38.674572: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:15:38.674702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+22. block was pruned:
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+24.911825679002504
+mean_avg_precision: 1.0
+mean_avg_recall: 0.0
+avg_duration: 0.18079675062378583
+23. block was pruned:
+2018-11-30 04:16:15.162918: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-11-30 04:16:15.162950: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-11-30 04:16:15.162957: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-11-30 04:16:15.162963: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-11-30 04:16:15.163055: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3092 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:02:00.0, compute capability: 6.1)
+n_layers: 252
+/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5 model, anchors, and classes loaded.
+Tensor("Shape:0", shape=(5,), dtype=int32)
+25.02523723199556
+mean_avg_precision: 0.8388411643362137
+mean_avg_recall: 0.16538061708912483
+avg_duration: 0.17894611697988919
+
+Process finished with exit code 0
 
 
 
