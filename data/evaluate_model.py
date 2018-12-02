@@ -215,11 +215,11 @@ def pruning_one_layer(dataset, model_mask, model_path=None):
 if __name__ == "__main__":
 
     # LOAD DATASET
-    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 11)
+    val_dataset = load_dataset('/media/boti/Adatok/Datasets-pc/', 101)
 
-    sys.stdout = open('../logs/evaluation_log.txt', 'w')
-    # normal(val_dataset)
+    # sys.stdout = open('../logs/evaluation_log.txt', 'w')
+
+    # normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5')
+    normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5')
     # with_modification(val_dataset, (0, 0, 0, 0, 1))
-    pruning_one_layer(val_dataset, (0, 0, 0, 0, 0))
-
-    # TODO call proper funcs
+    # pruning_one_layer(val_dataset, (0, 0, 0, 0, 0))

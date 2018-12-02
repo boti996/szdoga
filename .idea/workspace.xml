@@ -4,10 +4,8 @@
     <list default="true" id="1fdeb0d3-b70e-49b1-be74-b83886d19785" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/evaluate_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/evaluate_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/train_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/train_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/yolo3/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/yolo3/yolo_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/yolo_eval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes" beforeDir="false" afterPath="$PROJECT_DIR$/notes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model/yolo3/yolov3_model.py" afterDir="false" />
     </list>
     <ignored path="venv/" />
     <ignored path="script/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb" />
@@ -24,68 +22,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/train_model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1665">
-              <caret line="122" selection-start-line="122" selection-end-line="122" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/train_modificated_model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="69" column="75" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/data_generator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="34" column="59" selection-start-line="34" selection-start-column="59" selection-end-line="34" selection-end-column="59" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-                <marker date="1543430069088" expanded="true" signature="246:891" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data/evaluate_model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="692">
-              <caret line="209" column="32" lean-forward="true" selection-start-line="209" selection-start-column="32" selection-end-line="209" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/notes">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20085">
-              <caret line="1339" selection-start-line="1339" selection-end-line="1339" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/yolo3/yolo_eval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1290">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
+            <state relative-caret-position="150">
+              <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
               <folding>
                 <element signature="e#101#116#0" expanded="true" />
               </folding>
@@ -93,34 +33,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="45" column="27" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
-              <folding>
-                <element signature="e#39#66#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/yolo3/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/yolo3/yolov3_model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+            <state relative-caret-position="607">
+              <caret line="105" lean-forward="true" selection-start-line="105" selection-end-line="105" />
               <folding>
-                <marker date="1542585196324" expanded="true" signature="231:233" ph="..." />
+                <element signature="e#0#21#0" expanded="true" />
+                <marker date="1543708792508" expanded="true" signature="231:233" ph="..." />
               </folding>
             </state>
           </provider>
@@ -137,10 +57,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>PIL</find>
-      <find>cv</find>
-      <find>image.shape</find>
-      <find>100</find>
       <find>free</find>
       <find>freeze</find>
       <find>f</find>
@@ -158,7 +74,6 @@
       <find>linear</find>
       <find>yolo_bo</find>
       <find>pruningstate</find>
-      <find>add</find>
       <find>pruned_</find>
       <find>conv2d_133</find>
       <find>_75</find>
@@ -167,6 +82,11 @@
       <find>summary</find>
       <find>prune</find>
       <find>out2</find>
+      <find>add</find>
+      <find>trainable</find>
+      <find>_prune</find>
+      <find>add(</find>
+      <find>yolo_head</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -199,15 +119,15 @@
         <option value="$PROJECT_DIR$/data/load_dataset.py" />
         <option value="$PROJECT_DIR$/data/validate_model.py" />
         <option value="$PROJECT_DIR$/data/yolov3_load_dataset.py" />
-        <option value="$PROJECT_DIR$/model/yolo3/yolov3_model.py" />
         <option value="$PROJECT_DIR$/model/yolo3/utils.py" />
         <option value="$PROJECT_DIR$/data/train_modificated_model.py" />
         <option value="$PROJECT_DIR$/data/data_generator.py" />
-        <option value="$PROJECT_DIR$/model/yolo3/model.py" />
         <option value="$PROJECT_DIR$/notes" />
-        <option value="$PROJECT_DIR$/model/yolo3/yolo_eval.py" />
         <option value="$PROJECT_DIR$/data/train_model.py" />
         <option value="$PROJECT_DIR$/data/evaluate_model.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/model.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/yolo_eval.py" />
+        <option value="$PROJECT_DIR$/model/yolo3/yolov3_model.py" />
       </list>
     </option>
   </component>
@@ -279,7 +199,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/data/train_modificated_model.py" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -298,7 +218,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Compound.evaluate pruning the run a training w modified loss">
+  <component name="RunManager" selected="Python.1. validate_model">
     <configuration name="gpu-monitor.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
       <module name="szakdoga" />
       <option name="INTERPRETER_OPTIONS" value="bash" />
@@ -314,10 +234,11 @@
       <toRun name="1. validate_model" type="PythonConfigurationType" />
       <method v="2" />
     </configuration>
-    <configuration name="evaluate pruning the run a training w modified loss" type="CompoundRunConfigurationType">
-      <toRun name="2. train_model +1 kor" type="PythonConfigurationType" />
-      <toRun name="1. validate_model" type="PythonConfigurationType" />
-      <method v="2" />
+    <configuration name="evaluate pruning then train w new loss" type="Multirun" factoryName="Multirun" separateTabs="true" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0">
+      <runConfiguration name="2. train_model +1 kor" type="Python" />
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="1. validate_model" run_configuration_type="PythonConfigurationType" />
+      </method>
     </configuration>
     <configuration name="1. validate_model" type="PythonConfigurationType" factoryName="Python">
       <module name="szakdoga" />
@@ -446,7 +367,7 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Compound.evaluate pruning the run a training w modified loss" />
+      <item itemvalue="Multirun.evaluate pruning then train w new loss" />
       <item itemvalue="Python.train_model + fine_tuning freeze1-gyel" />
       <item itemvalue="Python.2. train_model +1 kor" />
       <item itemvalue="Python.train_modificated_model" />
@@ -557,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543436128594</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="working pruning, refactoring useless shit">
+      <created>1543549897749</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1543549897749</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -573,12 +501,12 @@
     <frame x="0" y="0" width="1920" height="1200" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7528517" visible="true" weight="0.21420941" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7528517" visible="true" weight="0.21688034" />
       <window_info id="Structure" order="1" sideWeight="0.50062114" side_tool="true" weight="0.24679486" />
       <window_info id="Favorites" order="2" sideWeight="0.24714829" side_tool="true" weight="0.24679486" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286648" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49732906" visible="true" weight="0.36380598" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49732906" visible="true" weight="0.30130598" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39925373" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -618,7 +546,9 @@
     <MESSAGE value="mod blocks working" />
     <MESSAGE value="pil to opencv working" />
     <MESSAGE value="modified loss, scale - it runs" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified loss, scale - it runs" />
+    <MESSAGE value="working pruning" />
+    <MESSAGE value="working pruning, refactoring useless shit" />
+    <option name="LAST_COMMIT_MESSAGE" value="working pruning, refactoring useless shit" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/data/serialization.py.py" />
@@ -900,26 +830,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/train_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="122" selection-start-line="122" selection-end-line="122" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/train_modificated_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="69" column="75" selection-start-line="69" selection-start-column="75" selection-end-line="69" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/data_generator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -938,10 +848,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/yolo3/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/evaluate_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="178" column="59" lean-forward="true" selection-start-line="178" selection-start-column="59" selection-end-line="178" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/train_modificated_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="80" column="32" selection-start-line="80" selection-start-column="32" selection-end-line="80" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/train_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="118" column="88" lean-forward="true" selection-start-line="118" selection-start-column="88" selection-end-line="118" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/model/yolo3/yolo_eval.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1290">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        <state relative-caret-position="150">
+          <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
           <folding>
             <element signature="e#101#116#0" expanded="true" />
           </folding>
@@ -950,37 +897,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/yolo3/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="45" column="27" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
+        <state relative-caret-position="2932">
+          <caret line="325" column="27" selection-start-line="325" selection-start-column="27" selection-end-line="325" selection-end-column="27" />
           <folding>
             <element signature="e#39#66#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/yolo3/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/yolo3/yolov3_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+        <state relative-caret-position="607">
+          <caret line="105" lean-forward="true" selection-start-line="105" selection-end-line="105" />
           <folding>
-            <marker date="1542585196324" expanded="true" signature="231:233" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/evaluate_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="209" column="32" lean-forward="true" selection-start-line="209" selection-start-column="32" selection-end-line="209" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#21#0" expanded="true" />
+            <marker date="1543708792508" expanded="true" signature="231:233" ph="..." />
           </folding>
         </state>
       </provider>

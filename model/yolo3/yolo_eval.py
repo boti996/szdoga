@@ -86,7 +86,6 @@ class YOLO(object):
         self.yolo_model = yolo_body(image_input, num_anchors // 3, num_classes,
                                     pruning=self.pruning, mod_mask=self.mod_mask)
 
-        # TODO: zero init in yolo_body
         # step backwards in layers and rename
         class PruningState(Enum):
             SEARCH_ADD = 0
@@ -97,7 +96,7 @@ class YOLO(object):
         print('n_layers: ' + str(n_layers))
         curr_state = PruningState.SEARCH_ADD
 
-        if self.pruning is not None and self.pruning > 0:
+        if self.pruning is not None and self.pruning[0] > 0:
 
             for to_prone in self.pruning:
 

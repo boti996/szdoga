@@ -20,6 +20,48 @@ class YoloV3Model(NetworkModel):
         self.weights = weights
         self.freeze_body = freeze_body
 
+    def _pruning(self, model_body):
+        # step backwards in layers and rename
+        class PruningState(Enum):
+            SEARCH_ADD = 0
+            SEARCH_CONV = 1
+            DONE = 2
+
+        n_layers = len(self.yolo_model.layers)
+        print('n_layers: ' + str(n_layers))
+        curr_state = PruningState.SEARCH_ADD
+
+        if self.pruning is not None and self.pruning[0] > 0:
+
+            for to_prone in self.pruning:
+
+                for i in range(n_layers - 1, -1, -1):
+
+                    ''' rename last conv2d layer of the block to be pruned
+                        this way the zeros set by their initializer 
+                        will stay untouched after loading the weights '''
+                    if curr_state == PruningState.DONE:
+                        break
+                    if curr_state == PruningState.SEARCH_ADD:
+                        if to_prone <= 0:
+                            curr_state = PruningState.DONE
+                            continue
+                        elif self.yolo_model.layers[i].name.startswith('add_'):
+                            curr_state = PruningState.SEARCH_CONV
+                            # print(self.pruning)
+                            continue
+                    if curr_state == PruningState.SEARCH_CONV:
+                        if self.yolo_model.layers[i].name.startswith('conv2d_'):
+                            to_prone -= 1
+                            if to_prone == 0:
+                                self.yolo_model.layers[i].name = self.yolo_model.layers[i].name + '_pruned'
+                            # print(self.pruning)
+                            curr_state = PruningState.SEARCH_ADD
+                            continue
+
+        # self.yolo_model.summary()
+        # input("Press Enter to continue...")
+
     def get_model(self, mod_mask=(False, False, False, False, False)):
         print('n_classe: ' + str(self.n_classes))
 
@@ -61,5 +103,3 @@ class YoloV3Model(NetworkModel):
         model = Model([model_body.input, *y_true], model_loss)
 
         return model
-
-
