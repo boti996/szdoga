@@ -20,20 +20,21 @@ class YoloV3Model(NetworkModel):
         self.weights = weights
         self.freeze_body = freeze_body
 
-    def _pruning(self, model_body):
+
+    def _pruning(self, model, pruning):
         # step backwards in layers and rename
         class PruningState(Enum):
             SEARCH_ADD = 0
             SEARCH_CONV = 1
             DONE = 2
 
-        n_layers = len(self.yolo_model.layers)
+        n_layers = len(model.layers)
         print('n_layers: ' + str(n_layers))
         curr_state = PruningState.SEARCH_ADD
 
-        if self.pruning is not None and self.pruning[0] > 0:
+        if pruning is not None and pruning[0] > 0:
 
-            for to_prone in self.pruning:
+            for to_prone in pruning:
 
                 for i in range(n_layers - 1, -1, -1):
 
@@ -46,23 +47,27 @@ class YoloV3Model(NetworkModel):
                         if to_prone <= 0:
                             curr_state = PruningState.DONE
                             continue
-                        elif self.yolo_model.layers[i].name.startswith('add_'):
+                        elif model.layers[i].name.startswith('add_'):
                             curr_state = PruningState.SEARCH_CONV
-                            # print(self.pruning)
                             continue
                     if curr_state == PruningState.SEARCH_CONV:
-                        if self.yolo_model.layers[i].name.startswith('conv2d_'):
+                        if model.layers[i].name.startswith('conv2d_'):
                             to_prone -= 1
                             if to_prone == 0:
-                                self.yolo_model.layers[i].name = self.yolo_model.layers[i].name + '_pruned'
-                            # print(self.pruning)
+                                # overwrite name to prevent loading weights
+                                model.layers[i].name = model.layers[i].name + '_pruned'
+                                # make it non-trainable to keep the weights zeros during the training
+                                model.layers[i].trainable = False
                             curr_state = PruningState.SEARCH_ADD
                             continue
 
-        # self.yolo_model.summary()
+        # model.summary()
         # input("Press Enter to continue...")
 
-    def get_model(self, mod_mask=(False, False, False, False, False)):
+        return model
+
+
+    def get_model(self, mod_mask=(False, False, False, False, False), pruning=None):
         print('n_classe: ' + str(self.n_classes))
 
         n_anchors = len(self.anchors)
@@ -73,6 +78,9 @@ class YoloV3Model(NetworkModel):
         model_body = yolo_body(image_input, n_anchors // 3, self.n_classes, mod_mask=mod_mask)
 
         print('Create YOLOv3 model with {} anchors and {} classes.'.format(n_anchors, self.n_classes))
+
+        # pruning step
+        model_body = self._pruning(model_body, pruning)
 
         if self.weights:
             model_body.load_weights(self.weights, by_name=True, skip_mismatch=True)
@@ -86,11 +94,11 @@ class YoloV3Model(NetworkModel):
                 for i in range(num):
                     model_body.layers[i].trainable = False
 
-                print('Unfreezed layers: ')
+                ''' print('Unfrozen layers: ')
                 for layer in model_body.layers:
                     if layer.trainable:
                         print(layer.name)
-                        print(layer.get_weights())
+                        # print(layer.get_weights()) '''
 
                 print('Freeze the first {} layers of total {} layers.'.format(num, len(model_body.layers)))
 

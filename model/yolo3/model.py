@@ -70,9 +70,11 @@ def MobilenetSeparableConv2D_BN_ReLU(*args, **kwargs):
     """Darknet Convolution2D followed by BatchNormalization and LeakyReLU."""
     no_bias_kwargs = {'use_bias': False}
     no_bias_kwargs.update(kwargs)
+    global i_name
+    i_name += 1
     return compose(
         MobilenetSeparableConv2D(*args, **no_bias_kwargs),
-        BatchNormalization(),
+        BatchNormalization(name='batch_normalization_extra_' + str(i_name)),   # TODO delete name
         ReLU(max_value=6))
 
 
@@ -131,6 +133,7 @@ def mixed_resblock_body(x, num_filters, num_blocks, n_inverted=0):
     else:
         x = ZeroPadding2D(((1, 0), (1, 0)))(x)
         x = MobilenetSeparableConv2D_BN_ReLU(num_filters // 2, (3, 3), strides=(2, 2))(x)
+        x = Conv2D(num_filters // 2, (1, 1))(x) # TODO nem lesz jó
 
     # add normal residual blocks
     for i in range(0, num_blocks - n_multipl * n_inverted):
@@ -139,9 +142,12 @@ def mixed_resblock_body(x, num_filters, num_blocks, n_inverted=0):
             DarknetConv2D_BN_Leaky(num_filters, (3, 3)))(x)
         x = Add()([x, y])
 
+    global i_name
+    i_name += 1
+
     # TODO: what to do with this layer?
     if n_inverted > 0:
-        x = Conv2D(num_filters // 2, (1, 1))(x)
+        x = Conv2D(num_filters // 2, (1, 1), name='conv2d_adapter_' + str(i_name))(x)
 
     # add inverted residual blocks
     # todo freeze all except last iteration: only when (n_multipl * n_inverted == num_blocks)
@@ -152,10 +158,15 @@ def mixed_resblock_body(x, num_filters, num_blocks, n_inverted=0):
             MobilenetConv2D_BN_Linear(num_filters // 2, (1, 1)))(x)
         x = Add()([x, y])
 
+    if n_inverted > 0:
+        x = Conv2D(num_filters, (1, 1), name='conv2d_adapter2_' + str(i_name))(x)
+
     return x
 
 
 out1, out2 = None, None
+
+i_name = 0
 
 
 def darknet_body(x, pruning, mod_mask=(0, 0, 0, 0, 0)):
@@ -524,7 +535,7 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
 
         obj_scale = 5
         xywh_scale = 0.5
-        output_weight_scale = 0     # 0.001
+        output_weight_scale = 0.001    # 0.001
 
         xy_loss = xywh_scale * object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
 

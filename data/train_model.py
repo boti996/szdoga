@@ -131,11 +131,10 @@ def main():
     for dataset in validation:
         num_val += len(dataset)
 
-    fine_tuning_only = False
+    fine_tuning_only = True
     if not fine_tuning_only:
 
         # mini-batch size
-        # TODO: larger batch size possibilities
         batch_size = 8
 
         # Train with frozen layers first, to get a stable loss.

@@ -1,4 +1,5 @@
 import time
+from enum import Enum
 
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.optimizers import Adam
@@ -6,6 +7,63 @@ from keras.optimizers import Adam
 import data.train_model
 from data.yolov3_load_dataset import YoloV3DataLoader
 from model.yolo3.yolov3_model import YoloV3Model
+
+
+def _unfreeze_block(model, i_unfreeze, i_block_block):
+    class UnfreezeState(Enum):
+        SEARCH_ADD = 0
+        SEARCH_CONV = 1
+        DONE = 4
+
+    to_unfreeze = i_unfreeze
+
+    curr_state = UnfreezeState.SEARCH_ADD
+    n_convs_to_unfreeze = 2     # Note: compare name starts with 'separable_conv2d_' vs 'conv2d_'
+    for l in range(len(model.layers) - 1, -1, -1):
+
+        if curr_state == UnfreezeState.DONE:
+            break
+        if curr_state == UnfreezeState.SEARCH_ADD:
+            if to_unfreeze <= 0:
+                curr_state = UnfreezeState.DONE
+                continue
+            elif model.layers[l].name.startswith('add_'):
+                # Make add layer trainable
+                if to_unfreeze == 1:
+                    model.layers[l].trainable = True
+                curr_state = UnfreezeState.SEARCH_CONV
+                continue
+        if curr_state == UnfreezeState.SEARCH_CONV:
+            if to_unfreeze == 1:
+                # Make layers of modified block trainable
+                model.layers[l].trainable = True
+
+                if model.layers[l].name.startswith('conv2d_'):
+                    n_convs_to_unfreeze -= 1
+
+                if n_convs_to_unfreeze <= 0:
+                    to_unfreeze -= 1
+                    curr_state = UnfreezeState.SEARCH_ADD
+                    continue
+            else:
+                to_unfreeze -= 1
+                curr_state = UnfreezeState.SEARCH_ADD
+                continue
+
+    # freeze scaling part of blocks
+    to_unfreeze = 5 - i_block_block
+
+    for l in range(len(model.layers) - 1, -1, -1):
+        if model.layers[l].name.startswith('zero_padding2d_'):
+            to_unfreeze -= 1
+            print('xd' + str(to_unfreeze))
+            if to_unfreeze <= 0:
+                if model.layers[l + 1].name.startswith('separable_conv2d_'):
+                    model.layers[l].trainable = True
+                    model.layers[l + 1].trainable = True
+                break
+
+    return model
 
 
 # TODO: refactor to prevent code redundancy with train_model.py
@@ -57,33 +115,42 @@ def main():
         num_val += len(dataset)
 
     curr_model_mask = [0, 0, 0, 0, 0]
-    layers_to_change  = [1, 2, 8, 8, 4]
-    unfrozen_layers = [(1, 2), (1, 2), (1, 2), (1, 2), (1, 2)]  # TODO:calculate correct values
+    layers_to_change = [1, 2, 8, 8, 4]
 
-    for i in range(0, 4):
+    i_block_to_freeze = 1
+    for i_block_block in range(4, -1, -1):
 
-        for j in range(0, layers_to_change[i]):
+        for i_block in range(0, layers_to_change[i_block_block]):
 
-            curr_model_mask[4 - i] += 1
+            curr_model_mask[i_block_block] += 1
+            print(curr_model_mask)
 
             # load model
-            model = model_loader.get_model(mod_mask=tuple(curr_model_mask))
+            model = model_loader.get_model(mod_mask=tuple(curr_model_mask), pruning=None)
             print('Model loaded.')
             # model.summary()
 
-            # TODO
-            '''
-            # freeze layers except new blocks
+            # freeze all layers
             for l in range(len(model.layers)):
                 model.layers[l].trainable = False
-only
-            for l in range(unfrozen_layers[i][0], unfrozen_layers[i][1]):
-                model.layers[l].trainable = True
-            '''
+
+            # unfreeze block to train
+            model = _unfreeze_block(model, i_block_to_freeze, i_block_block)
+
+            # model.summary()
+
+            for l in model.layers:
+                if l.trainable:
+                    print(l.name)
+            print()
+            # input("Press Enter to continue ...")
+
+            i_block_to_freeze += 1
+
+            continue
 
             # mini-batch size
-            # TODO: larger batch size possibilities
-            batch_size = 1
+            batch_size = 8
 
             # Train with frozen layers first, to get a stable loss.
             model.compile(optimizer=Adam(lr=0.001), loss={'yolo_loss': lambda y_true, y_pred: y_pred})
@@ -102,11 +169,11 @@ only
                 callbacks=[logging, checkpoint, reduce_lr, early_stopping])
 
             # serialize weights
-            model.save_weights(weights_dir + 'mod_trained_weights_stage_' + str(i) + '_' + str(j) + '.h5')
-            model.save_weights(weights_dir + 'mod_trained_weights_stage_' + str(i) + '_' + str(j) + '_' + str(time.time()) + '.h5')
+            model.save_weights(weights_dir + 'mod_trained_weights_stage_' + str(i_block_block) + '_' + str(i_block) + '.h5')
+            model.save_weights(weights_dir + 'mod_trained_weights_stage_' + str(i_block_block) + '_' + str(i_block) + '_' + str(time.time()) + '.h5')
 
             model_loader = YoloV3Model(input_shape, anchors, n_classes, weights_dir + 'mod_trained_weights_stage_' +
-                                       str(i) + '_' + str(j) + '.h5', freeze_body)
+                                       str(i_block_block) + '_' + str(i_block) + '.h5', freeze_body)
 
 
 if __name__ == "__main__":
