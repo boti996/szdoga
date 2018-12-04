@@ -56,7 +56,6 @@ def _unfreeze_block(model, i_unfreeze, i_block_block):
     for l in range(len(model.layers) - 1, -1, -1):
         if model.layers[l].name.startswith('zero_padding2d_'):
             to_unfreeze -= 1
-            print('xd' + str(to_unfreeze))
             if to_unfreeze <= 0:
                 if model.layers[l + 1].name.startswith('separable_conv2d_'):
                     model.layers[l].trainable = True
@@ -147,8 +146,6 @@ def main():
 
             i_block_to_freeze += 1
 
-            continue
-
             # mini-batch size
             batch_size = 8
 
@@ -164,7 +161,7 @@ def main():
                 validation_data=data.train_model.data_generator_wrapper(validation, batch_size, input_shape, anchors,
                                                                         n_classes, dataset_path),
                 validation_steps=max(1, min(50, num_val // batch_size)),
-                epochs=3,
+                epochs=10,
                 initial_epoch=0,
                 callbacks=[logging, checkpoint, reduce_lr, early_stopping])
 

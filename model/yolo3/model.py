@@ -535,7 +535,7 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
 
         obj_scale = 5
         xywh_scale = 0.5
-        output_weight_scale = 0.001    # 0.001
+        output_weight_scale = 1
 
         xy_loss = xywh_scale * object_mask * box_loss_scale * K.square(raw_true_xy - raw_pred[..., 0:2])
 
@@ -549,7 +549,7 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
 
         class_loss = object_mask * K.binary_crossentropy(true_class_probs, raw_pred[..., 5:], from_logits=True)
 
-        output_loss = output_weight_scale * output_weight * ignore_mask
+        output_loss = object_mask * output_weight_scale * output_weight * ignore_mask
 
         xy_loss = K.sum(xy_loss) / mf
         wh_loss = K.sum(wh_loss) / mf
@@ -560,6 +560,6 @@ def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
         loss += xy_loss + wh_loss + confidence_loss + class_loss + output_loss
         if print_loss:
             loss = tf.Print(loss, [loss, xy_loss, wh_loss, confidence_loss, class_loss, output_loss,
-                                   K.sum(ignore_mask)], message='loss: ')
+                                   K.sum(ignore_mask)], message=str(l) + '. loss: ')
 
     return loss
