@@ -8,13 +8,11 @@ from os.path import join
 
 class YoloV3DataLoader(DataLoader):
 
-    # TODO: implementation
     def load_nth_batch(self, n):
         raise NotImplementedError
 
 
     def resize_bboxes(self, images, size, size_new):
-        #TODO: SORREND FONTOS
         y_max, x_max = size
         y_max_new, x_max_new = size_new
 
@@ -56,7 +54,6 @@ class YoloV3DataLoader(DataLoader):
         return cv2.resize(img, size, img)
 
 
-    # TODO: implementation
     def load_dataset(self, path, input_shape, random_seed=None):
 
         size = input_shape
@@ -86,6 +83,5 @@ class YoloV3DataLoader(DataLoader):
         return {'val': [validation], 'train': datasets}
 
 
-    # TODO: implementation
     def create_dataset_batch(self, n_batch_size):
         raise NotImplementedError

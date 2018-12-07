@@ -131,7 +131,7 @@ def main():
     for dataset in validation:
         num_val += len(dataset)
 
-    fine_tuning_only = True
+    fine_tuning_only = False
     if not fine_tuning_only:
 
         # mini-batch size
@@ -148,7 +148,7 @@ def main():
             validation_data=data_generator_wrapper(validation, batch_size, input_shape, anchors,
                                                    n_classes, dataset_path),
             validation_steps=max(1, min(50, num_val // batch_size)),
-            epochs=50,
+            epochs=75,
             initial_epoch=0,
             callbacks=[logging, checkpoint])
 

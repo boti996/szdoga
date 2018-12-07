@@ -8,7 +8,7 @@ from model.networkmodel import NetworkModel
 
 import keras.backend as keras
 
-from model.yolo3.model import yolo_body, yolo_loss
+from model.yolo3.model import yolo_body, yolo_body_2, yolo_loss, yolo_loss_2
 
 
 class YoloV3Model(NetworkModel):
@@ -67,7 +67,7 @@ class YoloV3Model(NetworkModel):
         return model
 
 
-    def get_model(self, mod_mask=(False, False, False, False, False), pruning=None):
+    def get_model(self, mod_mask=(0, 0, 0, 0, 0), pruning=None, is_bottom_up=False, n_blocks=24):
         print('n_classe: ' + str(self.n_classes))
 
         n_anchors = len(self.anchors)
@@ -75,7 +75,11 @@ class YoloV3Model(NetworkModel):
         keras.clear_session()  # new model session
 
         image_input = Input(shape=(None, None, 3))
-        model_body = yolo_body(image_input, n_anchors // 3, self.n_classes, mod_mask=mod_mask)
+
+        if is_bottom_up:
+            model_body = yolo_body_2(image_input, n_anchors // 3, self.n_classes, n_blocks=n_blocks)
+        else:
+            model_body = yolo_body(image_input, n_anchors // 3, self.n_classes, mod_mask=mod_mask)
 
         print('Create YOLOv3 model with {} anchors and {} classes.'.format(n_anchors, self.n_classes))
 
@@ -105,8 +109,12 @@ class YoloV3Model(NetworkModel):
         y_true = [Input(shape=(self.h // {0: 32, 1: 16, 2: 8}[l], self.w // {0: 32, 1: 16, 2: 8}[l],
                                n_anchors // 3, self.n_classes + 5)) for l in range(3)]
 
-        model_loss = Lambda(yolo_loss, output_shape=(1,), name='yolo_loss', arguments={
-            'anchors': self.anchors, 'num_classes': self.n_classes, 'ignore_thresh': 0.5, 'print_loss': True})([*model_body.output, *y_true])
+        if is_bottom_up:
+            model_loss = Lambda(yolo_loss_2, output_shape=(1,), name='yolo_loss_2')([*model_body.output])
+        else:
+            model_loss = Lambda(yolo_loss, output_shape=(1,), name='yolo_loss', arguments={
+                'anchors': self.anchors, 'num_classes': self.n_classes, 'ignore_thresh': 0.5, 'print_loss': True})(
+                [*model_body.output, *y_true])
 
         model = Model([model_body.input, *y_true], model_loss)
 

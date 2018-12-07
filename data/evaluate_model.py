@@ -202,15 +202,6 @@ def pruning_one_layer(dataset, model_mask, model_path=None):
         print(str(i) + '. block was pruned:')
         with_pruning(dataset, model_mask, [i], model_path)
 
-    # n_blocks = (1, 2, 8, 8, 4)
-    # for i in range(0, len(n_blocks)):
-    #     for j in range(0, n_blocks[i]):
-
-    #         new_pruning = [0, 0, 0, 0, 0]
-    #         new_pruning[i] = j
-
-    #         with_pruning(dataset, model_mask, tuple(new_pruning), model_path)
-
 
 if __name__ == "__main__":
 
@@ -220,6 +211,9 @@ if __name__ == "__main__":
     # sys.stdout = open('../logs/evaluation_log.txt', 'w')
 
     # normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_1.h5')
-    normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5')
+    # normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_final.h5')
+    # normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/logs/train_stage1/trained_weights_stage_1.h5')
+    normal(val_dataset, '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/trained_weights_stage_11543915433.6909509.h5')
     # with_modification(val_dataset, (0, 0, 0, 0, 1))
     # pruning_one_layer(val_dataset, (0, 0, 0, 0, 0))
+    # with_modification(val_dataset, (0, 0, 0, 1, 4), '/home/boti/Workspace/PyCharmWorkspace/szdoga/trained_weights/mod_trained_weights_stage_3_0.h5')

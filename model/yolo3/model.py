@@ -16,11 +16,15 @@ from keras.regularizers import l2
 from model.yolo3.utils import compose
 
 
+# pruning vs initialization
+init_string = 'zeros'
+
+
 @wraps(Conv2D)
 def DarknetConv2D(*args, **kwargs):
     """Wrapper to set Darknet parameters for Convolution2D."""
     darknet_conv_kwargs = {'kernel_regularizer': l2(5e-4),
-                           'kernel_initializer': 'zeros',
+                           'kernel_initializer': init_string,
                            'padding': 'valid' if kwargs.get('strides') == (2, 2) else 'same'}
     darknet_conv_kwargs.update(kwargs)
     return Conv2D(*args, **darknet_conv_kwargs)
@@ -30,7 +34,7 @@ def DarknetConv2D(*args, **kwargs):
 def MobilenetSeparableConv2D(*args, **kwargs):
     """Wrapper to set Darknet parameters for SeparableConvolution2D."""
     darknet_conv_kwargs = {'kernel_regularizer': l2(5e-4),
-                           'kernel_initializer': 'zeros',
+                           'kernel_initializer': init_string,
                            'padding': 'valid' if kwargs.get('strides') == (2, 2) else 'same'}
     darknet_conv_kwargs.update(kwargs)
     return SeparableConv2D(*args, **darknet_conv_kwargs)
@@ -81,34 +85,29 @@ def MobilenetSeparableConv2D_BN_ReLU(*args, **kwargs):
 cutting_layer_out, cutting_layer_in = None, None
 
 
-def resblock_body(x, num_filters, num_blocks, pruning=-1):
+def resblock_body(x, num_filters, num_blocks):
     """A series of resblocks starting with a downsampling Convolution2D"""
+    if num_blocks == 0:
+        return x
+
     # Darknet uses left and top padding instead of 'same' mode
     x = ZeroPadding2D(((1, 0), (1, 0)))(x)
     x = DarknetConv2D_BN_Leaky(num_filters, (3, 3), strides=(2, 2))(x)
 
-    to_delete = None
     for i in range(0, num_blocks):
-
-        if i == pruning:
-            print(pruning)
-            global cutting_layer_out
-            cutting_layer_out = x
 
         y = compose(
             DarknetConv2D_BN_Leaky(num_filters // 2, (1, 1)),
             DarknetConv2D_BN_Leaky(num_filters, (3, 3)))(x)
         x = Add()([x, y])
 
-        if i == pruning + 1:
-            global cutting_layer_in
-            cutting_layer_in = y
-
     return x
 
 
-# TODO: fos
 def inverted_resblock_body(x, num_filters, num_blocks):
+    if num_blocks == 0:
+        return x
+
     x = ZeroPadding2D(((1, 0), (1, 0)))(x)
     x = MobilenetSeparableConv2D_BN_ReLU(num_filters // 2, (3, 3), strides=(2, 2))(x)
 
@@ -202,6 +201,89 @@ def make_last_layers(x, num_filters, out_filters):
     return x, y
 
 
+def _get_n_blocks_array(n_blocks):
+    # number of blocks: 1+2+8+8+4
+    n_array = [0, 0, 0, 0, 0]
+    n_array[0] = min(1, max(0, n_blocks - 0))
+    n_array[1] = min(2, max(0, n_blocks - 1))
+    n_array[2] = min(8, max(0, n_blocks - 2 - 1))
+    n_array[3] = min(8, max(0, n_blocks - 8 - 2 - 1))
+    n_array[4] = min(4, max(0, n_blocks - 8 - 8 - 2 - 1))
+    return n_array
+
+
+out1_orig, out2_orig = None, None
+
+
+# used for bottom-up knowledge distillation
+def darknet_body_2(x, n_blocks, is_inverted):
+
+    n_array = _get_n_blocks_array(n_blocks)
+
+    blocks = inverted_resblock_body if is_inverted else resblock_body
+
+    x = DarknetConv2D_BN_Leaky(32, (3, 3))(x)
+    x = blocks(x, 64, n_array[0])
+    x = blocks(x, 128, n_array[1])
+    x = blocks(x, 256, n_array[2])
+    global out1, out1_orig
+    out1 = x if is_inverted else out1_orig = x
+    x = blocks(x, 512, n_array[3])
+    global out2, out2_orig
+    out2 = x if is_inverted else out2_orig = x
+    x = blocks(x, 1024, n_array[4])
+
+    return x
+
+
+# used for bottom-up knowledge distillation
+def yolo_body_2(inputs, num_anchors, num_classes, pruning=None, n_blocks=23):
+
+    global init_string
+    init_string = 'glorot_uniform'
+
+    darknet = Model(inputs, darknet_body_2(inputs, n_blocks, True))
+    darknet_orig = Model(inputs, darknet_body_2(inputs, n_blocks, False))
+
+    # no second part
+    if n_blocks <= 23:
+        return Model(inputs, [darknet, darknet_orig])
+
+    # non-orig
+    x, y1 = make_last_layers(darknet.output, 512, num_anchors * (num_classes + 5))
+
+    x = compose(
+        DarknetConv2D_BN_Leaky(256, (1, 1)),
+        UpSampling2D(2))(x)
+    x = Concatenate()([x, out2])
+    x, y2 = make_last_layers(x, 256, num_anchors * (num_classes + 5))
+
+    x = compose(
+        DarknetConv2D_BN_Leaky(128, (1, 1)),
+        UpSampling2D(2))(x)
+    x = Concatenate()([x, out1])
+    x, y3 = make_last_layers(x, 128, num_anchors * (num_classes + 5))
+
+    # orig
+    x_orig, y1_orig = make_last_layers(darknet_orig.output, 512, num_anchors * (num_classes + 5))
+
+    x_orig = compose(
+        DarknetConv2D_BN_Leaky(256, (1, 1)),
+        UpSampling2D(2))(x_orig)
+    x_orig = Concatenate()([x_orig, out2_orig])
+    x_orig, y2_orig = make_last_layers(x_orig, 256, num_anchors * (num_classes + 5))
+
+    x_orig = compose(
+        DarknetConv2D_BN_Leaky(128, (1, 1)),
+        UpSampling2D(2))(x_orig)
+    x_orig = Concatenate()([x_orig, out1_orig])
+    x_orig, y3_orig = make_last_layers(x_orig, 128, num_anchors * (num_classes + 5))
+
+    init_string = 'zeros'
+
+    return Model(inputs, [y1, y2, y3, y1_orig, y2_orig, y3_orig])
+
+
 def yolo_body(inputs, num_anchors, num_classes, pruning=None,
               mod_mask=(0, 0, 0, 0, 0)):
     """Create YOLO_V3 model CNN body in Keras."""
@@ -212,14 +294,12 @@ def yolo_body(inputs, num_anchors, num_classes, pruning=None,
     x = compose(
         DarknetConv2D_BN_Leaky(256, (1, 1)),
         UpSampling2D(2))(x)
-    # x = Concatenate()([x, darknet.layers[152].output])
     x = Concatenate()([x, out2])
     x, y2 = make_last_layers(x, 256, num_anchors * (num_classes + 5))
 
     x = compose(
         DarknetConv2D_BN_Leaky(128, (1, 1)),
         UpSampling2D(2))(x)
-    # x = Concatenate()([x, darknet.layers[92].output])
     x = Concatenate()([x, out1])
     x, y3 = make_last_layers(x, 128, num_anchors * (num_classes + 5))
 
@@ -451,6 +531,13 @@ def box_iou(b1, b2):
     iou = intersect_area / (b1_area + b2_area - intersect_area)
 
     return iou
+
+
+def yolo_loss_2(self_out, trainer_out):
+    # TODO: L1 loss sum(|gt - pred|)
+    y_pred = self_out
+    y_true = trainer_out
+    return K.sum(K.abs(y_true - y_pred))
 
 
 def yolo_loss(args, anchors, num_classes, ignore_thresh=.5, print_loss=False):
